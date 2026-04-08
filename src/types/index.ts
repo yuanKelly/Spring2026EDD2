@@ -10,6 +10,7 @@ export interface Unit {
   backgroundImage: string;
   codePieceImage: string;
   tipId: string;
+  cityDescription: string;
   missionIntroText: string;
   maxPoints: number;
 }

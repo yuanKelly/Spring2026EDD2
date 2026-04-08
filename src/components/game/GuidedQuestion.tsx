@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GeneratedQuestion } from '../../types';
-import PlaceholderImage from '../ui/PlaceholderImage';
 import ReadAloud from '../ui/ReadAloud';
 
 interface GuidedQuestionProps {
   question: GeneratedQuestion;
   contactName: string;
+  contactImage: string;
   onComplete: () => void;
 }
 
-export default function GuidedQuestion({ question, contactName, onComplete }: GuidedQuestionProps) {
+export default function GuidedQuestion({ question, contactName, contactImage, onComplete }: GuidedQuestionProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [input, setInput] = useState('');
   const [feedback, setFeedback] = useState<{ text: string; correct: boolean } | null>(null);
@@ -75,7 +75,18 @@ export default function GuidedQuestion({ question, contactName, onComplete }: Gu
 
         {/* Contact instruction */}
         <div className="flex items-start" style={{ gap: '1rem', marginBottom: '1.5rem' }}>
-          <PlaceholderImage width={60} height={60} label={contactName} bgColor="#0b0f24" />
+          <div
+            style={{
+              width: 60,
+              height: 60,
+              borderRadius: '50%',
+              border: '2px dashed rgba(147, 180, 220, 0.6)',
+              overflow: 'hidden',
+              flexShrink: 0,
+            }}
+          >
+            <img src={contactImage} alt={contactName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          </div>
           <div
             className="flex-1 rounded-xl"
             style={{

@@ -178,6 +178,7 @@ export default function UnitPage() {
             <TourGuide
               key="guide"
               contactName={unit.contactName}
+              contactImage={unit.contactImage}
               tip={tip}
               onContinue={handleTourGuideContinue}
             />
@@ -195,6 +196,7 @@ export default function UnitPage() {
               <GuidedQuestion
                 question={currentQuestion}
                 contactName={unit.contactName}
+                contactImage={unit.contactImage}
                 onComplete={handleGuidedComplete}
               />
             </div>

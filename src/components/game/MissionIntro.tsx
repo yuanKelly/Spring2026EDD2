@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { Unit } from '../../types';
 
 interface MissionIntroProps {
@@ -7,6 +8,8 @@ interface MissionIntroProps {
 }
 
 export default function MissionIntro({ unit, onContinue }: MissionIntroProps) {
+  const [slide, setSlide] = useState<'city' | 'mission'>('city');
+
   return (
     <motion.div
       className="flex-1 flex flex-col items-center justify-center relative grid-bg"
@@ -78,7 +81,7 @@ export default function MissionIntro({ unit, onContinue }: MissionIntroProps) {
               opacity: 0.8,
             }}
           >
-            CLASSIFIED MISSION
+            {slide === 'city' ? 'LOCATION BRIEFING' : 'CLASSIFIED MISSION'}
           </div>
 
           <h1
@@ -94,35 +97,89 @@ export default function MissionIntro({ unit, onContinue }: MissionIntroProps) {
           </h1>
 
           <p className="text-teal-400/70 text-base tracking-wide" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.85rem' }}>
-            MISSION: {unit.title.toUpperCase()}
+            {slide === 'city' ? 'CITY INTEL' : `MISSION: ${unit.title.toUpperCase()}`}
           </p>
         </div>
 
-        <motion.p
-          className="text-gray-300 text-lg leading-relaxed text-center"
-          style={{ margin: '0 1.5rem 2.5rem', lineHeight: '1.85' }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
-        >
-          {unit.missionIntroText}
-        </motion.p>
+        <AnimatePresence mode="wait">
+          {slide === 'city' ? (
+            <motion.p
+              key="city"
+              className="text-gray-300 text-lg leading-relaxed text-center"
+              style={{ margin: '0 1.5rem 2.5rem', lineHeight: '1.85' }}
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.4 }}
+            >
+              {unit.cityDescription}
+            </motion.p>
+          ) : (
+            <motion.p
+              key="mission"
+              className="text-gray-300 text-lg leading-relaxed text-center"
+              style={{ margin: '0 1.5rem 2.5rem', lineHeight: '1.85' }}
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.4 }}
+            >
+              {unit.missionIntroText}
+            </motion.p>
+          )}
+        </AnimatePresence>
 
-        <motion.button
-          onClick={onContinue}
-          className="w-full py-4 text-midnight-950 font-bold rounded-xl text-xl transition"
-          style={{
-            background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
-            boxShadow: '0 4px 24px rgba(251, 191, 36, 0.3)',
-          }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          whileHover={{ scale: 1.02, boxShadow: '0 6px 32px rgba(251, 191, 36, 0.4)' }}
-          whileTap={{ scale: 0.98 }}
-        >
-          Accept Mission
-        </motion.button>
+        {/* Slide indicators */}
+        <div className="flex justify-center gap-2 mb-5">
+          <div
+            className="rounded-full transition"
+            style={{
+              width: slide === 'city' ? '24px' : '10px',
+              height: '10px',
+              backgroundColor: slide === 'city' ? '#fbbf24' : '#1a2242',
+              boxShadow: slide === 'city' ? '0 0 8px rgba(251, 191, 36, 0.4)' : 'none',
+            }}
+          />
+          <div
+            className="rounded-full transition"
+            style={{
+              width: slide === 'mission' ? '24px' : '10px',
+              height: '10px',
+              backgroundColor: slide === 'mission' ? '#fbbf24' : '#1a2242',
+              boxShadow: slide === 'mission' ? '0 0 8px rgba(251, 191, 36, 0.4)' : 'none',
+            }}
+          />
+        </div>
+
+        {slide === 'city' ? (
+          <motion.button
+            onClick={() => setSlide('mission')}
+            className="w-full py-4 text-white font-bold rounded-xl text-xl transition"
+            style={{
+              background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
+              boxShadow: '0 4px 24px rgba(59, 130, 246, 0.3)',
+            }}
+            whileHover={{ scale: 1.02, boxShadow: '0 6px 32px rgba(59, 130, 246, 0.4)' }}
+            whileTap={{ scale: 0.98 }}
+          >
+            View Mission Briefing
+          </motion.button>
+        ) : (
+          <motion.button
+            onClick={onContinue}
+            className="w-full py-4 text-midnight-950 font-bold rounded-xl text-xl transition"
+            style={{
+              background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
+              boxShadow: '0 4px 24px rgba(251, 191, 36, 0.3)',
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            whileHover={{ scale: 1.02, boxShadow: '0 6px 32px rgba(251, 191, 36, 0.4)' }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Accept Mission
+          </motion.button>
+        )}
       </motion.div>
     </motion.div>
   );

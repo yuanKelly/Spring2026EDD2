@@ -45,6 +45,7 @@ export default function HomePage() {
   const { progress, loading } = useProgress();
   const navigate = useNavigate();
   const [hoveredUnit, setHoveredUnit] = useState<string | null>(null);
+  const [pinPositions, setPinPositions] = useState<Record<string, { x: number; y: number }>>({});
   const showTutorial = profile && !profile.hasCompletedTutorial;
 
   const completedCount = progress
@@ -209,7 +210,24 @@ export default function HomePage() {
                     opacity={isLocked ? 0.3 : 1}
                     cursor={isLocked ? 'not-allowed' : 'pointer'}
                     onClick={() => handleUnitClick(unit.id)}
-                    onMouseEnter={() => setHoveredUnit(unit.id)}
+                    onMouseEnter={(e) => {
+                      const svg = (e.target as SVGElement).closest('svg');
+                      const container = svg?.parentElement?.parentElement;
+                      if (svg && container) {
+                        const ctm = (e.target as SVGCircleElement).getScreenCTM();
+                        const containerRect = container.getBoundingClientRect();
+                        if (ctm) {
+                          setPinPositions((prev) => ({
+                            ...prev,
+                            [unit.id]: {
+                              x: ctm.e - containerRect.left,
+                              y: ctm.f - containerRect.top,
+                            },
+                          }));
+                        }
+                      }
+                      setHoveredUnit(unit.id);
+                    }}
                     onMouseLeave={() => setHoveredUnit(null)}
                     style={{ filter: isLocked ? 'none' : `drop-shadow(0 0 6px ${pinColor})` }}
                   />
@@ -269,18 +287,18 @@ export default function HomePage() {
           const status = unitProgress?.status || 'not-started';
           const pinColor = statusPinColors[status];
           const isHovered = hoveredUnit === unit.id;
+          const pinPos = pinPositions[unit.id];
 
-          if (!isHovered) return null;
+          if (!isHovered || !pinPos) return null;
 
           return (
             <AnimatePresence key={unit.id}>
               <motion.div
                 className="absolute z-50 pointer-events-none"
                 style={{
-                  /* Position tooltip near the pin using a rough screen mapping */
-                  left: '50%',
-                  top: '50%',
-                  transform: 'translate(-50%, -120%)',
+                  left: pinPos.x,
+                  top: pinPos.y,
+                  transform: 'translate(-50%, -110%)',
                 }}
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}

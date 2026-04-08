@@ -7,13 +7,30 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
+  const { signIn, resetPassword } = useAuth();
   const navigate = useNavigate();
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setError('Please enter your email address first.');
+      return;
+    }
+    setError('');
+    setMessage('');
+    try {
+      await resetPassword(email);
+      setMessage('Password reset email sent! Check your inbox.');
+    } catch {
+      setError('Failed to send reset email. Please check your email address.');
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setMessage('');
     setLoading(true);
     try {
       await signIn(email, password);
@@ -73,6 +90,16 @@ export default function LoginPage() {
             </motion.div>
           )}
 
+          {message && (
+            <motion.div
+              className="bg-green-500/10 border border-green-500/40 text-green-300 rounded-xl p-3 text-sm"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+            >
+              {message}
+            </motion.div>
+          )}
+
           <div>
             <label htmlFor="email" className="block text-teal-400/80 mb-1.5 text-sm font-medium tracking-wide uppercase" style={{ fontSize: '0.75rem' }}>
               Email
@@ -101,6 +128,16 @@ export default function LoginPage() {
               className="w-full py-3 bg-midnight-950 border border-midnight-500 rounded-xl text-white placeholder-gray-600 focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition" style={{ paddingLeft: '0.2in', paddingRight: '0.2in' }}
               placeholder="Enter your secret code"
             />
+          </div>
+
+          <div className="text-right">
+            <button
+              type="button"
+              onClick={handleForgotPassword}
+              className="text-amber-400/70 hover:text-amber-300 text-sm transition"
+            >
+              Forgot password?
+            </button>
           </div>
 
           <motion.button

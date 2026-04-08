@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ProblemSolvingTip } from '../../types';
-import PlaceholderImage from '../ui/PlaceholderImage';
 
 interface TourGuideProps {
   contactName: string;
+  contactImage: string;
   tip: ProblemSolvingTip;
   onContinue: () => void;
 }
@@ -32,7 +32,7 @@ function TypewriterText({ text, speed = 30 }: { text: string; speed?: number }) 
   return <span>{displayed}{!done && <span className="typing-cursor" />}</span>;
 }
 
-export default function TourGuide({ contactName, tip, onContinue }: TourGuideProps) {
+export default function TourGuide({ contactName, contactImage, tip, onContinue }: TourGuideProps) {
   const [showTip, setShowTip] = useState(false);
 
   return (
@@ -60,12 +60,21 @@ export default function TourGuide({ contactName, tip, onContinue }: TourGuidePro
           animate={{ x: 0, opacity: 1 }}
           transition={{ type: 'spring', delay: 0.2 }}
         >
-          <PlaceholderImage
-            width={320}
-            height={400}
-            label={contactName}
-            bgColor="#121833"
-          />
+          <div
+            style={{
+              width: 280,
+              height: 350,
+              borderRadius: '1.5rem',
+              border: '3px dashed rgba(147, 180, 220, 0.6)',
+              overflow: 'hidden',
+            }}
+          >
+            <img
+              src={contactImage}
+              alt={contactName}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          </div>
         </motion.div>
 
         {/* Speech bubble + button */}
