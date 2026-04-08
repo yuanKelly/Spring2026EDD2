@@ -303,6 +303,626 @@ const templates: Template[] = [
       return q;
     },
   },
+  // Q8: Book fair — multiply+multiply then subtract from payment
+  {
+    generate: (guided) => {
+      const bookCount = randInt(2, 5);
+      const bookPrice = randInt(3, 6);
+      const bookmarkCount = randInt(2, 4);
+      const bookmarkPrice = pick([1, 2]);
+      const bookTotal = bookCount * bookPrice;
+      const bookmarkTotal = bookmarkCount * bookmarkPrice;
+      const spent = bookTotal + bookmarkTotal;
+      const payment = 20;
+      const answer = payment - spent;
+      const q: GeneratedQuestion = {
+        problemText: `At the school book fair, Marcus bought ${bookCount} books that cost $${bookPrice} each. He also bought ${bookmarkCount} bookmarks for $${bookmarkPrice.toFixed(2)} each. He paid with a $${payment} bill. How much change did Marcus receive?`,
+        answer,
+        hint: `Draw a picture with two groups: books and bookmarks. Find the cost of each group, add them, then subtract from $${payment}.`,
+        solution: `Step 1: Find book cost: ${bookCount} × $${bookPrice} = $${bookTotal}.\nStep 2: Find bookmark cost: ${bookmarkCount} × $${bookmarkPrice.toFixed(2)} = $${bookmarkTotal}.\nStep 3: Total spent: $${bookTotal} + $${bookmarkTotal} = $${spent}.\nStep 4: Change: $${payment} - $${spent} = $${answer}.\nAnswer: Marcus received $${answer} in change.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `First, find the total spent. Books: ${bookCount} × $${bookPrice} = $${bookTotal}. Bookmarks: ${bookmarkCount} × $${bookmarkPrice.toFixed(2)} = $${bookmarkTotal}. What is $${bookTotal} + $${bookmarkTotal}?`,
+            expectedAnswer: spent,
+            feedbackCorrect: `Correct! Marcus spent $${spent} total.`,
+            feedbackIncorrect: `$${bookTotal} + $${bookmarkTotal} = $${spent}.`,
+          },
+          {
+            instruction: `Now find the change. What is $${payment} - $${spent}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! Marcus received $${answer} in change!`,
+            feedbackIncorrect: `$${payment} - $${spent} = $${answer}.`,
+          },
+        ];
+        q.diagram = {
+          groups: [
+            { type: 'rect', count: bookCount, label: 'Books', value: `$${bookPrice} each`, color: 'amber' },
+            { type: 'rect', count: bookmarkCount, label: 'Bookmarks', value: `$${bookmarkPrice.toFixed(2)} each`, color: 'teal' },
+          ],
+          stepStates: [
+            { visibleGroups: [0, 1], annotations: [{ text: `$${bookTotal} + $${bookmarkTotal} = ?`, position: 'between' }] },
+            { visibleGroups: [0, 1], annotations: [{ text: `$${payment} − $${spent} = ?`, position: 'below', targetGroup: 1 }] },
+          ],
+        };
+      }
+      return q;
+    },
+  },
+  // Q9: School garden — multiply chain (rows × plants × tomatoes)
+  {
+    generate: (guided) => {
+      const rows = randInt(4, 8);
+      const plants = randInt(5, 10);
+      const tomatoes = randInt(2, 5);
+      const totalPlants = rows * plants;
+      const answer = totalPlants * tomatoes;
+      const q: GeneratedQuestion = {
+        problemText: `The school garden has ${rows} rows of vegetable plants. Each row has ${plants} plants. Each plant grows ${tomatoes} tomatoes. How many tomatoes are there in all?`,
+        answer,
+        hint: `Draw the rows and plants first. Find total plants, then multiply by tomatoes per plant.`,
+        solution: `Step 1: Find total plants: ${rows} × ${plants} = ${totalPlants} plants.\nStep 2: Find total tomatoes: ${totalPlants} × ${tomatoes} = ${answer} tomatoes.\nAnswer: There are ${answer} tomatoes in all.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `First, find the total number of plants. What is ${rows} × ${plants}?`,
+            expectedAnswer: totalPlants,
+            feedbackCorrect: `Correct! There are ${totalPlants} plants total.`,
+            feedbackIncorrect: `${rows} × ${plants} = ${totalPlants} plants.`,
+          },
+          {
+            instruction: `Now multiply by tomatoes per plant. What is ${totalPlants} × ${tomatoes}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! There are ${answer} tomatoes in all!`,
+            feedbackIncorrect: `${totalPlants} × ${tomatoes} = ${answer} tomatoes.`,
+          },
+        ];
+        q.diagram = {
+          groups: [
+            { type: 'rect', count: rows, label: 'Rows', value: `${plants} plants each`, color: 'amber' },
+            { type: 'circle', count: totalPlants, label: 'Plants', value: `${tomatoes} tomatoes each`, color: 'teal' },
+          ],
+          stepStates: [
+            { visibleGroups: [0], highlightGroup: 0, annotations: [{ text: `${rows} × ${plants} = ?`, position: 'below', targetGroup: 0 }] },
+            { visibleGroups: [0, 1], annotations: [{ text: `${totalPlants} × ${tomatoes} = ?`, position: 'below', targetGroup: 1 }] },
+          ],
+        };
+      }
+      return q;
+    },
+  },
+  // Q10: Soccer coach — divide into teams
+  {
+    generate: (guided) => {
+      const perTeam = randInt(3, 6);
+      const teams = randInt(4, 10);
+      const players = perTeam * teams;
+      const answer = teams;
+      const q: GeneratedQuestion = {
+        problemText: `Coach Rivera has ${players} soccer players who need to be placed into equal teams of ${perTeam}. Each team also needs 1 coach. How many coaches does Coach Rivera need in total?`,
+        answer,
+        hint: `Draw the players, then group them into teams of ${perTeam}. Each team needs 1 coach, so the number of coaches equals the number of teams.`,
+        solution: `Step 1: Find the number of teams: ${players} ÷ ${perTeam} = ${teams} teams.\nStep 2: Each team needs 1 coach, so ${teams} coaches are needed.\nAnswer: Coach Rivera needs ${answer} coaches in total.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `First, find how many teams there are. What is ${players} ÷ ${perTeam}?`,
+            expectedAnswer: teams,
+            feedbackCorrect: `Correct! There are ${teams} teams.`,
+            feedbackIncorrect: `${players} ÷ ${perTeam} = ${teams} teams.`,
+          },
+          {
+            instruction: `Each team needs 1 coach. How many coaches are needed for ${teams} teams?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! ${answer} coaches are needed!`,
+            feedbackIncorrect: `${teams} teams × 1 coach = ${answer} coaches.`,
+          },
+        ];
+        q.diagram = {
+          groups: [
+            { type: 'circle', count: players, label: 'Players', value: `groups of ${perTeam}`, color: 'amber' },
+            { type: 'rect', count: teams, label: 'Teams/Coaches', value: '1 coach each', color: 'teal' },
+          ],
+          stepStates: [
+            { visibleGroups: [0], highlightGroup: 0, annotations: [{ text: `${players} ÷ ${perTeam} = ?`, position: 'below', targetGroup: 0 }] },
+            { visibleGroups: [0, 1], highlightGroup: 1, annotations: [{ text: `${teams} teams = ${teams} coaches`, position: 'below', targetGroup: 1 }] },
+          ],
+        };
+      }
+      return q;
+    },
+  },
+  // Q11: Farmers market — price difference
+  {
+    generate: (guided) => {
+      const applePrice = pick([3, 4, 5]);
+      const honeyPrice = applePrice + randInt(1, 3);
+      const answer = honeyPrice - applePrice;
+      const q: GeneratedQuestion = {
+        problemText: `At the farmers market, a bag of apples costs $${applePrice.toFixed(2)}. A jar of honey costs $${honeyPrice.toFixed(2)}. Priya bought one bag of apples and one jar of honey. How much more did the honey cost than the apples?`,
+        answer,
+        hint: `Draw a picture showing both prices. Subtract the smaller price from the larger price.`,
+        solution: `Step 1: Find the difference: $${honeyPrice.toFixed(2)} - $${applePrice.toFixed(2)} = $${answer.toFixed(2)}.\nAnswer: The honey cost $${answer.toFixed(2)} more than the apples.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Subtract the apple price from the honey price. What is $${honeyPrice.toFixed(2)} - $${applePrice.toFixed(2)}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Correct! The honey cost $${answer.toFixed(2)} more!`,
+            feedbackIncorrect: `$${honeyPrice.toFixed(2)} - $${applePrice.toFixed(2)} = $${answer.toFixed(2)}.`,
+          },
+        ];
+        q.diagram = {
+          groups: [
+            { type: 'rect', count: 1, label: 'Apples', value: `$${applePrice.toFixed(2)}`, color: 'amber' },
+            { type: 'rect', count: 1, label: 'Honey', value: `$${honeyPrice.toFixed(2)}`, color: 'teal' },
+          ],
+          stepStates: [
+            { visibleGroups: [0, 1], annotations: [{ text: `$${honeyPrice.toFixed(2)} − $${applePrice.toFixed(2)} = ?`, position: 'between' }] },
+          ],
+        };
+      }
+      return q;
+    },
+  },
+  // Q12: Drama club — one-fourth of students
+  {
+    generate: (guided) => {
+      const totalStudents = randInt(2, 6) * 4;
+      const answer = totalStudents / 4;
+      const q: GeneratedQuestion = {
+        problemText: `One-fourth of the ${totalStudents} students in drama club have a speaking part in the school play. How many students have a speaking part?`,
+        answer,
+        hint: `Draw ${totalStudents} students, then split them into 4 equal groups. One group has a speaking part.`,
+        solution: `Step 1: "One-fourth" means divide by 4.\nStep 2: ${totalStudents} ÷ 4 = ${answer}.\nAnswer: ${answer} students have a speaking part.`,
+        njslsStandard: '5.OA.A.1',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `"One-fourth" means divide by 4. What is ${totalStudents} ÷ 4?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Correct! ${answer} students have a speaking part!`,
+            feedbackIncorrect: `${totalStudents} ÷ 4 = ${answer} students.`,
+          },
+        ];
+        q.diagram = {
+          groups: [
+            { type: 'circle', count: totalStudents, label: 'Students', color: 'amber', highlightCount: answer },
+          ],
+          stepStates: [
+            { visibleGroups: [0], highlightGroup: 0, annotations: [{ text: `${totalStudents} ÷ 4 = ?`, position: 'below', targetGroup: 0 }] },
+          ],
+        };
+      }
+      return q;
+    },
+  },
+  // Q13: Animal shelter — multiply chain (kennels × dogs × cups)
+  {
+    generate: (guided) => {
+      const kennels = randInt(4, 9);
+      const dogsPerKennel = randInt(2, 5);
+      const cupsPerDog = randInt(2, 4);
+      const totalDogs = kennels * dogsPerKennel;
+      const answer = totalDogs * cupsPerDog;
+      const q: GeneratedQuestion = {
+        problemText: `At the animal shelter, there are ${kennels} kennels. Each kennel holds ${dogsPerKennel} dogs. Each dog eats ${cupsPerDog} cups of food per day. How many cups of food do all the dogs eat in one day?`,
+        answer,
+        hint: `Draw the kennels and dogs. First find total dogs, then multiply by cups per dog.`,
+        solution: `Step 1: Find total dogs: ${kennels} × ${dogsPerKennel} = ${totalDogs} dogs.\nStep 2: Find total cups: ${totalDogs} × ${cupsPerDog} = ${answer} cups.\nAnswer: All the dogs eat ${answer} cups of food in one day.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `First, find the total number of dogs. What is ${kennels} × ${dogsPerKennel}?`,
+            expectedAnswer: totalDogs,
+            feedbackCorrect: `Correct! There are ${totalDogs} dogs total.`,
+            feedbackIncorrect: `${kennels} × ${dogsPerKennel} = ${totalDogs} dogs.`,
+          },
+          {
+            instruction: `Now multiply by cups per dog. What is ${totalDogs} × ${cupsPerDog}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! The dogs eat ${answer} cups of food!`,
+            feedbackIncorrect: `${totalDogs} × ${cupsPerDog} = ${answer} cups.`,
+          },
+        ];
+        q.diagram = {
+          groups: [
+            { type: 'rect', count: kennels, label: 'Kennels', value: `${dogsPerKennel} dogs each`, color: 'amber' },
+            { type: 'circle', count: totalDogs, label: 'Dogs', value: `${cupsPerDog} cups each`, color: 'teal' },
+          ],
+          stepStates: [
+            { visibleGroups: [0], highlightGroup: 0, annotations: [{ text: `${kennels} × ${dogsPerKennel} = ?`, position: 'below', targetGroup: 0 }] },
+            { visibleGroups: [0, 1], annotations: [{ text: `${totalDogs} × ${cupsPerDog} = ?`, position: 'below', targetGroup: 1 }] },
+          ],
+        };
+      }
+      return q;
+    },
+  },
+  // Q14: Snack stand — divide then subtract
+  {
+    generate: (guided) => {
+      const waterEach = randInt(1, 3);
+      const waterCount = 3;
+      const waterTotal = waterCount * waterEach;
+      const pretzelCost = waterEach + randInt(1, 3);
+      const answer = pretzelCost - waterEach;
+      const q: GeneratedQuestion = {
+        problemText: `At the snack stand, Eli paid $${pretzelCost.toFixed(2)} for a pretzel. He also paid $${waterTotal} total for ${waterCount} bottles of water. How much more did the pretzel cost than one bottle of water?`,
+        answer,
+        hint: `Draw the pretzel and the bottles of water. First find the cost of one bottle, then compare.`,
+        solution: `Step 1: Find cost of one bottle: $${waterTotal} ÷ ${waterCount} = $${waterEach.toFixed(2)}.\nStep 2: Find the difference: $${pretzelCost.toFixed(2)} - $${waterEach.toFixed(2)} = $${answer.toFixed(2)}.\nAnswer: The pretzel cost $${answer.toFixed(2)} more.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `First, find the cost of one bottle of water. What is $${waterTotal} ÷ ${waterCount}?`,
+            expectedAnswer: waterEach,
+            feedbackCorrect: `Correct! Each bottle costs $${waterEach.toFixed(2)}.`,
+            feedbackIncorrect: `$${waterTotal} ÷ ${waterCount} = $${waterEach.toFixed(2)}.`,
+          },
+          {
+            instruction: `Now find the difference. What is $${pretzelCost.toFixed(2)} - $${waterEach.toFixed(2)}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! The pretzel cost $${answer.toFixed(2)} more!`,
+            feedbackIncorrect: `$${pretzelCost.toFixed(2)} - $${waterEach.toFixed(2)} = $${answer.toFixed(2)}.`,
+          },
+        ];
+        q.diagram = {
+          groups: [
+            { type: 'rect', count: 1, label: 'Pretzel', value: `$${pretzelCost.toFixed(2)}`, color: 'amber' },
+            { type: 'rect', count: waterCount, label: 'Water Bottles', value: `$${waterTotal} total`, color: 'teal' },
+          ],
+          stepStates: [
+            { visibleGroups: [1], highlightGroup: 1, annotations: [{ text: `$${waterTotal} ÷ ${waterCount} = ?`, position: 'below', targetGroup: 1 }] },
+            { visibleGroups: [0, 1], annotations: [{ text: `$${pretzelCost.toFixed(2)} − $${waterEach.toFixed(2)} = ?`, position: 'between' }] },
+          ],
+        };
+      }
+      return q;
+    },
+  },
+  // Q15: Stickers — divide by students then divide by group size
+  {
+    generate: (guided) => {
+      const groupSize = 2;
+      const groupsPerStudent = randInt(2, 5);
+      const stickersEach = groupSize * groupsPerStudent;
+      const students = randInt(4, 10);
+      const totalStickers = students * stickersEach;
+      const answer = groupsPerStudent;
+      const q: GeneratedQuestion = {
+        problemText: `Mrs. Ortega has ${totalStickers} stickers to give equally to ${students} students. Each student puts their stickers into groups of ${groupSize} on their poster. How many groups of stickers will each student make?`,
+        answer,
+        hint: `Draw the stickers split among students. First find stickers per student, then divide into groups of ${groupSize}.`,
+        solution: `Step 1: Stickers per student: ${totalStickers} ÷ ${students} = ${stickersEach} stickers.\nStep 2: Groups per student: ${stickersEach} ÷ ${groupSize} = ${answer} groups.\nAnswer: Each student will make ${answer} groups.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `First, find how many stickers each student gets. What is ${totalStickers} ÷ ${students}?`,
+            expectedAnswer: stickersEach,
+            feedbackCorrect: `Correct! Each student gets ${stickersEach} stickers.`,
+            feedbackIncorrect: `${totalStickers} ÷ ${students} = ${stickersEach} stickers each.`,
+          },
+          {
+            instruction: `Now divide into groups of ${groupSize}. What is ${stickersEach} ÷ ${groupSize}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! Each student makes ${answer} groups!`,
+            feedbackIncorrect: `${stickersEach} ÷ ${groupSize} = ${answer} groups.`,
+          },
+        ];
+        q.diagram = {
+          groups: [
+            { type: 'circle', count: students, label: 'Students', value: `${stickersEach} stickers each`, color: 'amber' },
+            { type: 'rect', count: answer, label: 'Groups per Student', value: `${groupSize} per group`, color: 'teal' },
+          ],
+          stepStates: [
+            { visibleGroups: [0], highlightGroup: 0, annotations: [{ text: `${totalStickers} ÷ ${students} = ?`, position: 'below', targetGroup: 0 }] },
+            { visibleGroups: [0, 1], highlightGroup: 1, annotations: [{ text: `${stickersEach} ÷ ${groupSize} = ?`, position: 'between' }] },
+          ],
+        };
+      }
+      return q;
+    },
+  },
+  // Q16: Basketball — two-thirds of players
+  {
+    generate: (guided) => {
+      const totalPlayers = randInt(2, 7) * 3;
+      const answer = (totalPlayers * 2) / 3;
+      const q: GeneratedQuestion = {
+        problemText: `Two-thirds of the ${totalPlayers} players on the basketball team attended the morning practice. How many players came to morning practice?`,
+        answer,
+        hint: `Draw ${totalPlayers} players, split into 3 equal groups. Two of those groups attended practice.`,
+        solution: `Step 1: "Two-thirds" means divide by 3, then multiply by 2.\nStep 2: ${totalPlayers} ÷ 3 = ${totalPlayers / 3}.\nStep 3: ${totalPlayers / 3} × 2 = ${answer}.\nAnswer: ${answer} players came to morning practice.`,
+        njslsStandard: '5.OA.A.1',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `"Two-thirds" means divide by 3, then multiply by 2. What is ${totalPlayers} ÷ 3 × 2?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Correct! ${answer} players attended practice!`,
+            feedbackIncorrect: `${totalPlayers} ÷ 3 = ${totalPlayers / 3}, then × 2 = ${answer} players.`,
+          },
+        ];
+        q.diagram = {
+          groups: [
+            { type: 'circle', count: totalPlayers, label: 'Players', color: 'amber', highlightCount: answer },
+          ],
+          stepStates: [
+            { visibleGroups: [0], highlightGroup: 0, annotations: [{ text: `${totalPlayers} × 2/3 = ?`, position: 'below', targetGroup: 0 }] },
+          ],
+        };
+      }
+      return q;
+    },
+  },
+  // Q17: Science museum tickets — multiply+multiply+add
+  {
+    generate: (guided) => {
+      const kidCount = randInt(2, 5);
+      const kidPrice = randInt(5, 9);
+      const adultCount = randInt(1, 3);
+      const adultPrice = randInt(8, 14);
+      const kidTotal = kidCount * kidPrice;
+      const adultTotal = adultCount * adultPrice;
+      const answer = kidTotal + adultTotal;
+      const q: GeneratedQuestion = {
+        problemText: `Tickets to the science museum cost $${kidPrice} for children and $${adultPrice} for adults. The Kim family bought ${kidCount} children's tickets and ${adultCount} adult tickets. How much did the Kim family spend on tickets in all?`,
+        answer,
+        hint: `Draw two groups: children's tickets and adult tickets. Find the cost of each group, then add.`,
+        solution: `Step 1: Children's tickets: ${kidCount} × $${kidPrice} = $${kidTotal}.\nStep 2: Adult tickets: ${adultCount} × $${adultPrice} = $${adultTotal}.\nStep 3: Total: $${kidTotal} + $${adultTotal} = $${answer}.\nAnswer: The Kim family spent $${answer} on tickets.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `First, find the children's ticket cost. What is ${kidCount} × $${kidPrice}?`,
+            expectedAnswer: kidTotal,
+            feedbackCorrect: `Correct! Children's tickets cost $${kidTotal}.`,
+            feedbackIncorrect: `${kidCount} × $${kidPrice} = $${kidTotal}.`,
+          },
+          {
+            instruction: `Now find adult tickets (${adultCount} × $${adultPrice} = $${adultTotal}) and add both. What is $${kidTotal} + $${adultTotal}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! The Kim family spent $${answer} total!`,
+            feedbackIncorrect: `$${kidTotal} + $${adultTotal} = $${answer}.`,
+          },
+        ];
+        q.diagram = {
+          groups: [
+            { type: 'circle', count: kidCount, label: "Children's Tickets", value: `$${kidPrice} each`, color: 'amber' },
+            { type: 'rect', count: adultCount, label: 'Adult Tickets', value: `$${adultPrice} each`, color: 'teal' },
+          ],
+          stepStates: [
+            { visibleGroups: [0], highlightGroup: 0, annotations: [{ text: `${kidCount} × $${kidPrice} = ?`, position: 'below', targetGroup: 0 }] },
+            { visibleGroups: [0, 1], annotations: [{ text: `$${kidTotal} + $${adultTotal} = ?`, position: 'between' }] },
+          ],
+        };
+      }
+      return q;
+    },
+  },
+  // Q18: Photo album — multiply chain (photos per page × pages)
+  {
+    generate: (guided) => {
+      const rows = 2;
+      const perRow = randInt(2, 5);
+      const perPage = rows * perRow;
+      const pages = randInt(5, 12);
+      const answer = perPage * pages;
+      const q: GeneratedQuestion = {
+        problemText: `Aiden is putting photos into an album. Each page holds ${perPage} photos in ${rows} equal rows. The album has ${pages} pages. How many photos can the album hold in all?`,
+        answer,
+        hint: `Draw the album pages. Each page holds ${perPage} photos. Multiply by the number of pages.`,
+        solution: `Step 1: Each page holds ${perPage} photos (${rows} rows × ${perRow} per row).\nStep 2: Total photos: ${perPage} × ${pages} = ${answer}.\nAnswer: The album can hold ${answer} photos.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Each page holds ${perPage} photos. How many photos can ${pages} pages hold? What is ${perPage} × ${pages}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Correct! The album holds ${answer} photos!`,
+            feedbackIncorrect: `${perPage} × ${pages} = ${answer} photos.`,
+          },
+        ];
+        q.diagram = {
+          groups: [
+            { type: 'rect', count: pages, label: 'Pages', value: `${perPage} photos each`, color: 'amber' },
+          ],
+          stepStates: [
+            { visibleGroups: [0], highlightGroup: 0, annotations: [{ text: `${perPage} × ${pages} = ?`, position: 'below', targetGroup: 0 }] },
+          ],
+        };
+      }
+      return q;
+    },
+  },
+  // Q19: Craft store — divide then subtract
+  {
+    generate: (guided) => {
+      const canvasEach = randInt(2, 4);
+      const canvasCount = 3;
+      const canvasTotal = canvasCount * canvasEach;
+      const paintCost = canvasEach + randInt(1, 3);
+      const answer = paintCost - canvasEach;
+      const q: GeneratedQuestion = {
+        problemText: `Nadia and her brother went to the craft store. Nadia spent $${paintCost.toFixed(2)} on paint. Her brother spent $${canvasTotal} total on ${canvasCount} canvases. How much more did one canvas cost than the paint?`,
+        answer,
+        hint: `Draw the paint and the canvases. First find the cost of one canvas, then compare.`,
+        solution: `Step 1: Find cost of one canvas: $${canvasTotal} ÷ ${canvasCount} = $${canvasEach.toFixed(2)}.\nStep 2: Find the difference: $${canvasEach.toFixed(2)} - $${paintCost.toFixed(2)}... Wait, we need to check which is more.\nActually: $${paintCost.toFixed(2)} - $${canvasEach.toFixed(2)} = $${answer.toFixed(2)}.\nAnswer: The paint cost $${answer.toFixed(2)} more than one canvas.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `First, find the cost of one canvas. What is $${canvasTotal} ÷ ${canvasCount}?`,
+            expectedAnswer: canvasEach,
+            feedbackCorrect: `Correct! Each canvas costs $${canvasEach.toFixed(2)}.`,
+            feedbackIncorrect: `$${canvasTotal} ÷ ${canvasCount} = $${canvasEach.toFixed(2)}.`,
+          },
+          {
+            instruction: `Now find the difference between the paint and one canvas. What is $${paintCost.toFixed(2)} - $${canvasEach.toFixed(2)}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! The difference is $${answer.toFixed(2)}!`,
+            feedbackIncorrect: `$${paintCost.toFixed(2)} - $${canvasEach.toFixed(2)} = $${answer.toFixed(2)}.`,
+          },
+        ];
+        q.diagram = {
+          groups: [
+            { type: 'rect', count: 1, label: 'Paint', value: `$${paintCost.toFixed(2)}`, color: 'amber' },
+            { type: 'rect', count: canvasCount, label: 'Canvases', value: `$${canvasTotal} total`, color: 'teal' },
+          ],
+          stepStates: [
+            { visibleGroups: [1], highlightGroup: 1, annotations: [{ text: `$${canvasTotal} ÷ ${canvasCount} = ?`, position: 'below', targetGroup: 1 }] },
+            { visibleGroups: [0, 1], annotations: [{ text: `$${paintCost.toFixed(2)} − $${canvasEach.toFixed(2)} = ?`, position: 'between' }] },
+          ],
+        };
+      }
+      return q;
+    },
+  },
+  // Q20: Muffins bake sale — divide into boxes, subtract sold
+  {
+    generate: (guided) => {
+      const perBox = randInt(6, 10);
+      const totalBoxes = randInt(4, 8);
+      const totalMuffins = perBox * totalBoxes;
+      const sold = randInt(1, totalBoxes - 1);
+      const remaining = totalBoxes - sold;
+      const answer = remaining;
+      const q: GeneratedQuestion = {
+        problemText: `Mr. Patel baked ${totalMuffins} muffins for the bake sale. He packs them into boxes of ${perBox}. He has already sold ${sold} full boxes. How many boxes does Mr. Patel have left to sell?`,
+        answer,
+        hint: `Draw the muffins packed into boxes. First find total boxes, then subtract sold boxes.`,
+        solution: `Step 1: Find total boxes: ${totalMuffins} ÷ ${perBox} = ${totalBoxes} boxes.\nStep 2: Subtract sold boxes: ${totalBoxes} - ${sold} = ${answer} boxes left.\nAnswer: Mr. Patel has ${answer} boxes left to sell.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `First, find how many boxes in total. What is ${totalMuffins} ÷ ${perBox}?`,
+            expectedAnswer: totalBoxes,
+            feedbackCorrect: `Correct! There are ${totalBoxes} boxes total.`,
+            feedbackIncorrect: `${totalMuffins} ÷ ${perBox} = ${totalBoxes} boxes.`,
+          },
+          {
+            instruction: `Now subtract the sold boxes. What is ${totalBoxes} - ${sold}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! Mr. Patel has ${answer} boxes left!`,
+            feedbackIncorrect: `${totalBoxes} - ${sold} = ${answer} boxes left.`,
+          },
+        ];
+        q.diagram = {
+          groups: [
+            { type: 'rect', count: totalBoxes, label: 'Boxes', value: `${perBox} muffins each`, color: 'amber' },
+          ],
+          stepStates: [
+            { visibleGroups: [0], highlightGroup: 0, annotations: [{ text: `${totalMuffins} ÷ ${perBox} = ?`, position: 'below', targetGroup: 0 }] },
+            { visibleGroups: [0], annotations: [{ text: `${totalBoxes} − ${sold} = ?`, position: 'below', targetGroup: 0 }] },
+          ],
+        };
+      }
+      return q;
+    },
+  },
+  // Q21: Fish aquarium — 1/2 and 1/4 of total, find difference
+  {
+    generate: (guided) => {
+      const totalFish = randInt(2, 6) * 4;
+      const goldfish = totalFish / 2;
+      const guppies = totalFish / 4;
+      const answer = goldfish - guppies;
+      const q: GeneratedQuestion = {
+        problemText: `One-half of the ${totalFish} fish in the class aquarium are goldfish. One-fourth of the fish are guppies. How many more goldfish are there than guppies?`,
+        answer,
+        hint: `Draw ${totalFish} fish. Find 1/2 for goldfish and 1/4 for guppies, then subtract.`,
+        solution: `Step 1: Goldfish: ${totalFish} ÷ 2 = ${goldfish}.\nStep 2: Guppies: ${totalFish} ÷ 4 = ${guppies}.\nStep 3: Difference: ${goldfish} - ${guppies} = ${answer}.\nAnswer: There are ${answer} more goldfish than guppies.`,
+        njslsStandard: '5.OA.A.1',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `First, find the goldfish (1/2 of ${totalFish} = ${goldfish}) and guppies (1/4 of ${totalFish} = ${guppies}). What is ${goldfish} - ${guppies}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Correct! There are ${answer} more goldfish than guppies!`,
+            feedbackIncorrect: `${goldfish} - ${guppies} = ${answer} more goldfish.`,
+          },
+        ];
+        q.diagram = {
+          groups: [
+            { type: 'circle', count: totalFish, label: 'Fish', color: 'amber', highlightCount: goldfish },
+          ],
+          stepStates: [
+            { visibleGroups: [0], highlightGroup: 0, annotations: [{ text: `${goldfish} goldfish − ${guppies} guppies = ?`, position: 'below', targetGroup: 0 }] },
+          ],
+        };
+      }
+      return q;
+    },
+  },
+  // Q22: Bowling — spares and strikes, multiply+multiply+add
+  {
+    generate: (guided) => {
+      const spares = randInt(2, 6);
+      const sparePoints = 10;
+      const strikes = randInt(1, 5);
+      const strikePoints = 30;
+      const spareTotal = spares * sparePoints;
+      const strikeTotal = strikes * strikePoints;
+      const answer = spareTotal + strikeTotal;
+      const q: GeneratedQuestion = {
+        problemText: `At the bowling alley, players earn ${sparePoints} points for a spare and ${strikePoints} points for a strike. During his game, Devon got ${spares} spares and ${strikes} strikes. How many points did Devon earn in all?`,
+        answer,
+        hint: `Draw two groups: spares and strikes. Find the points from each, then add them together.`,
+        solution: `Step 1: Spare points: ${spares} × ${sparePoints} = ${spareTotal} points.\nStep 2: Strike points: ${strikes} × ${strikePoints} = ${strikeTotal} points.\nStep 3: Total: ${spareTotal} + ${strikeTotal} = ${answer} points.\nAnswer: Devon earned ${answer} points.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `First, find the spare points. What is ${spares} × ${sparePoints}?`,
+            expectedAnswer: spareTotal,
+            feedbackCorrect: `Correct! ${spares} × ${sparePoints} = ${spareTotal} points from spares.`,
+            feedbackIncorrect: `${spares} × ${sparePoints} = ${spareTotal} points.`,
+          },
+          {
+            instruction: `Now find strike points (${strikes} × ${strikePoints} = ${strikeTotal}) and add both. What is ${spareTotal} + ${strikeTotal}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! Devon earned ${answer} points total!`,
+            feedbackIncorrect: `${spareTotal} + ${strikeTotal} = ${answer} points.`,
+          },
+        ];
+        q.diagram = {
+          groups: [
+            { type: 'circle', count: spares, label: 'Spares', value: `${sparePoints} pts each`, color: 'amber' },
+            { type: 'circle', count: strikes, label: 'Strikes', value: `${strikePoints} pts each`, color: 'teal' },
+          ],
+          stepStates: [
+            { visibleGroups: [0], highlightGroup: 0, annotations: [{ text: `${spares} × ${sparePoints} = ?`, position: 'below', targetGroup: 0 }] },
+            { visibleGroups: [0, 1], annotations: [{ text: `${spareTotal} + ${strikeTotal} = ?`, position: 'between' }] },
+          ],
+        };
+      }
+      return q;
+    },
+  },
 ];
 
 export function generateMultistepOperations(guided: boolean): GeneratedQuestion {

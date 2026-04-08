@@ -326,6 +326,554 @@ const templates: Template[] = [
       return q;
     },
   },
+  // Q8: Smoothie bar — subtract then divide (same structure as Cafe)
+  {
+    generate: (guided) => {
+      const biteCount = randInt(2, 6);
+      const bitePrice = randInt(1, 4);
+      const smoothieCost = +(randInt(4, 7) + randInt(10, 90) / 100).toFixed(2);
+      const total = +(smoothieCost + biteCount * bitePrice).toFixed(2);
+      const biteTotal = +(total - smoothieCost).toFixed(2);
+      const answer = bitePrice;
+      const q: GeneratedQuestion = {
+        problemText: `Priya spent $${total} at the smoothie bar. She bought a mango smoothie for $${smoothieCost} and ${biteCount} energy bites. How much did each energy bite cost?`,
+        answer,
+        hint: `Let x = cost of one energy bite. Set up the equation: $${smoothieCost} + ${biteCount}x = $${total}. Subtract $${smoothieCost} from both sides, then divide by ${biteCount}.`,
+        solution: `Step 1: Let x = the cost of one energy bite.\nStep 2: Write the equation: $${smoothieCost} + ${biteCount}x = $${total}.\nStep 3: Subtract the smoothie cost: $${total} - $${smoothieCost} = $${biteTotal} spent on bites.\nStep 4: Divide by the number of bites: $${biteTotal} ÷ ${biteCount} = $${answer} per bite.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Let x = the cost of one bite. First, subtract the smoothie cost from the total. What is $${total} - $${smoothieCost}?`,
+            expectedAnswer: biteTotal,
+            feedbackCorrect: `Correct! $${total} - $${smoothieCost} = $${biteTotal} was spent on bites.`,
+            feedbackIncorrect: `Subtract the smoothie from the total: $${total} - $${smoothieCost} = $${biteTotal}.`,
+            highlights: [`$${total}`, `$${smoothieCost}`],
+          },
+          {
+            instruction: `Now divide by the number of bites to find x. What is $${biteTotal} ÷ ${biteCount}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! Each energy bite costs $${answer}!`,
+            feedbackIncorrect: `$${biteTotal} ÷ ${biteCount} = $${answer} per bite.`,
+            highlights: [`${biteCount} energy bites`],
+          },
+        ];
+      }
+      return q;
+    },
+  },
+  // Q9: Baker flour — multiply whole number by mixed number (2 1/4)
+  {
+    generate: (guided) => {
+      const c = pick([4, 8]);
+      const m = pick([
+        { w: 2, f: '1/4', impNum: 9, impDen: 4 },
+        { w: 3, f: '1/4', impNum: 13, impDen: 4 },
+        { w: 2, f: '3/4', impNum: 11, impDen: 4 },
+      ]);
+      const ans = (c * m.impNum) / m.impDen;
+      const product = c * m.impNum;
+      const q: GeneratedQuestion = {
+        problemText: `A baker uses ${c} cups of flour to make a batch of muffins. She uses ${m.w} ${m.f} times as much flour to make a batch of bread loaves. How many cups of flour does she use for the bread?`,
+        answer: ans,
+        hint: `Let x = cups for bread. x = ${m.w} ${m.f} × ${c}. Convert ${m.w} ${m.f} to an improper fraction (${m.impNum}/${m.impDen}), then multiply by ${c}.`,
+        solution: `Step 1: Let x = cups of flour for bread.\nStep 2: Convert ${m.w} ${m.f} to an improper fraction: ${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen} = ${m.impNum}, so ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.\nStep 3: Multiply: ${m.impNum}/${m.impDen} × ${c} = ${product}/${m.impDen}.\nStep 4: Simplify: ${product}/${m.impDen} = ${ans} cups.`,
+        njslsStandard: '4.NF.B.4',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Let x = cups for bread. First, convert ${m.w} ${m.f} to an improper fraction. What is the numerator? (Hint: ${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen})`,
+            expectedAnswer: m.impNum,
+            feedbackCorrect: `Correct! ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.`,
+            feedbackIncorrect: `${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen} = ${m.impNum}. So ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.`,
+            highlights: [`${m.w} ${m.f} times as much`],
+          },
+          {
+            instruction: `Now multiply: ${m.impNum}/${m.impDen} × ${c} = ${product}/${m.impDen}. What does that simplify to?`,
+            expectedAnswer: ans,
+            feedbackCorrect: `Excellent! The baker uses ${ans} cups of flour for bread!`,
+            feedbackIncorrect: `${product} ÷ ${m.impDen} = ${ans}. She uses ${ans} cups.`,
+            highlights: [`${c} cups of flour`],
+          },
+        ];
+      }
+      return q;
+    },
+  },
+  // Q10: Delivery driver — simple "times as many" multiplication
+  {
+    generate: (guided) => {
+      const friday = randInt(3, 8);
+      const multiplier = randInt(3, 6);
+      const answer = friday * multiplier;
+      const q: GeneratedQuestion = {
+        problemText: `On Friday, a delivery driver made ${friday} stops. On Saturday, she made ${multiplier} times as many stops as on Friday. How many stops did she make on Saturday?`,
+        answer,
+        hint: `Let x = stops on Saturday. "Times as many" means multiply: x = ${multiplier} × ${friday}.`,
+        solution: `Step 1: Let x = stops on Saturday.\nStep 2: "Times as many" means multiply: ${multiplier} × ${friday} = ${answer} stops.\nAnswer: She made ${answer} stops on Saturday.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Let x = stops on Saturday. "Times as many" means multiply. What is ${multiplier} × ${friday}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Correct! She made ${answer} stops on Saturday!`,
+            feedbackIncorrect: `${multiplier} × ${friday} = ${answer} stops.`,
+            highlights: [`${multiplier} times as many`],
+          },
+        ];
+      }
+      return q;
+    },
+  },
+  // Q11: Noah baseball — subtract then divide
+  {
+    generate: (guided) => {
+      const perProblem = pick([4, 5, 6, 8, 9]);
+      const problems = randInt(3, 8);
+      const remaining = perProblem * problems;
+      const snackMin = randInt(5, 15);
+      const totalMin = remaining + snackMin;
+      const answer = problems;
+      const q: GeneratedQuestion = {
+        problemText: `Noah has ${totalMin} minutes before baseball practice. He spends ${snackMin} minutes eating a snack. If it takes him ${perProblem} minutes to complete one math problem, how many math problems can he finish before practice?`,
+        answer,
+        hint: `Let x = number of problems. First find the remaining time: ${totalMin} - ${snackMin}. Then divide by ${perProblem}.`,
+        solution: `Step 1: Let x = the number of problems Noah can finish.\nStep 2: Find the remaining time: ${totalMin} - ${snackMin} = ${remaining} minutes left.\nStep 3: Divide by the time per problem: ${remaining} ÷ ${perProblem} = ${answer} problems.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Let x = number of problems. First, how many minutes does Noah have left after his snack? What is ${totalMin} - ${snackMin}?`,
+            expectedAnswer: remaining,
+            feedbackCorrect: `Correct! ${totalMin} - ${snackMin} = ${remaining} minutes left.`,
+            feedbackIncorrect: `${totalMin} - ${snackMin} = ${remaining} minutes remaining.`,
+            highlights: [`${totalMin} minutes`, `${snackMin} minutes`],
+          },
+          {
+            instruction: `Now divide the remaining time by minutes per problem. What is ${remaining} ÷ ${perProblem}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! Noah can finish ${answer} problems!`,
+            feedbackIncorrect: `${remaining} ÷ ${perProblem} = ${answer} problems.`,
+            highlights: [`${perProblem} minutes`],
+          },
+        ];
+      }
+      return q;
+    },
+  },
+  // Q12: Sea turtle — fraction of a number then subtract
+  {
+    generate: (guided) => {
+      const divisor = pick([3, 4, 5]);
+      const totalWeight = divisor * randInt(150, 250);
+      const lessAmount = randInt(10, 30);
+      const fractionResult = totalWeight / divisor;
+      const answer = fractionResult - lessAmount;
+      const fractionWord = divisor === 3 ? '1/3' : divisor === 4 ? '1/4' : '1/5';
+      const q: GeneratedQuestion = {
+        problemText: `A leatherback sea turtle weighs ${totalWeight} pounds. A green sea turtle weighs ${lessAmount} pounds less than ${fractionWord} of the weight of the leatherback. How much does the green sea turtle weigh?`,
+        answer,
+        hint: `Let x = green turtle's weight. First find ${fractionWord} of ${totalWeight} (divide by ${divisor}), then subtract ${lessAmount}.`,
+        solution: `Step 1: Let x = how much the green sea turtle weighs.\nStep 2: Find ${fractionWord} of ${totalWeight}: ${totalWeight} ÷ ${divisor} = ${fractionResult} lbs.\nStep 3: Subtract ${lessAmount} (because "${lessAmount} pounds less"): ${fractionResult} - ${lessAmount} = ${answer} lbs.\nStep 4: The green sea turtle weighs ${answer} lbs.`,
+        njslsStandard: '4.NF.B.4',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Let x = green turtle's weight. First, find ${fractionWord} of ${totalWeight}. What is ${totalWeight} ÷ ${divisor}?`,
+            expectedAnswer: fractionResult,
+            feedbackCorrect: `Correct! ${fractionWord} of ${totalWeight} = ${fractionResult} lbs.`,
+            feedbackIncorrect: `${totalWeight} ÷ ${divisor} = ${fractionResult} lbs.`,
+            highlights: [`${totalWeight} pounds`, `${fractionWord} of the weight`],
+          },
+          {
+            instruction: `Now subtract ${lessAmount} because the problem says "${lessAmount} pounds less." What is ${fractionResult} - ${lessAmount}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! The green sea turtle weighs ${answer} lbs!`,
+            feedbackIncorrect: `${fractionResult} - ${lessAmount} = ${answer} lbs.`,
+            highlights: [`${lessAmount} pounds less`],
+          },
+        ];
+      }
+      return q;
+    },
+  },
+  // Q13: Sunflowers — multiply mixed number by whole number (5 1/2)
+  {
+    generate: (guided) => {
+      const c = pick([2, 4, 6]);
+      const m = pick([
+        { w: 5, f: '1/2', impNum: 11, impDen: 2 },
+        { w: 3, f: '1/2', impNum: 7, impDen: 2 },
+        { w: 4, f: '1/2', impNum: 9, impDen: 2 },
+      ]);
+      const ans = (c * m.impNum) / m.impDen;
+      const product = c * m.impNum;
+      const q: GeneratedQuestion = {
+        problemText: `Elena and her brother Marcus each planted sunflower seeds. Marcus's tallest sunflower grew ${m.w} ${m.f} times as tall as Elena's. If Elena's sunflower grew ${c} inches tall, how tall did Marcus's sunflower grow?`,
+        answer: ans,
+        hint: `Let x = Marcus's sunflower height. x = ${m.w} ${m.f} × ${c}. Convert ${m.w} ${m.f} to an improper fraction (${m.impNum}/${m.impDen}), then multiply by ${c}.`,
+        solution: `Step 1: Let x = Marcus's sunflower height.\nStep 2: Convert ${m.w} ${m.f} to an improper fraction: ${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen} = ${m.impNum}, so ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.\nStep 3: Multiply: ${m.impNum}/${m.impDen} × ${c} = ${product}/${m.impDen}.\nStep 4: Simplify: ${product}/${m.impDen} = ${ans} inches.`,
+        njslsStandard: '4.NF.B.4',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Let x = Marcus's height. First, convert ${m.w} ${m.f} to an improper fraction. What is the numerator? (Hint: ${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen})`,
+            expectedAnswer: m.impNum,
+            feedbackCorrect: `Correct! ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.`,
+            feedbackIncorrect: `${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen} = ${m.impNum}. So ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.`,
+            highlights: [`${m.w} ${m.f} times as tall`],
+          },
+          {
+            instruction: `Now multiply: ${m.impNum}/${m.impDen} × ${c} = ${product}/${m.impDen}. What does that simplify to?`,
+            expectedAnswer: ans,
+            feedbackCorrect: `Excellent! Marcus's sunflower grew ${ans} inches!`,
+            feedbackIncorrect: `${product} ÷ ${m.impDen} = ${ans}. Marcus's sunflower is ${ans} inches tall.`,
+            highlights: [`${c} inches tall`],
+          },
+        ];
+      }
+      return q;
+    },
+  },
+  // Q14: Art supply store — subtract then divide (same structure as Cafe)
+  {
+    generate: (guided) => {
+      const packCount = randInt(2, 6);
+      const packPrice = randInt(1, 4);
+      const sketchbookCost = +(randInt(5, 8) + randInt(10, 90) / 100).toFixed(2);
+      const total = +(sketchbookCost + packCount * packPrice).toFixed(2);
+      const packTotal = +(total - sketchbookCost).toFixed(2);
+      const answer = packPrice;
+      const q: GeneratedQuestion = {
+        problemText: `Jordan spent $${total} at the art supply store. He bought a sketchbook for $${sketchbookCost} and ${packCount} packs of colored pencils that each cost the same amount. How much did each pack of colored pencils cost?`,
+        answer,
+        hint: `Let x = cost of one pack. Set up the equation: $${sketchbookCost} + ${packCount}x = $${total}. Subtract $${sketchbookCost} from both sides, then divide by ${packCount}.`,
+        solution: `Step 1: Let x = the cost of one pack of colored pencils.\nStep 2: Write the equation: $${sketchbookCost} + ${packCount}x = $${total}.\nStep 3: Subtract the sketchbook cost: $${total} - $${sketchbookCost} = $${packTotal} spent on packs.\nStep 4: Divide by the number of packs: $${packTotal} ÷ ${packCount} = $${answer} per pack.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Let x = the cost of one pack. First, subtract the sketchbook cost from the total. What is $${total} - $${sketchbookCost}?`,
+            expectedAnswer: packTotal,
+            feedbackCorrect: `Correct! $${total} - $${sketchbookCost} = $${packTotal} was spent on packs.`,
+            feedbackIncorrect: `Subtract the sketchbook from the total: $${total} - $${sketchbookCost} = $${packTotal}.`,
+            highlights: [`$${total}`, `$${sketchbookCost}`],
+          },
+          {
+            instruction: `Now divide by the number of packs to find x. What is $${packTotal} ÷ ${packCount}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! Each pack costs $${answer}!`,
+            feedbackIncorrect: `$${packTotal} ÷ ${packCount} = $${answer} per pack.`,
+            highlights: [`${packCount} packs`],
+          },
+        ];
+      }
+      return q;
+    },
+  },
+  // Q15: Potted plants — "more than twice as many" expression
+  {
+    generate: (guided) => {
+      const oliviaPlants = randInt(4, 10);
+      const moreAmount = randInt(3, 8);
+      const doubled = 2 * oliviaPlants;
+      const answer = doubled + moreAmount;
+      const q: GeneratedQuestion = {
+        problemText: `Olivia has ${oliviaPlants} potted plants on her porch. Her neighbor has ${moreAmount} more than twice as many plants as Olivia. How many potted plants does her neighbor have?`,
+        answer,
+        hint: `Let x = neighbor's plants. "Twice as many" means multiply by 2, then "${moreAmount} more" means add ${moreAmount}. x = 2 × ${oliviaPlants} + ${moreAmount}.`,
+        solution: `Step 1: Let x = the number of plants the neighbor has.\nStep 2: Find twice Olivia's amount: 2 × ${oliviaPlants} = ${doubled}.\nStep 3: Add ${moreAmount} (because "${moreAmount} more than"): ${doubled} + ${moreAmount} = ${answer}.\nStep 4: The neighbor has ${answer} potted plants.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Let x = neighbor's plants. "Twice as many" means multiply by 2. What is 2 × ${oliviaPlants}?`,
+            expectedAnswer: doubled,
+            feedbackCorrect: `Correct! 2 × ${oliviaPlants} = ${doubled}.`,
+            feedbackIncorrect: `2 × ${oliviaPlants} = ${doubled}.`,
+            highlights: [`${oliviaPlants} potted plants`, 'twice as many'],
+          },
+          {
+            instruction: `Now add ${moreAmount} because the problem says "${moreAmount} more than." What is ${doubled} + ${moreAmount}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! The neighbor has ${answer} plants!`,
+            feedbackIncorrect: `${doubled} + ${moreAmount} = ${answer}. The neighbor has ${answer} plants.`,
+            highlights: [`${moreAmount} more than twice`],
+          },
+        ];
+      }
+      return q;
+    },
+  },
+  // Q16: Blue whale/dolphin — fraction of a number then subtract
+  {
+    generate: (guided) => {
+      const divisor = pick([4, 5, 6]);
+      const whaleLength = divisor * randInt(12, 25);
+      const lessAmount = randInt(5, 15);
+      const fractionResult = whaleLength / divisor;
+      const answer = fractionResult - lessAmount;
+      const fractionWord = divisor === 4 ? '1/4' : divisor === 5 ? '1/5' : '1/6';
+      const q: GeneratedQuestion = {
+        problemText: `A blue whale is ${whaleLength} feet long. A dolphin is ${lessAmount} feet less than ${fractionWord} the length of the blue whale. How long is the dolphin?`,
+        answer,
+        hint: `Let x = dolphin's length. First find ${fractionWord} of ${whaleLength} (divide by ${divisor}), then subtract ${lessAmount}.`,
+        solution: `Step 1: Let x = the dolphin's length.\nStep 2: Find ${fractionWord} of ${whaleLength}: ${whaleLength} ÷ ${divisor} = ${fractionResult} feet.\nStep 3: Subtract ${lessAmount} (because "${lessAmount} feet less"): ${fractionResult} - ${lessAmount} = ${answer} feet.\nStep 4: The dolphin is ${answer} feet long.`,
+        njslsStandard: '4.NF.B.4',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Let x = dolphin's length. First, find ${fractionWord} of ${whaleLength}. What is ${whaleLength} ÷ ${divisor}?`,
+            expectedAnswer: fractionResult,
+            feedbackCorrect: `Correct! ${fractionWord} of ${whaleLength} = ${fractionResult} feet.`,
+            feedbackIncorrect: `${whaleLength} ÷ ${divisor} = ${fractionResult} feet.`,
+            highlights: [`${whaleLength} feet`, `${fractionWord} the length`],
+          },
+          {
+            instruction: `Now subtract ${lessAmount} because the problem says "${lessAmount} feet less." What is ${fractionResult} - ${lessAmount}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! The dolphin is ${answer} feet long!`,
+            feedbackIncorrect: `${fractionResult} - ${lessAmount} = ${answer} feet.`,
+            highlights: [`${lessAmount} feet less`],
+          },
+        ];
+      }
+      return q;
+    },
+  },
+  // Q17: Coach practice — subtract then divide
+  {
+    generate: (guided) => {
+      const perDrill = pick([6, 7, 8, 9]);
+      const drills = randInt(3, 8);
+      const remaining = perDrill * drills;
+      const warmupMin = randInt(10, 20);
+      const totalMin = remaining + warmupMin;
+      const answer = drills;
+      const q: GeneratedQuestion = {
+        problemText: `Coach Tran has ${totalMin} minutes of practice time. She spends ${warmupMin} minutes on warm-ups. If each drill takes ${perDrill} minutes, how many full drills can the team complete in the remaining time?`,
+        answer,
+        hint: `Let x = number of drills. First find the remaining time: ${totalMin} - ${warmupMin}. Then divide by ${perDrill}.`,
+        solution: `Step 1: Let x = the number of drills.\nStep 2: Find remaining time: ${totalMin} - ${warmupMin} = ${remaining} minutes.\nStep 3: Divide by minutes per drill: ${remaining} ÷ ${perDrill} = ${answer} drills.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Let x = number of drills. First, how many minutes are left after warm-ups? What is ${totalMin} - ${warmupMin}?`,
+            expectedAnswer: remaining,
+            feedbackCorrect: `Correct! ${totalMin} - ${warmupMin} = ${remaining} minutes left.`,
+            feedbackIncorrect: `${totalMin} - ${warmupMin} = ${remaining} minutes remaining.`,
+            highlights: [`${totalMin} minutes`, `${warmupMin} minutes`],
+          },
+          {
+            instruction: `Now divide the remaining time by minutes per drill. What is ${remaining} ÷ ${perDrill}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! The team can complete ${answer} drills!`,
+            feedbackIncorrect: `${remaining} ÷ ${perDrill} = ${answer} drills.`,
+            highlights: [`${perDrill} minutes`],
+          },
+        ];
+      }
+      return q;
+    },
+  },
+  // Q18: Journalist articles — multiply whole by mixed number (3 1/2)
+  {
+    generate: (guided) => {
+      const c = pick([2, 4, 6]);
+      const m = pick([
+        { w: 3, f: '1/2', impNum: 7, impDen: 2 },
+        { w: 2, f: '1/2', impNum: 5, impDen: 2 },
+        { w: 4, f: '1/2', impNum: 9, impDen: 2 },
+      ]);
+      const ans = (c * m.impNum) / m.impDen;
+      const product = c * m.impNum;
+      const q: GeneratedQuestion = {
+        problemText: `On Wednesday, a journalist wrote ${c} articles. On Thursday, she wrote ${m.w} ${m.f} times as many articles as on Wednesday. How many articles did she write on Thursday?`,
+        answer: ans,
+        hint: `Let x = articles on Thursday. x = ${m.w} ${m.f} × ${c}. Convert ${m.w} ${m.f} to an improper fraction (${m.impNum}/${m.impDen}), then multiply by ${c}.`,
+        solution: `Step 1: Let x = articles on Thursday.\nStep 2: Convert ${m.w} ${m.f} to an improper fraction: ${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen} = ${m.impNum}, so ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.\nStep 3: Multiply: ${m.impNum}/${m.impDen} × ${c} = ${product}/${m.impDen}.\nStep 4: Simplify: ${product}/${m.impDen} = ${ans} articles.`,
+        njslsStandard: '4.NF.B.4',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Let x = articles on Thursday. First, convert ${m.w} ${m.f} to an improper fraction. What is the numerator? (Hint: ${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen})`,
+            expectedAnswer: m.impNum,
+            feedbackCorrect: `Correct! ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.`,
+            feedbackIncorrect: `${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen} = ${m.impNum}. So ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.`,
+            highlights: [`${m.w} ${m.f} times as many`],
+          },
+          {
+            instruction: `Now multiply: ${m.impNum}/${m.impDen} × ${c} = ${product}/${m.impDen}. What does that simplify to?`,
+            expectedAnswer: ans,
+            feedbackCorrect: `Excellent! She wrote ${ans} articles on Thursday!`,
+            feedbackIncorrect: `${product} ÷ ${m.impDen} = ${ans} articles.`,
+            highlights: [`${c} articles`],
+          },
+        ];
+      }
+      return q;
+    },
+  },
+  // Q19: Beach shells — multiply then subtract ("less than X times")
+  {
+    generate: (guided) => {
+      const samShells = randInt(4, 12);
+      const multiplier = randInt(3, 6);
+      const lessAmount = randInt(1, 6);
+      const multiplied = multiplier * samShells;
+      const answer = multiplied - lessAmount;
+      const q: GeneratedQuestion = {
+        problemText: `Sam and Jada each collected shells at the beach. Jada collected ${lessAmount} less than ${multiplier} times as many shells as Sam. If Sam collected ${samShells} shells, how many shells did Jada collect?`,
+        answer,
+        hint: `Let x = Jada's shells. "${multiplier} times as many" means multiply by ${multiplier}, then "${lessAmount} less" means subtract ${lessAmount}. x = ${multiplier} × ${samShells} - ${lessAmount}.`,
+        solution: `Step 1: Let x = the number of shells Jada collected.\nStep 2: Find ${multiplier} times Sam's amount: ${multiplier} × ${samShells} = ${multiplied}.\nStep 3: Subtract ${lessAmount} (because "${lessAmount} less than"): ${multiplied} - ${lessAmount} = ${answer}.\nStep 4: Jada collected ${answer} shells.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Let x = Jada's shells. "${multiplier} times as many" means multiply. What is ${multiplier} × ${samShells}?`,
+            expectedAnswer: multiplied,
+            feedbackCorrect: `Correct! ${multiplier} × ${samShells} = ${multiplied}.`,
+            feedbackIncorrect: `${multiplier} × ${samShells} = ${multiplied}.`,
+            highlights: [`${samShells} shells`, `${multiplier} times as many`],
+          },
+          {
+            instruction: `Now subtract ${lessAmount} because the problem says "${lessAmount} less than." What is ${multiplied} - ${lessAmount}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! Jada collected ${answer} shells!`,
+            feedbackIncorrect: `${multiplied} - ${lessAmount} = ${answer}. Jada collected ${answer} shells.`,
+            highlights: [`${lessAmount} less than`],
+          },
+        ];
+      }
+      return q;
+    },
+  },
+  // Q20: Farmer's market — subtract then divide (same structure as Cafe)
+  {
+    generate: (guided) => {
+      const bunchCount = randInt(3, 6);
+      const bunchPrice = randInt(2, 5);
+      const honeyCost = +(randInt(5, 9) + randInt(10, 90) / 100).toFixed(2);
+      const total = +(honeyCost + bunchCount * bunchPrice).toFixed(2);
+      const bunchTotal = +(total - honeyCost).toFixed(2);
+      const answer = bunchPrice;
+      const q: GeneratedQuestion = {
+        problemText: `Caleb spent $${total} at the farmer's market. He bought a jar of honey for $${honeyCost} and ${bunchCount} bunches of flowers that each cost the same amount. How much did each bunch of flowers cost?`,
+        answer,
+        hint: `Let x = cost of one bunch. Set up the equation: $${honeyCost} + ${bunchCount}x = $${total}. Subtract $${honeyCost} from both sides, then divide by ${bunchCount}.`,
+        solution: `Step 1: Let x = the cost of one bunch of flowers.\nStep 2: Write the equation: $${honeyCost} + ${bunchCount}x = $${total}.\nStep 3: Subtract the honey cost: $${total} - $${honeyCost} = $${bunchTotal} spent on flowers.\nStep 4: Divide by the number of bunches: $${bunchTotal} ÷ ${bunchCount} = $${answer} per bunch.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Let x = the cost of one bunch. First, subtract the honey cost from the total. What is $${total} - $${honeyCost}?`,
+            expectedAnswer: bunchTotal,
+            feedbackCorrect: `Correct! $${total} - $${honeyCost} = $${bunchTotal} was spent on flowers.`,
+            feedbackIncorrect: `Subtract the honey from the total: $${total} - $${honeyCost} = $${bunchTotal}.`,
+            highlights: [`$${total}`, `$${honeyCost}`],
+          },
+          {
+            instruction: `Now divide by the number of bunches to find x. What is $${bunchTotal} ÷ ${bunchCount}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! Each bunch costs $${answer}!`,
+            feedbackIncorrect: `$${bunchTotal} ÷ ${bunchCount} = $${answer} per bunch.`,
+            highlights: [`${bunchCount} bunches`],
+          },
+        ];
+      }
+      return q;
+    },
+  },
+  // Q21: Freight train — fraction of a number then subtract
+  {
+    generate: (guided) => {
+      const divisor = pick([2, 4, 5]);
+      const freightSpeed = divisor * randInt(20, 40);
+      const lessAmount = randInt(5, 20);
+      const fractionResult = freightSpeed / divisor;
+      const answer = fractionResult - lessAmount;
+      const fractionWord = divisor === 2 ? '1/2' : divisor === 4 ? '1/4' : '1/5';
+      const q: GeneratedQuestion = {
+        problemText: `A freight train is traveling at ${freightSpeed} miles per hour. A passenger train is traveling at ${lessAmount} miles per hour less than ${fractionWord} the speed of the freight train. How fast is the passenger train traveling?`,
+        answer,
+        hint: `Let x = passenger speed. First find ${fractionWord} of ${freightSpeed} (divide by ${divisor}), then subtract ${lessAmount}.`,
+        solution: `Step 1: Let x = the passenger train's speed.\nStep 2: Find ${fractionWord} of ${freightSpeed}: ${freightSpeed} ÷ ${divisor} = ${fractionResult} mph.\nStep 3: Subtract ${lessAmount} (because "${lessAmount} miles per hour less"): ${fractionResult} - ${lessAmount} = ${answer} mph.\nStep 4: The passenger train is traveling at ${answer} mph.`,
+        njslsStandard: '4.NF.B.4',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Let x = passenger speed. First, find ${fractionWord} of ${freightSpeed}. What is ${freightSpeed} ÷ ${divisor}?`,
+            expectedAnswer: fractionResult,
+            feedbackCorrect: `Correct! ${fractionWord} of ${freightSpeed} = ${fractionResult} mph.`,
+            feedbackIncorrect: `${freightSpeed} ÷ ${divisor} = ${fractionResult} mph.`,
+            highlights: [`${freightSpeed} miles per hour`, `${fractionWord} the speed`],
+          },
+          {
+            instruction: `Now subtract ${lessAmount} because the problem says "${lessAmount} miles per hour less." What is ${fractionResult} - ${lessAmount}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! The passenger train is going ${answer} mph!`,
+            feedbackIncorrect: `${fractionResult} - ${lessAmount} = ${answer} mph.`,
+            highlights: [`${lessAmount} miles per hour less`],
+          },
+        ];
+      }
+      return q;
+    },
+  },
+  // Q22: Piano recital — subtract then divide
+  {
+    generate: (guided) => {
+      const perRun = pick([5, 6, 7, 8]);
+      const runs = randInt(3, 10);
+      const remaining = perRun * runs;
+      const reviewMin = randInt(10, 25);
+      const totalMin = remaining + reviewMin;
+      const answer = runs;
+      const q: GeneratedQuestion = {
+        problemText: `Maya has ${totalMin} minutes before her piano recital. She spends ${reviewMin} minutes reviewing her sheet music. If each practice run of her piece takes ${perRun} minutes, how many full practice runs can she complete before the recital?`,
+        answer,
+        hint: `Let x = number of practice runs. First find the remaining time: ${totalMin} - ${reviewMin}. Then divide by ${perRun}.`,
+        solution: `Step 1: Let x = the number of practice runs.\nStep 2: Find remaining time: ${totalMin} - ${reviewMin} = ${remaining} minutes.\nStep 3: Divide by minutes per run: ${remaining} ÷ ${perRun} = ${answer} runs.`,
+        njslsStandard: '4.OA.A.3',
+      };
+      if (guided) {
+        q.steps = [
+          {
+            instruction: `Let x = number of runs. First, how many minutes are left after reviewing? What is ${totalMin} - ${reviewMin}?`,
+            expectedAnswer: remaining,
+            feedbackCorrect: `Correct! ${totalMin} - ${reviewMin} = ${remaining} minutes left.`,
+            feedbackIncorrect: `${totalMin} - ${reviewMin} = ${remaining} minutes remaining.`,
+            highlights: [`${totalMin} minutes`, `${reviewMin} minutes`],
+          },
+          {
+            instruction: `Now divide the remaining time by minutes per run. What is ${remaining} ÷ ${perRun}?`,
+            expectedAnswer: answer,
+            feedbackCorrect: `Excellent! Maya can complete ${answer} practice runs!`,
+            feedbackIncorrect: `${remaining} ÷ ${perRun} = ${answer} runs.`,
+            highlights: [`${perRun} minutes`],
+          },
+        ];
+      }
+      return q;
+    },
+  },
 ];
 
 export function generateFractions(guided: boolean): GeneratedQuestion {
