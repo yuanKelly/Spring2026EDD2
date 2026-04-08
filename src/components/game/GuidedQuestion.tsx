@@ -2,6 +2,46 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GeneratedQuestion } from '../../types';
 import ReadAloud from '../ui/ReadAloud';
+import FractionText from '../ui/FractionText';
+import StepDiagram from './StepDiagram';
+
+/**
+ * Splits text into segments, wrapping any substrings found in `highlights`
+ * with a styled <mark> tag so the student can see which quantities are
+ * being replaced by the variable.
+ */
+function highlightText(text: string, highlights: string[]): React.ReactNode {
+  if (highlights.length === 0) return <FractionText text={text} />;
+
+  // Escape regex special chars and build alternation pattern
+  const escaped = highlights.map((h) => h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const regex = new RegExp(`(${escaped.join('|')})`, 'g');
+  const parts = text.split(regex);
+
+  const highlightSet = new Set(highlights);
+  return (
+    <>
+      {parts.map((part, i) =>
+        highlightSet.has(part) ? (
+          <mark
+            key={i}
+            style={{
+              background: 'rgba(251, 191, 36, 0.25)',
+              color: '#fbbf24',
+              borderRadius: '4px',
+              padding: '0 4px',
+              border: '1px solid rgba(251, 191, 36, 0.4)',
+            }}
+          >
+            <FractionText text={part} />
+          </mark>
+        ) : (
+          <FractionText key={i} text={part} />
+        ),
+      )}
+    </>
+  );
+}
 
 interface GuidedQuestionProps {
   question: GeneratedQuestion;
@@ -18,7 +58,7 @@ export default function GuidedQuestion({ question, contactName, contactImage, on
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    if (!input.trim() || feedback !== null) return;
 
     const step = steps[currentStep];
     const userAnswer = parseFloat(input);
@@ -30,25 +70,32 @@ export default function GuidedQuestion({ question, contactName, contactImage, on
       correct,
     });
 
-    setTimeout(() => {
-      setFeedback(null);
-      setInput('');
-      if (currentStep < steps.length - 1) {
-        setCurrentStep((s) => s + 1);
-      } else {
-        onComplete();
-      }
-    }, 2000);
+    // Only auto-advance on correct answers
+    if (correct) {
+      setTimeout(() => {
+        handleContinue();
+      }, 1500);
+    }
+  };
+
+  const handleContinue = () => {
+    setFeedback(null);
+    setInput('');
+    if (currentStep < steps.length - 1) {
+      setCurrentStep((s) => s + 1);
+    } else {
+      onComplete();
+    }
   };
 
   return (
     <motion.div
-      className="max-w-2xl mx-auto w-full"
+      className="max-w-4xl mx-auto w-full"
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
     >
-      <div className="dossier rounded-2xl" style={{ padding: '2.5rem 3rem', marginBottom: '1.5rem' }}>
+      <div className="dossier rounded-2xl" style={{ padding: '3.5rem 3rem', marginBottom: '1.5rem' }}>
         {/* Header badges */}
         <div className="flex items-center" style={{ gap: '0.75rem', marginBottom: '1.5rem' }}>
           <span
@@ -69,9 +116,16 @@ export default function GuidedQuestion({ question, contactName, contactImage, on
 
         {/* Problem text */}
         <div className="flex justify-between items-start" style={{ marginBottom: '2rem' }}>
-          <p className="text-gray-100 text-xl flex-1" style={{ lineHeight: '1.8', marginRight: '1rem' }}>{question.problemText}</p>
+          <p className="text-gray-100 text-xl flex-1" style={{ lineHeight: '1.8', marginRight: '1rem' }}>
+            {highlightText(question.problemText, steps[currentStep]?.highlights || [])}
+          </p>
           <ReadAloud text={question.problemText} />
         </div>
+
+        {/* Diagram (Draw a Picture strategy) */}
+        {question.diagram && (
+          <StepDiagram diagram={question.diagram} currentStep={currentStep} />
+        )}
 
         {/* Contact instruction */}
         <div className="flex items-start" style={{ gap: '1rem', marginBottom: '1.5rem' }}>
@@ -95,7 +149,7 @@ export default function GuidedQuestion({ question, contactName, contactImage, on
               border: '1px solid rgba(37, 48, 82, 0.5)',
             }}
           >
-            <p className="text-gray-200" style={{ lineHeight: '1.7' }}>{steps[currentStep]?.instruction}</p>
+            <p className="text-gray-200" style={{ lineHeight: '1.7' }}><FractionText text={steps[currentStep]?.instruction || ''} /></p>
           </div>
         </div>
 
@@ -130,21 +184,41 @@ export default function GuidedQuestion({ question, contactName, contactImage, on
         <AnimatePresence>
           {feedback && (
             <motion.div
-              className="rounded-xl"
-              style={{
-                marginTop: '1.25rem',
-                padding: '1rem 1.25rem',
-                lineHeight: '1.6',
-                background: feedback.correct ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
-                border: `1px solid ${feedback.correct ? 'rgba(34, 197, 94, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
-                color: feedback.correct ? '#86efac' : '#fca5a5',
-              }}
+              style={{ marginTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
             >
-              {feedback.correct ? 'Correct! ' : 'Not quite. '}
-              {feedback.text}
+              <div
+                className="rounded-xl"
+                style={{
+                  padding: '1rem 1.25rem',
+                  lineHeight: '1.8',
+                  background: feedback.correct ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                  border: `1px solid ${feedback.correct ? 'rgba(34, 197, 94, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
+                  color: feedback.correct ? '#86efac' : '#fca5a5',
+                }}
+              >
+                {feedback.correct ? 'Correct! ' : 'Not quite. '}
+                <FractionText text={feedback.text} />
+              </div>
+
+              {/* Show Continue button when wrong */}
+              {!feedback.correct && (
+                <motion.button
+                  onClick={handleContinue}
+                  className="w-full text-midnight-950 font-bold rounded-xl transition text-lg"
+                  style={{
+                    padding: '1rem',
+                    background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
+                    boxShadow: '0 4px 20px rgba(251, 191, 36, 0.25)',
+                  }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Continue
+                </motion.button>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

@@ -4,6 +4,10 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  server: {
+    port: 5176,
+    strictPort: true,
+  },
   optimizeDeps: {
     include: ['react-simple-maps', 'prop-types'],
   },

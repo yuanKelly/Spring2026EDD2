@@ -16,13 +16,14 @@ import SessionSummary from '../components/session/SessionSummary';
 import ScoreDisplay from '../components/ui/ScoreDisplay';
 import ProgressBar from '../components/ui/ProgressBar';
 
-const GUIDED_COUNT = 3;
+const DEFAULT_GUIDED_COUNT = 3;
 
 export default function UnitPage() {
   const { unitId } = useParams<{ unitId: string }>();
   const navigate = useNavigate();
   const unit = units.find((u) => u.id === unitId);
   const tip = tips.find((t) => t.id === unit?.tipId);
+  const GUIDED_COUNT = unit?.guidedCount ?? DEFAULT_GUIDED_COUNT;
   const { completeUnit, startUnit } = useProgress();
 
   const { points, maxPoints, lastChange, isFirstAttempt, isComplete, checkAnswer, resetForNextQuestion } =
@@ -186,7 +187,7 @@ export default function UnitPage() {
 
           {session.currentPhase === 'guided' && currentQuestion && (
             <div key="guided" className="flex-1 flex flex-col items-center overflow-auto" style={{ padding: '0.5in' }}>
-              <div className="w-full max-w-2xl mb-4">
+              <div className="w-full max-w-4xl mb-4">
                 <ProgressBar
                   current={session.guidedQuestionsCompleted}
                   max={GUIDED_COUNT}

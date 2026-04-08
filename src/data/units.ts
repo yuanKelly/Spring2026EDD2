@@ -8,11 +8,12 @@ export const units: Unit[] = [
     country: 'France',
     description: 'Master basic multiplication and division word problems in the City of Light!',
     njslsStandards: ['4.OA.A.1', '4.OA.A.2', '4.OA.A.3'],
-    contactName: 'Agent Pierre',
+    contactName: 'Agent Pierre the French Bulldog',
     contactImage: '/images/characters/contact-paris.png',
     backgroundImage: '/images/backgrounds/paris.svg',
     codePieceImage: '/images/code-pieces/piece-1.svg',
-    tipId: 'cubes',
+    tipId: 'convert-units',
+    guidedCount: 2,
     cityDescription:
       'Welcome to Paris, the city of light. The city is known for its delicious food and incredible art, including the Mona Lisa at the Louvre. Reaching above the skyline is your destination; find the Eiffel Tower to begin today\'s task.',
     missionIntroText:
@@ -26,11 +27,12 @@ export const units: Unit[] = [
     country: 'USA',
     description: 'Tackle multistep addition, subtraction, multiplication, and division in the Big Apple!',
     njslsStandards: ['4.OA.A.3', '5.OA.A.1', '5.OA.A.2'],
-    contactName: 'Agent Liberty',
+    contactName: 'Agent Liberty the Pigeon',
     contactImage: '/images/characters/contact-newyork.png',
     backgroundImage: '/images/backgrounds/newyork.svg',
     codePieceImage: '/images/code-pieces/piece-2.svg',
-    tipId: 'draw-it-out',
+    tipId: 'draw-a-picture',
+    guidedCount: 2,
     cityDescription:
       'Welcome to New York, the city that never sleeps. With a population of 8.6 million, it is the largest city in the United States. The city is split into 5 boroughs, your mission will be in Manhattan, the largest and most famous.',
     missionIntroText:
@@ -44,11 +46,12 @@ export const units: Unit[] = [
     country: 'Japan',
     description: 'Learn to interpret remainders in division problems in the heart of Tokyo!',
     njslsStandards: ['4.OA.A.3', '5.NBT.B.6'],
-    contactName: 'Agent Meiji',
+    contactName: 'Agent Meiji the Deer',
     contactImage: '/images/characters/contact-tokyo.png',
     backgroundImage: '/images/backgrounds/tokyo.svg',
     codePieceImage: '/images/code-pieces/piece-3.svg',
-    tipId: 'work-backwards',
+    tipId: 'keyword-clues',
+    guidedCount: 2,
     cityDescription:
       'Welcome to Tokyo, the most populated city in the world with a population of 41 million. This vibrant Japanese city boasts over 5 million vending machines. You\'ll need to head to a more formal locale for your mission though. Head to the Chiyoda Ward to begin.',
     missionIntroText:
@@ -62,11 +65,12 @@ export const units: Unit[] = [
     country: 'Egypt',
     description: 'Solve fraction word problems among the ancient pyramids of Cairo!',
     njslsStandards: ['4.NF.B.3', '4.NF.B.4', '5.NF.A.2'],
-    contactName: 'Agent Khufu',
+    contactName: 'Agent Khufu the Snake',
     contactImage: '/images/characters/contact-cairo.png',
     backgroundImage: '/images/backgrounds/cairo.svg',
     codePieceImage: '/images/code-pieces/piece-4.svg',
-    tipId: 'friendly-numbers',
+    tipId: 'replacing-unknowns',
+    guidedCount: 2,
     cityDescription:
       'Welcome to Cairo, the bustling hub of Egypt. Nested on the Nile River, Cairo is home to the Great Pyramids of Egypt. Get out into the desert near the pyramids so you can begin your mission.',
     missionIntroText:
@@ -80,11 +84,12 @@ export const units: Unit[] = [
     country: 'Australia',
     description: 'Convert and calculate measurement units down under in Sydney!',
     njslsStandards: ['4.MD.A.1', '4.MD.A.2', '5.MD.A.1'],
-    contactName: 'Agent Roo',
+    contactName: 'Agent Roo the Kangaroo',
     contactImage: '/images/characters/contact-sydney.png',
     backgroundImage: '/images/backgrounds/sydney.svg',
     codePieceImage: '/images/code-pieces/piece-5.svg',
-    tipId: 'units-check',
+    tipId: 'cubes',
+    guidedCount: 2,
     cityDescription:
       'Welcome to Sydney, home to over 100 beautiful beaches. Spanning over 12,400 square kilometers, it is one of the largest metropolitan areas in the world. Your mission will take place near the Sydney Harbour, get there as soon as possible so we can get to work.',
     missionIntroText:

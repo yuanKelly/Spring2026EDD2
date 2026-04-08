@@ -13,6 +13,7 @@ export interface Unit {
   cityDescription: string;
   missionIntroText: string;
   maxPoints: number;
+  guidedCount?: number;
 }
 
 export interface GeneratedQuestion {
@@ -21,6 +22,7 @@ export interface GeneratedQuestion {
   hint: string;
   solution: string;
   steps?: GuidedStep[];
+  diagram?: DiagramData;
   njslsStandard: string;
 }
 
@@ -29,6 +31,34 @@ export interface GuidedStep {
   expectedAnswer: number | string;
   feedbackCorrect: string;
   feedbackIncorrect: string;
+  /** Substrings in the problemText to highlight for this step */
+  highlights?: string[];
+}
+
+export interface DiagramShape {
+  type: 'circle' | 'rect';
+  count: number;
+  label: string;
+  value?: string;
+  color: 'amber' | 'teal' | 'blue' | 'green';
+  highlightCount?: number;
+}
+
+export interface DiagramAnnotation {
+  text: string;
+  position: 'below' | 'between';
+  targetGroup?: number;
+}
+
+export interface DiagramStepState {
+  visibleGroups: number[];
+  highlightGroup?: number;
+  annotations: DiagramAnnotation[];
+}
+
+export interface DiagramData {
+  groups: DiagramShape[];
+  stepStates: DiagramStepState[];
 }
 
 export interface ProblemSolvingTip {

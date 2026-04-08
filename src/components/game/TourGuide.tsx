@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ProblemSolvingTip } from '../../types';
+import CubesDemo from './CubesDemo';
 
 interface TourGuideProps {
   contactName: string;
@@ -34,6 +35,35 @@ function TypewriterText({ text, speed = 30 }: { text: string; speed?: number }) 
 
 export default function TourGuide({ contactName, contactImage, tip, onContinue }: TourGuideProps) {
   const [showTip, setShowTip] = useState(false);
+  const [showCubesDemo, setShowCubesDemo] = useState(false);
+  const isCubes = tip.id === 'cubes';
+
+  const renderCubesStep = (index: number) => {
+    switch (index) {
+      case 0:
+        return (
+          <>C – Circle the key <span className="cubes-anno-0">numbers and units</span></>
+        );
+      case 1:
+        return (
+          <>U – Underline the question: <span className="cubes-anno-1">what am I being asked to solve?</span></>
+        );
+      case 2:
+        return (
+          <>B – Box the math "action" words (am I going to <span className="cubes-anno-2">add, subtract, multiply, or divide</span>?)</>
+        );
+      case 3:
+        return (
+          <>E – Evaluate and eliminate: <strong style={{ color: '#e2e8f0' }}>what steps do I take, and what information don't I need?</strong></>
+        );
+      case 4:
+        return (
+          <>S – Show your work and check: <strong style={{ color: '#e2e8f0' }}>did I answer the underlined question?</strong></>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <motion.div
@@ -51,7 +81,7 @@ export default function TourGuide({ contactName, contactImage, tip, onContinue }
       <div className="absolute inset-0 grid-bg opacity-40" />
 
       {/* Content overlay */}
-      <div className="relative z-10 flex-1 flex items-end" style={{ padding: '0.5in 0.75in 0.5in 0.5in' }}>
+      <div className={`relative z-10 flex-1 flex ${showCubesDemo ? 'items-start' : 'items-end'}`} style={{ padding: '0.5in 0.75in 0.5in 0.5in' }}>
 
         {/* Character */}
         <motion.div
@@ -113,7 +143,7 @@ export default function TourGuide({ contactName, contactImage, tip, onContinue }
               style={{
                 padding: '2rem 2.5rem',
                 borderRadius: '2rem',
-                maxHeight: '50vh',
+                maxHeight: showCubesDemo ? '75vh' : '50vh',
               }}
             >
               <AnimatePresence mode="wait">
@@ -129,6 +159,25 @@ export default function TourGuide({ contactName, contactImage, tip, onContinue }
                         text={`Welcome, Agent! Before we begin, let me teach you a powerful technique: the ${tip.title}. This will help you crack any word problem!`}
                       />
                     </p>
+                  </motion.div>
+                ) : showCubesDemo ? (
+                  /* Interactive CUBES annotation demo */
+                  <motion.div
+                    key="cubes-demo"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    <h3
+                      className="font-bold text-xl"
+                      style={{
+                        fontFamily: "'Fredoka', sans-serif",
+                        color: '#fbbf24',
+                        marginBottom: '1rem',
+                      }}
+                    >
+                      Let's try CUBES on a problem!
+                    </h3>
+                    <CubesDemo onComplete={onContinue} />
                   </motion.div>
                 ) : (
                   <motion.div
@@ -165,7 +214,9 @@ export default function TourGuide({ contactName, contactImage, tip, onContinue }
                           >
                             {i + 1}
                           </span>
-                          <span style={{ lineHeight: '1.6', paddingTop: '0.2rem' }}>{step}</span>
+                          <span style={{ lineHeight: '2.2', paddingTop: '0.2rem' }}>
+                            {isCubes ? renderCubesStep(i) : step}
+                          </span>
                         </motion.li>
                       ))}
                     </ol>
@@ -193,6 +244,23 @@ export default function TourGuide({ contactName, contactImage, tip, onContinue }
               whileTap={{ scale: 0.98 }}
             >
               Learn the {tip.title}
+            </motion.button>
+          ) : showCubesDemo ? null /* CubesDemo has its own button */ : isCubes ? (
+            <motion.button
+              onClick={() => setShowCubesDemo(true)}
+              className="w-full text-midnight-950 font-bold transition text-lg"
+              style={{
+                padding: '1rem',
+                borderRadius: '0.75rem',
+                background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
+                boxShadow: '0 4px 20px rgba(251, 191, 36, 0.3)',
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Try it on a problem!
             </motion.button>
           ) : (
             <motion.button

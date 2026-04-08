@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 interface ReadAloudProps {
@@ -7,6 +7,16 @@ interface ReadAloudProps {
 
 export default function ReadAloud({ text }: ReadAloudProps) {
   const [speaking, setSpeaking] = useState(false);
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+
+  useEffect(() => {
+    const loadVoices = () => {
+      setVoices(speechSynthesis.getVoices());
+    };
+    loadVoices();
+    speechSynthesis.addEventListener('voiceschanged', loadVoices);
+    return () => speechSynthesis.removeEventListener('voiceschanged', loadVoices);
+  }, []);
 
   const handleClick = () => {
     if (speaking) {
@@ -18,6 +28,10 @@ export default function ReadAloud({ text }: ReadAloudProps) {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 0.85;
     utterance.pitch = 1.1;
+
+    const googleUS = voices.find((v) => v.name === 'Google US English');
+    if (googleUS) utterance.voice = googleUS;
+
     utterance.onend = () => setSpeaking(false);
     utterance.onerror = () => setSpeaking(false);
     speechSynthesis.speak(utterance);
@@ -38,7 +52,6 @@ export default function ReadAloud({ text }: ReadAloudProps) {
       aria-label={speaking ? 'Stop reading aloud' : 'Read aloud'}
       title={speaking ? 'Stop reading' : 'Read this question aloud'}
     >
-      {/* Speaker icon */}
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path
           d="M2 6h2.5L8 3v10L4.5 10H2a1 1 0 01-1-1V7a1 1 0 011-1z"

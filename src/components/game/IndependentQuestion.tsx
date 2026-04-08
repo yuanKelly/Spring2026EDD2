@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GeneratedQuestion, AttemptResult } from '../../types';
 import ReadAloud from '../ui/ReadAloud';
+import FractionText from '../ui/FractionText';
 
 interface IndependentQuestionProps {
   question: GeneratedQuestion;
@@ -90,7 +91,7 @@ export default function IndependentQuestion({
 
         {/* Problem text */}
         <div className="flex justify-between items-start" style={{ marginBottom: '2rem' }}>
-          <p className="text-gray-100 text-xl flex-1" style={{ lineHeight: '1.8', marginRight: '1rem' }}>{question.problemText}</p>
+          <p className="text-gray-100 text-xl flex-1" style={{ lineHeight: '1.8', marginRight: '1rem' }}><FractionText text={question.problemText} /></p>
           <ReadAloud text={question.problemText} />
         </div>
 
@@ -159,7 +160,7 @@ export default function IndependentQuestion({
                       color: '#fde68a',
                     }}
                   >
-                    <strong>Hint:</strong> {question.hint}
+                    <strong>Hint:</strong> <FractionText text={question.hint} />
                   </div>
                   <motion.button
                     onClick={handleTryAgain}
@@ -210,7 +211,7 @@ export default function IndependentQuestion({
                 }}
               >
                 <p className="text-amber-400 font-bold" style={{ marginBottom: '0.5rem', fontFamily: "'Fredoka', sans-serif" }}>Solution:</p>
-                <p className="text-gray-200" style={{ lineHeight: '1.7' }}>{question.solution}</p>
+                <p className="text-gray-200" style={{ lineHeight: '1.7' }}><FractionText text={question.solution} /></p>
                 <p className="text-gray-400" style={{ marginTop: '0.75rem' }}>
                   The answer was: <strong className="text-white font-mono">{question.answer}</strong>
                 </p>
