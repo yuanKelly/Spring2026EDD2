@@ -47,7 +47,7 @@ export default function SessionSummary({
       animate={{ opacity: 1 }}
     >
       <div
-        className="max-w-lg w-full dossier rounded-2xl shadow-2xl"
+        className="max-w-lg w-full dossier rounded-2xl shadow-2xl overflow-hidden"
         style={{
           padding: '2.5rem 3rem',
           boxShadow: '0 8px 48px rgba(0,0,0,0.4)',

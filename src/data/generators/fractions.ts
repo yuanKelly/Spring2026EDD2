@@ -32,18 +32,31 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = the cost of one scone. First, subtract the latte cost from the total to find how much was spent on scones. What is $${total} - $${latteCost}?`,
+            instruction: `Let x = cost of one scone. Alex spent $${latteCost} on the latte and ${sconeCount}x on scones. Equation: $${latteCost} + ${sconeCount}x = ___. Look at the problem: what number fills the blank?`,
+            expectedAnswer: total,
+            feedbackCorrect: `Correct! Alex spent $${total} total, so $${latteCost} + ${sconeCount}x = $${total}.`,
+            feedbackIncorrect: `Alex spent $${total} total, so the equation is $${latteCost} + ${sconeCount}x = $${total}.`,
+            highlights: [`$${total}`],
+          },
+          {
+            instruction: `To solve for x, first subtract the latte cost from both sides: $${total} - $${latteCost}. What do you get?`,
             expectedAnswer: sconeTotal,
-            feedbackCorrect: `Correct! $${total} - $${latteCost} = $${sconeTotal} was spent on scones.`,
-            feedbackIncorrect: `Subtract the latte from the total: $${total} - $${latteCost} = $${sconeTotal}.`,
+            feedbackCorrect: `Correct! $${total} - $${latteCost} = $${sconeTotal}, so ${sconeCount}x = $${sconeTotal}.`,
+            feedbackIncorrect: `$${total} - $${latteCost} = $${sconeTotal}. So ${sconeCount}x = $${sconeTotal}.`,
             highlights: [`$${total}`, `$${latteCost}`],
           },
           {
-            instruction: `Now divide the scone total by the number of scones to find x. What is $${sconeTotal} ÷ ${sconeCount}?`,
+            instruction: `Now divide both sides by ${sconeCount} to find x. What is $${sconeTotal} ÷ ${sconeCount}?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Excellent! Each mini scone costs $${answer}!`,
-            feedbackIncorrect: `$${sconeTotal} ÷ ${sconeCount} = $${answer} per scone.`,
+            feedbackCorrect: `Excellent! x = $${answer}. Each mini scone cost $${answer}.`,
+            feedbackIncorrect: `$${sconeTotal} ÷ ${sconeCount} = $${answer}. So x = $${answer} per scone.`,
             highlights: [`${sconeCount} mini scones`],
+          },
+          {
+            instruction: `Check by plugging x = $${answer} back in. What is $${latteCost} + ${sconeCount} × $${answer}? (Should equal $${total}.)`,
+            expectedAnswer: total,
+            feedbackCorrect: `Verified! $${latteCost} + ${sconeCount} × $${answer} = $${total}. x = $${answer} is correct.`,
+            feedbackIncorrect: `$${latteCost} + ${sconeCount} × $${answer} = $${total}. That matches the total, so x = $${answer} is correct.`,
           },
         ];
       }
@@ -67,18 +80,30 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = bales for horses. First, convert ${m.w} ${m.f} to an improper fraction. What is the numerator? (Hint: ${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen})`,
+            instruction: `Let x = bales for horses. The horses are fed ${m.w} ${m.f} times as much as the cattle, so x = ${m.w} ${m.f} × ___. Look at the problem: what number fills the blank?`,
+            expectedAnswer: c,
+            feedbackCorrect: `Correct! The cattle get ${c} bales, so the equation is x = ${m.w} ${m.f} × ${c}.`,
+            feedbackIncorrect: `The cattle get ${c} bales each day, so the equation is x = ${m.w} ${m.f} × ${c}.`,
+            highlights: [`${c} bales of hay`],
+          },
+          {
+            instruction: `To solve x = ${m.w} ${m.f} × ${c}, first rewrite ${m.w} ${m.f} as an improper fraction. What is the numerator? (Hint: ${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen})`,
             expectedAnswer: m.impNum,
-            feedbackCorrect: `Correct! ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.`,
-            feedbackIncorrect: `${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen} = ${m.impNum}. So ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.`,
+            feedbackCorrect: `Correct! ${m.w} ${m.f} = ${m.impNum}/${m.impDen}, so x = ${m.impNum}/${m.impDen} × ${c}.`,
+            feedbackIncorrect: `${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen} = ${m.impNum}. So x = ${m.impNum}/${m.impDen} × ${c}.`,
             highlights: [`${m.w} ${m.f} times as much`],
           },
           {
-            instruction: `Now multiply: ${m.impNum}/${m.impDen} × ${c} = ${product}/${m.impDen}. What does that simplify to?`,
+            instruction: `Now multiply to find x: ${m.impNum}/${m.impDen} × ${c} = ${product}/${m.impDen}. What does x equal?`,
             expectedAnswer: ans,
-            feedbackCorrect: `Excellent! The horses are fed ${ans} bales of hay!`,
-            feedbackIncorrect: `${product} ÷ ${m.impDen} = ${ans}. The horses are fed ${ans} bales.`,
-            highlights: [`${c} bales of hay`],
+            feedbackCorrect: `Excellent! x = ${ans}. The horses are fed ${ans} bales of hay.`,
+            feedbackIncorrect: `${product} ÷ ${m.impDen} = ${ans}. So x = ${ans} bales.`,
+          },
+          {
+            instruction: `Check by plugging x back in. The equation x × ${m.impDen} = ${m.impNum} × ${c} should hold. What is ${ans} × ${m.impDen}?`,
+            expectedAnswer: product,
+            feedbackCorrect: `Verified! ${ans} × ${m.impDen} = ${product} = ${m.impNum} × ${c}. x = ${ans} is correct.`,
+            feedbackIncorrect: `${ans} × ${m.impDen} = ${product}, which equals ${m.impNum} × ${c} = ${product}. x = ${ans} checks out.`,
           },
         ];
       }
@@ -107,18 +132,30 @@ const templates: Template[] = [
         if (guided) {
           q.steps = [
             {
-              instruction: `Let x = blocks on Tuesday. First, convert 2 1/3 to an improper fraction. What is the numerator? (Hint: 2 × 3 + 1)`,
+              instruction: `Let x = blocks on Tuesday. Tuesday was 3 times as many as Monday's 2 1/3 blocks. The equation is x = ___ × 2 1/3. What number fills the blank?`,
+              expectedAnswer: 3,
+              feedbackCorrect: `Correct! x = 3 × 2 1/3.`,
+              feedbackIncorrect: `Tuesday = 3 × Monday, so x = 3 × 2 1/3.`,
+              highlights: ['3 times as many'],
+            },
+            {
+              instruction: `To solve x = 3 × 2 1/3, first rewrite 2 1/3 as an improper fraction. What is the numerator? (Hint: 2 × 3 + 1)`,
               expectedAnswer: 7,
-              feedbackCorrect: `Correct! 2 1/3 = 7/3.`,
-              feedbackIncorrect: `2 × 3 + 1 = 7. So 2 1/3 = 7/3.`,
+              feedbackCorrect: `Correct! 2 1/3 = 7/3, so x = 3 × 7/3.`,
+              feedbackIncorrect: `2 × 3 + 1 = 7. So x = 3 × 7/3.`,
               highlights: ['2 1/3 city blocks'],
             },
             {
-              instruction: `Now multiply: 3 × 7/3 = 21/3. What does that simplify to?`,
+              instruction: `Now multiply to find x: 3 × 7/3 = 21/3. What does x equal?`,
               expectedAnswer: 7,
-              feedbackCorrect: `Excellent! The team cleaned 7 city blocks on Tuesday!`,
-              feedbackIncorrect: `21 ÷ 3 = 7 city blocks.`,
-              highlights: ['3 times as many'],
+              feedbackCorrect: `Excellent! x = 7. The team cleaned 7 city blocks on Tuesday.`,
+              feedbackIncorrect: `21 ÷ 3 = 7. So x = 7 city blocks.`,
+            },
+            {
+              instruction: `Check by reversing the division. You divided 21 by 3 to get x. What is x × 3? (Should get back 21.)`,
+              expectedAnswer: 21,
+              feedbackCorrect: `Verified! 7 × 3 = 21. x = 7 is correct.`,
+              feedbackIncorrect: `7 × 3 = 21. That matches, so x = 7 is correct.`,
             },
           ];
         }
@@ -134,18 +171,30 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = blocks on Tuesday. First, convert ${w} ${f}/3 to an improper fraction. What is the numerator? (Hint: ${w} × 3 + ${f})`,
+            instruction: `Let x = blocks on Tuesday. Tuesday was ${m} times as many as Monday's ${w} ${f}/3 blocks. The equation is x = ___ × ${w} ${f}/3. What number fills the blank?`,
+            expectedAnswer: m,
+            feedbackCorrect: `Correct! x = ${m} × ${w} ${f}/3.`,
+            feedbackIncorrect: `Tuesday = ${m} × Monday, so x = ${m} × ${w} ${f}/3.`,
+            highlights: [`${m} times as many`],
+          },
+          {
+            instruction: `To solve x = ${m} × ${w} ${f}/3, first rewrite ${w} ${f}/3 as an improper fraction. What is the numerator? (Hint: ${w} × 3 + ${f})`,
             expectedAnswer: impNum,
-            feedbackCorrect: `Correct! ${w} ${f}/3 = ${impNum}/3.`,
-            feedbackIncorrect: `${w} × 3 + ${f} = ${impNum}. So ${w} ${f}/3 = ${impNum}/3.`,
+            feedbackCorrect: `Correct! ${w} ${f}/3 = ${impNum}/3, so x = ${m} × ${impNum}/3.`,
+            feedbackIncorrect: `${w} × 3 + ${f} = ${impNum}. So x = ${m} × ${impNum}/3.`,
             highlights: [`${w} ${f}/3 city blocks`],
           },
           {
-            instruction: `Now multiply: ${m} × ${impNum}/3 = ${product}/3. What does that simplify to?`,
+            instruction: `Now multiply to find x: ${m} × ${impNum}/3 = ${product}/3. What does x equal?`,
             expectedAnswer: aW,
-            feedbackCorrect: `Excellent! The team cleaned ${aW} city blocks on Tuesday!`,
-            feedbackIncorrect: `${product} ÷ 3 = ${aW} city blocks.`,
-            highlights: [`${m} times as many`],
+            feedbackCorrect: `Excellent! x = ${aW}. The team cleaned ${aW} city blocks on Tuesday.`,
+            feedbackIncorrect: `${product} ÷ 3 = ${aW}. So x = ${aW} city blocks.`,
+          },
+          {
+            instruction: `Check by reversing the division. You divided ${product} by 3 to get x. What is x × 3? (Should get back ${product}.)`,
+            expectedAnswer: product,
+            feedbackCorrect: `Verified! ${aW} × 3 = ${product}. x = ${aW} is correct.`,
+            feedbackIncorrect: `${aW} × 3 = ${product}. That matches, so x = ${aW} is correct.`,
           },
         ];
       }
@@ -173,18 +222,30 @@ const templates: Template[] = [
         if (guided) {
           q.steps = [
             {
-              instruction: `Let x = cups Ben used. First, convert 4 1/3 to an improper fraction. What is the numerator? (Hint: 4 × 3 + 1)`,
+              instruction: `Let x = cups Ben used. Ben used 4 1/3 times as much as Vincent. The equation is x = 4 1/3 × ___. Look at the problem: how many cups did Vincent use?`,
+              expectedAnswer: 3,
+              feedbackCorrect: `Correct! Vincent used 3 cups, so x = 4 1/3 × 3.`,
+              feedbackIncorrect: `Vincent used 3 cups, so x = 4 1/3 × 3.`,
+              highlights: ['3 cups of lemonade'],
+            },
+            {
+              instruction: `To solve x = 4 1/3 × 3, first rewrite 4 1/3 as an improper fraction. What is the numerator? (Hint: 4 × 3 + 1)`,
               expectedAnswer: 13,
-              feedbackCorrect: `Correct! 4 1/3 = 13/3.`,
-              feedbackIncorrect: `4 × 3 + 1 = 13. So 4 1/3 = 13/3.`,
+              feedbackCorrect: `Correct! 4 1/3 = 13/3, so x = 13/3 × 3.`,
+              feedbackIncorrect: `4 × 3 + 1 = 13. So x = 13/3 × 3.`,
               highlights: ['4 1/3 times as much'],
             },
             {
-              instruction: `Now multiply: 13/3 × 3 = 39/3. What does that simplify to?`,
+              instruction: `Now multiply to find x: 13/3 × 3 = 39/3. What does x equal?`,
               expectedAnswer: 13,
-              feedbackCorrect: `Excellent! Ben used 13 cups of lemonade!`,
-              feedbackIncorrect: `39 ÷ 3 = 13 cups.`,
-              highlights: ['3 cups of lemonade'],
+              feedbackCorrect: `Excellent! x = 13. Ben used 13 cups of lemonade.`,
+              feedbackIncorrect: `39 ÷ 3 = 13. So x = 13 cups.`,
+            },
+            {
+              instruction: `Check by reversing the division. You divided 39 by 3 to get x. What is x × 3? (Should get back 39.)`,
+              expectedAnswer: 39,
+              feedbackCorrect: `Verified! 13 × 3 = 39. x = 13 is correct.`,
+              feedbackIncorrect: `13 × 3 = 39. That matches, so x = 13 is correct.`,
             },
           ];
         }
@@ -200,18 +261,30 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = cups Ben used. First, convert ${wM} ${fM}/3 to an improper fraction. What is the numerator? (Hint: ${wM} × 3 + ${fM})`,
+            instruction: `Let x = cups Ben used. Ben used ${wM} ${fM}/3 times as much as Vincent. The equation is x = ${wM} ${fM}/3 × ___. Look at the problem: how many cups did Vincent use?`,
+            expectedAnswer: v,
+            feedbackCorrect: `Correct! Vincent used ${v} cups, so x = ${wM} ${fM}/3 × ${v}.`,
+            feedbackIncorrect: `Vincent used ${v} cups, so x = ${wM} ${fM}/3 × ${v}.`,
+            highlights: [`${v} cups of lemonade`],
+          },
+          {
+            instruction: `To solve x = ${wM} ${fM}/3 × ${v}, first rewrite ${wM} ${fM}/3 as an improper fraction. What is the numerator? (Hint: ${wM} × 3 + ${fM})`,
             expectedAnswer: impNum,
-            feedbackCorrect: `Correct! ${wM} ${fM}/3 = ${impNum}/3.`,
-            feedbackIncorrect: `${wM} × 3 + ${fM} = ${impNum}. So ${wM} ${fM}/3 = ${impNum}/3.`,
+            feedbackCorrect: `Correct! ${wM} ${fM}/3 = ${impNum}/3, so x = ${impNum}/3 × ${v}.`,
+            feedbackIncorrect: `${wM} × 3 + ${fM} = ${impNum}. So x = ${impNum}/3 × ${v}.`,
             highlights: [`${wM} ${fM}/3 times as much`],
           },
           {
-            instruction: `Now multiply: ${impNum}/3 × ${v} = ${product}/3. What does that simplify to?`,
+            instruction: `Now multiply to find x: ${impNum}/3 × ${v} = ${product}/3. What does x equal?`,
             expectedAnswer: aW,
-            feedbackCorrect: `Excellent! Ben used ${aW} cups of lemonade!`,
-            feedbackIncorrect: `${product} ÷ 3 = ${aW} cups.`,
-            highlights: [`${v} cups of lemonade`],
+            feedbackCorrect: `Excellent! x = ${aW}. Ben used ${aW} cups of lemonade.`,
+            feedbackIncorrect: `${product} ÷ 3 = ${aW}. So x = ${aW} cups.`,
+          },
+          {
+            instruction: `Check by reversing the division. You divided ${product} by 3 to get x. What is x × 3? (Should get back ${product}.)`,
+            expectedAnswer: product,
+            feedbackCorrect: `Verified! ${aW} × 3 = ${product}. x = ${aW} is correct.`,
+            feedbackIncorrect: `${aW} × 3 = ${product}. That matches, so x = ${aW} is correct.`,
           },
         ];
       }
@@ -236,18 +309,31 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = number of cards. First, how many minutes does Jamie have left after homework? What is ${totalMinutes} - ${homeworkMinutes}?`,
+            instruction: `Let x = number of cards Jamie can make. He spends ${homeworkMinutes} min on homework and ${minutesPerCard}x min on cards. The total practice time equals ___ minutes. Look at the problem: what is his total time?`,
+            expectedAnswer: totalMinutes,
+            feedbackCorrect: `Correct! Jamie has ${totalMinutes} min total, so ${homeworkMinutes} + ${minutesPerCard}x ≤ ${totalMinutes}.`,
+            feedbackIncorrect: `Jamie has ${totalMinutes} minutes total, so ${homeworkMinutes} + ${minutesPerCard}x ≤ ${totalMinutes}.`,
+            highlights: [`${totalMinutes} minutes`],
+          },
+          {
+            instruction: `Subtract the homework time from both sides: ${totalMinutes} − ${homeworkMinutes}. How many minutes remain for cards?`,
             expectedAnswer: remaining,
-            feedbackCorrect: `Correct! ${totalMinutes} - ${homeworkMinutes} = ${remaining} minutes left.`,
-            feedbackIncorrect: `${totalMinutes} - ${homeworkMinutes} = ${remaining} minutes remaining.`,
+            feedbackCorrect: `Correct! ${totalMinutes} − ${homeworkMinutes} = ${remaining} min left for cards, so ${minutesPerCard}x ≤ ${remaining}.`,
+            feedbackIncorrect: `${totalMinutes} − ${homeworkMinutes} = ${remaining} min remaining. So ${minutesPerCard}x ≤ ${remaining}.`,
             highlights: [`${totalMinutes} minutes`, `${homeworkMinutes} minutes`],
           },
           {
-            instruction: `Now divide the remaining time by minutes per card. What is ${remaining} ÷ ${minutesPerCard}?`,
+            instruction: `Now find x: how many whole cards (each ${minutesPerCard} min) fit in ${remaining} min?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Excellent! Jamie can make ${answer} cards!`,
-            feedbackIncorrect: `${remaining} ÷ ${minutesPerCard} = ${answer} cards.`,
+            feedbackCorrect: `Excellent! x = ${answer}. Jamie can make ${answer} cards before practice.`,
+            feedbackIncorrect: `${answer} cards take ${answer * minutesPerCard} min, and ${answer + 1} would take ${(answer + 1) * minutesPerCard} min (too much). So x = ${answer}.`,
             highlights: [`${minutesPerCard} minutes`],
+          },
+          {
+            instruction: `Check by plugging x = ${answer} back in. How many minutes do ${answer} cards take? What is ${answer} × ${minutesPerCard}? (Should fit in ${remaining} min.)`,
+            expectedAnswer: answer * minutesPerCard,
+            feedbackCorrect: `Verified! ${answer} × ${minutesPerCard} = ${answer * minutesPerCard} min, which fits in the ${remaining} min available. x = ${answer} is correct.`,
+            feedbackIncorrect: `${answer} × ${minutesPerCard} = ${answer * minutesPerCard} min, which fits in ${remaining} min. x = ${answer} checks out.`,
           },
         ];
       }
@@ -271,18 +357,31 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = Sophia's water guns. "Twice as many" means multiply by 2. What is 2 × ${lincolnGuns}?`,
-            expectedAnswer: doubled,
-            feedbackCorrect: `Correct! 2 × ${lincolnGuns} = ${doubled}.`,
-            feedbackIncorrect: `2 × ${lincolnGuns} = ${doubled}.`,
-            highlights: [`${lincolnGuns} water guns`, 'twice as many'],
+            instruction: `Let x = Sophia's water guns. "${lessAmount} less than twice as many as Lincoln." Equation: x = 2 × ___ − ${lessAmount}. Look at the problem: how many does Lincoln have?`,
+            expectedAnswer: lincolnGuns,
+            feedbackCorrect: `Correct! Lincoln has ${lincolnGuns} guns, so x = 2 × ${lincolnGuns} − ${lessAmount}.`,
+            feedbackIncorrect: `Lincoln has ${lincolnGuns} water guns, so x = 2 × ${lincolnGuns} − ${lessAmount}.`,
+            highlights: [`${lincolnGuns} water guns`],
           },
           {
-            instruction: `Now subtract ${lessAmount} because the problem says "${lessAmount} less than." What is ${doubled} - ${lessAmount}?`,
+            instruction: `To solve x = 2 × ${lincolnGuns} − ${lessAmount}, first compute 2 × ${lincolnGuns}. What is 2 × ${lincolnGuns}?`,
+            expectedAnswer: doubled,
+            feedbackCorrect: `Correct! 2 × ${lincolnGuns} = ${doubled}, so x = ${doubled} − ${lessAmount}.`,
+            feedbackIncorrect: `2 × ${lincolnGuns} = ${doubled}. So x = ${doubled} − ${lessAmount}.`,
+            highlights: ['twice as many'],
+          },
+          {
+            instruction: `Now subtract ${lessAmount} to find x. What is ${doubled} − ${lessAmount}?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Excellent! Sophia has ${answer} water guns!`,
-            feedbackIncorrect: `${doubled} - ${lessAmount} = ${answer}. Sophia has ${answer} water guns.`,
+            feedbackCorrect: `Excellent! x = ${answer}. Sophia has ${answer} water guns.`,
+            feedbackIncorrect: `${doubled} − ${lessAmount} = ${answer}. So x = ${answer} water guns.`,
             highlights: [`${lessAmount} less than twice`],
+          },
+          {
+            instruction: `Check by plugging x = ${answer} back in. Add ${lessAmount}, then divide by 2. You should get Lincoln's count. What is (${answer} + ${lessAmount}) ÷ 2?`,
+            expectedAnswer: lincolnGuns,
+            feedbackCorrect: `Verified! (${answer} + ${lessAmount}) ÷ 2 = ${lincolnGuns}, matching Lincoln's count. x = ${answer} is correct.`,
+            feedbackIncorrect: `(${answer} + ${lessAmount}) ÷ 2 = ${lincolnGuns}, which matches Lincoln's count. x = ${answer} checks out.`,
           },
         ];
       }
@@ -308,18 +407,31 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = Kelly's deadlift. First, find ${fractionWord} of ${mickeyWeight}. What is ${mickeyWeight} ÷ ${divisor}?`,
-            expectedAnswer: fractionResult,
-            feedbackCorrect: `Correct! ${fractionWord} of ${mickeyWeight} = ${fractionResult} lbs.`,
-            feedbackIncorrect: `${mickeyWeight} ÷ ${divisor} = ${fractionResult} lbs.`,
-            highlights: [`${mickeyWeight} lbs`, `${fractionWord} of the weight`],
+            instruction: `Let x = Kelly's deadlift. Kelly lifts ${lessAmount} lbs less than ${fractionWord} of Mickey's lift. Equation: x = (___ ÷ ${divisor}) − ${lessAmount}. Look at the problem: how much does Mickey lift?`,
+            expectedAnswer: mickeyWeight,
+            feedbackCorrect: `Correct! Mickey lifts ${mickeyWeight} lbs, so x = (${mickeyWeight} ÷ ${divisor}) − ${lessAmount}.`,
+            feedbackIncorrect: `Mickey lifts ${mickeyWeight} lbs, so x = (${mickeyWeight} ÷ ${divisor}) − ${lessAmount}.`,
+            highlights: [`${mickeyWeight} lbs`],
           },
           {
-            instruction: `Now subtract ${lessAmount} because the problem says "${lessAmount} pounds less." What is ${fractionResult} - ${lessAmount}?`,
+            instruction: `To solve x = (${mickeyWeight} ÷ ${divisor}) − ${lessAmount}, first find ${fractionWord} of ${mickeyWeight}. What is ${mickeyWeight} ÷ ${divisor}?`,
+            expectedAnswer: fractionResult,
+            feedbackCorrect: `Correct! ${fractionWord} of ${mickeyWeight} = ${fractionResult} lbs, so x = ${fractionResult} − ${lessAmount}.`,
+            feedbackIncorrect: `${mickeyWeight} ÷ ${divisor} = ${fractionResult} lbs. So x = ${fractionResult} − ${lessAmount}.`,
+            highlights: [`${fractionWord} of the weight`],
+          },
+          {
+            instruction: `Now subtract ${lessAmount} to find x. What is ${fractionResult} − ${lessAmount}?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Excellent! Kelly can deadlift ${answer} lbs!`,
-            feedbackIncorrect: `${fractionResult} - ${lessAmount} = ${answer} lbs. Kelly can deadlift ${answer} lbs.`,
+            feedbackCorrect: `Excellent! x = ${answer}. Kelly can deadlift ${answer} lbs.`,
+            feedbackIncorrect: `${fractionResult} − ${lessAmount} = ${answer}. So x = ${answer} lbs.`,
             highlights: [`${lessAmount} pounds less`],
+          },
+          {
+            instruction: `Check by plugging x = ${answer} back in. Add ${lessAmount}, then multiply by ${divisor}. You should get Mickey's weight. What is (${answer} + ${lessAmount}) × ${divisor}?`,
+            expectedAnswer: mickeyWeight,
+            feedbackCorrect: `Verified! (${answer} + ${lessAmount}) × ${divisor} = ${mickeyWeight}, matching Mickey's lift. x = ${answer} is correct.`,
+            feedbackIncorrect: `(${answer} + ${lessAmount}) × ${divisor} = ${mickeyWeight}, which matches Mickey's lift. x = ${answer} checks out.`,
           },
         ];
       }
@@ -345,18 +457,31 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = the cost of one bite. First, subtract the smoothie cost from the total. What is $${total} - $${smoothieCost}?`,
+            instruction: `Let x = cost of one bite. Priya spent $${smoothieCost} on the smoothie and ${biteCount}x on bites. Equation: $${smoothieCost} + ${biteCount}x = ___. Look at the problem: what number fills the blank?`,
+            expectedAnswer: total,
+            feedbackCorrect: `Correct! Priya spent $${total} total, so $${smoothieCost} + ${biteCount}x = $${total}.`,
+            feedbackIncorrect: `Priya spent $${total} total, so the equation is $${smoothieCost} + ${biteCount}x = $${total}.`,
+            highlights: [`$${total}`],
+          },
+          {
+            instruction: `To solve for x, first subtract the smoothie cost from both sides: $${total} - $${smoothieCost}. What do you get?`,
             expectedAnswer: biteTotal,
-            feedbackCorrect: `Correct! $${total} - $${smoothieCost} = $${biteTotal} was spent on bites.`,
-            feedbackIncorrect: `Subtract the smoothie from the total: $${total} - $${smoothieCost} = $${biteTotal}.`,
+            feedbackCorrect: `Correct! $${total} - $${smoothieCost} = $${biteTotal}, so ${biteCount}x = $${biteTotal}.`,
+            feedbackIncorrect: `$${total} - $${smoothieCost} = $${biteTotal}. So ${biteCount}x = $${biteTotal}.`,
             highlights: [`$${total}`, `$${smoothieCost}`],
           },
           {
-            instruction: `Now divide by the number of bites to find x. What is $${biteTotal} ÷ ${biteCount}?`,
+            instruction: `Now divide both sides by ${biteCount} to find x. What is $${biteTotal} ÷ ${biteCount}?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Excellent! Each energy bite costs $${answer}!`,
-            feedbackIncorrect: `$${biteTotal} ÷ ${biteCount} = $${answer} per bite.`,
+            feedbackCorrect: `Excellent! x = $${answer}. Each energy bite cost $${answer}.`,
+            feedbackIncorrect: `$${biteTotal} ÷ ${biteCount} = $${answer}. So x = $${answer} per bite.`,
             highlights: [`${biteCount} energy bites`],
+          },
+          {
+            instruction: `Check by plugging x = $${answer} back in. What is $${smoothieCost} + ${biteCount} × $${answer}? (Should equal $${total}.)`,
+            expectedAnswer: total,
+            feedbackCorrect: `Verified! $${smoothieCost} + ${biteCount} × $${answer} = $${total}. x = $${answer} is correct.`,
+            feedbackIncorrect: `$${smoothieCost} + ${biteCount} × $${answer} = $${total}. That matches the total, so x = $${answer} is correct.`,
           },
         ];
       }
@@ -384,18 +509,30 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = cups for bread. First, convert ${m.w} ${m.f} to an improper fraction. What is the numerator? (Hint: ${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen})`,
+            instruction: `Let x = cups for bread. She uses ${m.w} ${m.f} times as much flour as for muffins. The equation is x = ${m.w} ${m.f} × ___. Look at the problem: how many cups for muffins?`,
+            expectedAnswer: c,
+            feedbackCorrect: `Correct! The muffins use ${c} cups, so x = ${m.w} ${m.f} × ${c}.`,
+            feedbackIncorrect: `The muffins use ${c} cups, so x = ${m.w} ${m.f} × ${c}.`,
+            highlights: [`${c} cups of flour`],
+          },
+          {
+            instruction: `To solve x = ${m.w} ${m.f} × ${c}, first rewrite ${m.w} ${m.f} as an improper fraction. What is the numerator? (Hint: ${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen})`,
             expectedAnswer: m.impNum,
-            feedbackCorrect: `Correct! ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.`,
-            feedbackIncorrect: `${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen} = ${m.impNum}. So ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.`,
+            feedbackCorrect: `Correct! ${m.w} ${m.f} = ${m.impNum}/${m.impDen}, so x = ${m.impNum}/${m.impDen} × ${c}.`,
+            feedbackIncorrect: `${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen} = ${m.impNum}. So x = ${m.impNum}/${m.impDen} × ${c}.`,
             highlights: [`${m.w} ${m.f} times as much`],
           },
           {
-            instruction: `Now multiply: ${m.impNum}/${m.impDen} × ${c} = ${product}/${m.impDen}. What does that simplify to?`,
+            instruction: `Now multiply to find x: ${m.impNum}/${m.impDen} × ${c} = ${product}/${m.impDen}. What does x equal?`,
             expectedAnswer: ans,
-            feedbackCorrect: `Excellent! The baker uses ${ans} cups of flour for bread!`,
-            feedbackIncorrect: `${product} ÷ ${m.impDen} = ${ans}. She uses ${ans} cups.`,
-            highlights: [`${c} cups of flour`],
+            feedbackCorrect: `Excellent! x = ${ans}. She uses ${ans} cups of flour for the bread.`,
+            feedbackIncorrect: `${product} ÷ ${m.impDen} = ${ans}. So x = ${ans} cups.`,
+          },
+          {
+            instruction: `Check by reversing the division. You divided ${product} by ${m.impDen} to get x. What is x × ${m.impDen}? (Should get back ${product}.)`,
+            expectedAnswer: product,
+            feedbackCorrect: `Verified! ${ans} × ${m.impDen} = ${product}. x = ${ans} is correct.`,
+            feedbackIncorrect: `${ans} × ${m.impDen} = ${product}. That matches, so x = ${ans} is correct.`,
           },
         ];
       }
@@ -418,11 +555,24 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = stops on Saturday. "Times as many" means multiply. What is ${multiplier} × ${friday}?`,
+            instruction: `Let x = Saturday stops. She made ${multiplier} times as many stops on Saturday as on Friday. Equation: x = ${multiplier} × ___. Look at the problem: how many stops on Friday?`,
+            expectedAnswer: friday,
+            feedbackCorrect: `Correct! Friday had ${friday} stops, so x = ${multiplier} × ${friday}.`,
+            feedbackIncorrect: `Friday had ${friday} stops, so x = ${multiplier} × ${friday}.`,
+            highlights: [`${friday} stops`],
+          },
+          {
+            instruction: `Now solve x = ${multiplier} × ${friday}. What does x equal?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Correct! She made ${answer} stops on Saturday!`,
-            feedbackIncorrect: `${multiplier} × ${friday} = ${answer} stops.`,
+            feedbackCorrect: `Excellent! x = ${answer}. She made ${answer} stops on Saturday.`,
+            feedbackIncorrect: `${multiplier} × ${friday} = ${answer}. So x = ${answer} stops.`,
             highlights: [`${multiplier} times as many`],
+          },
+          {
+            instruction: `Check by reversing the multiplication. Divide x by ${multiplier}. You should get Friday's count. What is ${answer} ÷ ${multiplier}?`,
+            expectedAnswer: friday,
+            feedbackCorrect: `Verified! ${answer} ÷ ${multiplier} = ${friday}, matching Friday's stops. x = ${answer} is correct.`,
+            feedbackIncorrect: `${answer} ÷ ${multiplier} = ${friday}, which matches Friday. x = ${answer} checks out.`,
           },
         ];
       }
@@ -448,18 +598,31 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = number of problems. First, how many minutes does Noah have left after his snack? What is ${totalMin} - ${snackMin}?`,
+            instruction: `Let x = number of problems. Noah spends ${snackMin} min on a snack and ${perProblem}x min on problems. Equation: ${snackMin} + ${perProblem}x = ___. Look at the problem: what is his total time?`,
+            expectedAnswer: totalMin,
+            feedbackCorrect: `Correct! Noah has ${totalMin} min total, so ${snackMin} + ${perProblem}x = ${totalMin}.`,
+            feedbackIncorrect: `Noah has ${totalMin} minutes total, so ${snackMin} + ${perProblem}x = ${totalMin}.`,
+            highlights: [`${totalMin} minutes`],
+          },
+          {
+            instruction: `To solve for x, first subtract the snack time from both sides: ${totalMin} − ${snackMin}. What do you get?`,
             expectedAnswer: remaining,
-            feedbackCorrect: `Correct! ${totalMin} - ${snackMin} = ${remaining} minutes left.`,
-            feedbackIncorrect: `${totalMin} - ${snackMin} = ${remaining} minutes remaining.`,
+            feedbackCorrect: `Correct! ${totalMin} − ${snackMin} = ${remaining}, so ${perProblem}x = ${remaining}.`,
+            feedbackIncorrect: `${totalMin} − ${snackMin} = ${remaining}. So ${perProblem}x = ${remaining}.`,
             highlights: [`${totalMin} minutes`, `${snackMin} minutes`],
           },
           {
-            instruction: `Now divide the remaining time by minutes per problem. What is ${remaining} ÷ ${perProblem}?`,
+            instruction: `Now divide both sides by ${perProblem} to find x. What is ${remaining} ÷ ${perProblem}?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Excellent! Noah can finish ${answer} problems!`,
-            feedbackIncorrect: `${remaining} ÷ ${perProblem} = ${answer} problems.`,
+            feedbackCorrect: `Excellent! x = ${answer}. Noah can finish ${answer} problems.`,
+            feedbackIncorrect: `${remaining} ÷ ${perProblem} = ${answer}. So x = ${answer} problems.`,
             highlights: [`${perProblem} minutes`],
+          },
+          {
+            instruction: `Check by plugging x = ${answer} back in. What is ${snackMin} + ${perProblem} × ${answer}? (Should equal ${totalMin}.)`,
+            expectedAnswer: totalMin,
+            feedbackCorrect: `Verified! ${snackMin} + ${perProblem} × ${answer} = ${totalMin}. x = ${answer} is correct.`,
+            feedbackIncorrect: `${snackMin} + ${perProblem} × ${answer} = ${totalMin}. That matches the total time, so x = ${answer} is correct.`,
           },
         ];
       }
@@ -485,18 +648,31 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = green turtle's weight. First, find ${fractionWord} of ${totalWeight}. What is ${totalWeight} ÷ ${divisor}?`,
-            expectedAnswer: fractionResult,
-            feedbackCorrect: `Correct! ${fractionWord} of ${totalWeight} = ${fractionResult} lbs.`,
-            feedbackIncorrect: `${totalWeight} ÷ ${divisor} = ${fractionResult} lbs.`,
-            highlights: [`${totalWeight} pounds`, `${fractionWord} of the weight`],
+            instruction: `Let x = green turtle's weight. The green turtle weighs ${lessAmount} lbs less than ${fractionWord} of the leatherback. Equation: x = (___ ÷ ${divisor}) − ${lessAmount}. Look at the problem: how much does the leatherback weigh?`,
+            expectedAnswer: totalWeight,
+            feedbackCorrect: `Correct! The leatherback weighs ${totalWeight} lbs, so x = (${totalWeight} ÷ ${divisor}) − ${lessAmount}.`,
+            feedbackIncorrect: `The leatherback weighs ${totalWeight} lbs, so x = (${totalWeight} ÷ ${divisor}) − ${lessAmount}.`,
+            highlights: [`${totalWeight} pounds`],
           },
           {
-            instruction: `Now subtract ${lessAmount} because the problem says "${lessAmount} pounds less." What is ${fractionResult} - ${lessAmount}?`,
+            instruction: `To solve x = (${totalWeight} ÷ ${divisor}) − ${lessAmount}, first find ${fractionWord} of ${totalWeight}. What is ${totalWeight} ÷ ${divisor}?`,
+            expectedAnswer: fractionResult,
+            feedbackCorrect: `Correct! ${fractionWord} of ${totalWeight} = ${fractionResult} lbs, so x = ${fractionResult} − ${lessAmount}.`,
+            feedbackIncorrect: `${totalWeight} ÷ ${divisor} = ${fractionResult} lbs. So x = ${fractionResult} − ${lessAmount}.`,
+            highlights: [`${fractionWord} of the weight`],
+          },
+          {
+            instruction: `Now subtract ${lessAmount} to find x. What is ${fractionResult} − ${lessAmount}?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Excellent! The green sea turtle weighs ${answer} lbs!`,
-            feedbackIncorrect: `${fractionResult} - ${lessAmount} = ${answer} lbs.`,
+            feedbackCorrect: `Excellent! x = ${answer}. The green sea turtle weighs ${answer} lbs.`,
+            feedbackIncorrect: `${fractionResult} − ${lessAmount} = ${answer}. So x = ${answer} lbs.`,
             highlights: [`${lessAmount} pounds less`],
+          },
+          {
+            instruction: `Check by plugging x = ${answer} back in. Add ${lessAmount}, then multiply by ${divisor}. You should get the leatherback's weight. What is (${answer} + ${lessAmount}) × ${divisor}?`,
+            expectedAnswer: totalWeight,
+            feedbackCorrect: `Verified! (${answer} + ${lessAmount}) × ${divisor} = ${totalWeight}, matching the leatherback. x = ${answer} is correct.`,
+            feedbackIncorrect: `(${answer} + ${lessAmount}) × ${divisor} = ${totalWeight}, which matches the leatherback's weight. x = ${answer} checks out.`,
           },
         ];
       }
@@ -524,18 +700,30 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = Marcus's height. First, convert ${m.w} ${m.f} to an improper fraction. What is the numerator? (Hint: ${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen})`,
+            instruction: `Let x = Marcus's height. Marcus's sunflower is ${m.w} ${m.f} times as tall as Elena's. The equation is x = ${m.w} ${m.f} × ___. Look at the problem: how tall is Elena's sunflower?`,
+            expectedAnswer: c,
+            feedbackCorrect: `Correct! Elena's sunflower is ${c} inches tall, so x = ${m.w} ${m.f} × ${c}.`,
+            feedbackIncorrect: `Elena's sunflower is ${c} inches, so x = ${m.w} ${m.f} × ${c}.`,
+            highlights: [`${c} inches tall`],
+          },
+          {
+            instruction: `To solve x = ${m.w} ${m.f} × ${c}, first rewrite ${m.w} ${m.f} as an improper fraction. What is the numerator? (Hint: ${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen})`,
             expectedAnswer: m.impNum,
-            feedbackCorrect: `Correct! ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.`,
-            feedbackIncorrect: `${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen} = ${m.impNum}. So ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.`,
+            feedbackCorrect: `Correct! ${m.w} ${m.f} = ${m.impNum}/${m.impDen}, so x = ${m.impNum}/${m.impDen} × ${c}.`,
+            feedbackIncorrect: `${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen} = ${m.impNum}. So x = ${m.impNum}/${m.impDen} × ${c}.`,
             highlights: [`${m.w} ${m.f} times as tall`],
           },
           {
-            instruction: `Now multiply: ${m.impNum}/${m.impDen} × ${c} = ${product}/${m.impDen}. What does that simplify to?`,
+            instruction: `Now multiply to find x: ${m.impNum}/${m.impDen} × ${c} = ${product}/${m.impDen}. What does x equal?`,
             expectedAnswer: ans,
-            feedbackCorrect: `Excellent! Marcus's sunflower grew ${ans} inches!`,
-            feedbackIncorrect: `${product} ÷ ${m.impDen} = ${ans}. Marcus's sunflower is ${ans} inches tall.`,
-            highlights: [`${c} inches tall`],
+            feedbackCorrect: `Excellent! x = ${ans}. Marcus's sunflower grew ${ans} inches tall.`,
+            feedbackIncorrect: `${product} ÷ ${m.impDen} = ${ans}. So x = ${ans} inches.`,
+          },
+          {
+            instruction: `Check by reversing the division. You divided ${product} by ${m.impDen} to get x. What is x × ${m.impDen}? (Should get back ${product}.)`,
+            expectedAnswer: product,
+            feedbackCorrect: `Verified! ${ans} × ${m.impDen} = ${product}. x = ${ans} is correct.`,
+            feedbackIncorrect: `${ans} × ${m.impDen} = ${product}. That matches, so x = ${ans} is correct.`,
           },
         ];
       }
@@ -561,18 +749,31 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = the cost of one pack. First, subtract the sketchbook cost from the total. What is $${total} - $${sketchbookCost}?`,
+            instruction: `Let x = cost of one pack. Jordan spent $${sketchbookCost} on the sketchbook and ${packCount}x on pencil packs. Equation: $${sketchbookCost} + ${packCount}x = ___. Look at the problem: what number fills the blank?`,
+            expectedAnswer: total,
+            feedbackCorrect: `Correct! Jordan spent $${total} total, so $${sketchbookCost} + ${packCount}x = $${total}.`,
+            feedbackIncorrect: `Jordan spent $${total} total, so the equation is $${sketchbookCost} + ${packCount}x = $${total}.`,
+            highlights: [`$${total}`],
+          },
+          {
+            instruction: `To solve for x, first subtract the sketchbook cost from both sides: $${total} - $${sketchbookCost}. What do you get?`,
             expectedAnswer: packTotal,
-            feedbackCorrect: `Correct! $${total} - $${sketchbookCost} = $${packTotal} was spent on packs.`,
-            feedbackIncorrect: `Subtract the sketchbook from the total: $${total} - $${sketchbookCost} = $${packTotal}.`,
+            feedbackCorrect: `Correct! $${total} - $${sketchbookCost} = $${packTotal}, so ${packCount}x = $${packTotal}.`,
+            feedbackIncorrect: `$${total} - $${sketchbookCost} = $${packTotal}. So ${packCount}x = $${packTotal}.`,
             highlights: [`$${total}`, `$${sketchbookCost}`],
           },
           {
-            instruction: `Now divide by the number of packs to find x. What is $${packTotal} ÷ ${packCount}?`,
+            instruction: `Now divide both sides by ${packCount} to find x. What is $${packTotal} ÷ ${packCount}?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Excellent! Each pack costs $${answer}!`,
-            feedbackIncorrect: `$${packTotal} ÷ ${packCount} = $${answer} per pack.`,
+            feedbackCorrect: `Excellent! x = $${answer}. Each pack of colored pencils cost $${answer}.`,
+            feedbackIncorrect: `$${packTotal} ÷ ${packCount} = $${answer}. So x = $${answer} per pack.`,
             highlights: [`${packCount} packs`],
+          },
+          {
+            instruction: `Check by plugging x = $${answer} back in. What is $${sketchbookCost} + ${packCount} × $${answer}? (Should equal $${total}.)`,
+            expectedAnswer: total,
+            feedbackCorrect: `Verified! $${sketchbookCost} + ${packCount} × $${answer} = $${total}. x = $${answer} is correct.`,
+            feedbackIncorrect: `$${sketchbookCost} + ${packCount} × $${answer} = $${total}. That matches the total, so x = $${answer} is correct.`,
           },
         ];
       }
@@ -596,18 +797,31 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = neighbor's plants. "Twice as many" means multiply by 2. What is 2 × ${oliviaPlants}?`,
-            expectedAnswer: doubled,
-            feedbackCorrect: `Correct! 2 × ${oliviaPlants} = ${doubled}.`,
-            feedbackIncorrect: `2 × ${oliviaPlants} = ${doubled}.`,
-            highlights: [`${oliviaPlants} potted plants`, 'twice as many'],
+            instruction: `Let x = neighbor's plants. "${moreAmount} more than twice as many as Olivia." Equation: x = 2 × ___ + ${moreAmount}. Look at the problem: how many does Olivia have?`,
+            expectedAnswer: oliviaPlants,
+            feedbackCorrect: `Correct! Olivia has ${oliviaPlants} plants, so x = 2 × ${oliviaPlants} + ${moreAmount}.`,
+            feedbackIncorrect: `Olivia has ${oliviaPlants} plants, so x = 2 × ${oliviaPlants} + ${moreAmount}.`,
+            highlights: [`${oliviaPlants} potted plants`],
           },
           {
-            instruction: `Now add ${moreAmount} because the problem says "${moreAmount} more than." What is ${doubled} + ${moreAmount}?`,
+            instruction: `To solve x = 2 × ${oliviaPlants} + ${moreAmount}, first compute 2 × ${oliviaPlants}. What is 2 × ${oliviaPlants}?`,
+            expectedAnswer: doubled,
+            feedbackCorrect: `Correct! 2 × ${oliviaPlants} = ${doubled}, so x = ${doubled} + ${moreAmount}.`,
+            feedbackIncorrect: `2 × ${oliviaPlants} = ${doubled}. So x = ${doubled} + ${moreAmount}.`,
+            highlights: ['twice as many'],
+          },
+          {
+            instruction: `Now add ${moreAmount} to find x. What is ${doubled} + ${moreAmount}?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Excellent! The neighbor has ${answer} plants!`,
-            feedbackIncorrect: `${doubled} + ${moreAmount} = ${answer}. The neighbor has ${answer} plants.`,
+            feedbackCorrect: `Excellent! x = ${answer}. The neighbor has ${answer} plants.`,
+            feedbackIncorrect: `${doubled} + ${moreAmount} = ${answer}. So x = ${answer} plants.`,
             highlights: [`${moreAmount} more than twice`],
+          },
+          {
+            instruction: `Check by plugging x = ${answer} back in. Subtract ${moreAmount}, then divide by 2. You should get Olivia's count. What is (${answer} − ${moreAmount}) ÷ 2?`,
+            expectedAnswer: oliviaPlants,
+            feedbackCorrect: `Verified! (${answer} − ${moreAmount}) ÷ 2 = ${oliviaPlants}, matching Olivia's count. x = ${answer} is correct.`,
+            feedbackIncorrect: `(${answer} − ${moreAmount}) ÷ 2 = ${oliviaPlants}, which matches Olivia's count. x = ${answer} checks out.`,
           },
         ];
       }
@@ -633,18 +847,31 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = dolphin's length. First, find ${fractionWord} of ${whaleLength}. What is ${whaleLength} ÷ ${divisor}?`,
-            expectedAnswer: fractionResult,
-            feedbackCorrect: `Correct! ${fractionWord} of ${whaleLength} = ${fractionResult} feet.`,
-            feedbackIncorrect: `${whaleLength} ÷ ${divisor} = ${fractionResult} feet.`,
-            highlights: [`${whaleLength} feet`, `${fractionWord} the length`],
+            instruction: `Let x = dolphin's length. The dolphin is ${lessAmount} feet less than ${fractionWord} the blue whale's length. Equation: x = (___ ÷ ${divisor}) − ${lessAmount}. Look at the problem: how long is the blue whale?`,
+            expectedAnswer: whaleLength,
+            feedbackCorrect: `Correct! The blue whale is ${whaleLength} feet long, so x = (${whaleLength} ÷ ${divisor}) − ${lessAmount}.`,
+            feedbackIncorrect: `The blue whale is ${whaleLength} feet, so x = (${whaleLength} ÷ ${divisor}) − ${lessAmount}.`,
+            highlights: [`${whaleLength} feet`],
           },
           {
-            instruction: `Now subtract ${lessAmount} because the problem says "${lessAmount} feet less." What is ${fractionResult} - ${lessAmount}?`,
+            instruction: `To solve x = (${whaleLength} ÷ ${divisor}) − ${lessAmount}, first find ${fractionWord} of ${whaleLength}. What is ${whaleLength} ÷ ${divisor}?`,
+            expectedAnswer: fractionResult,
+            feedbackCorrect: `Correct! ${fractionWord} of ${whaleLength} = ${fractionResult} feet, so x = ${fractionResult} − ${lessAmount}.`,
+            feedbackIncorrect: `${whaleLength} ÷ ${divisor} = ${fractionResult} feet. So x = ${fractionResult} − ${lessAmount}.`,
+            highlights: [`${fractionWord} the length`],
+          },
+          {
+            instruction: `Now subtract ${lessAmount} to find x. What is ${fractionResult} − ${lessAmount}?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Excellent! The dolphin is ${answer} feet long!`,
-            feedbackIncorrect: `${fractionResult} - ${lessAmount} = ${answer} feet.`,
+            feedbackCorrect: `Excellent! x = ${answer}. The dolphin is ${answer} feet long.`,
+            feedbackIncorrect: `${fractionResult} − ${lessAmount} = ${answer}. So x = ${answer} feet.`,
             highlights: [`${lessAmount} feet less`],
+          },
+          {
+            instruction: `Check by plugging x = ${answer} back in. Add ${lessAmount}, then multiply by ${divisor}. You should get the whale's length. What is (${answer} + ${lessAmount}) × ${divisor}?`,
+            expectedAnswer: whaleLength,
+            feedbackCorrect: `Verified! (${answer} + ${lessAmount}) × ${divisor} = ${whaleLength}, matching the blue whale. x = ${answer} is correct.`,
+            feedbackIncorrect: `(${answer} + ${lessAmount}) × ${divisor} = ${whaleLength}, which matches the whale's length. x = ${answer} checks out.`,
           },
         ];
       }
@@ -670,18 +897,31 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = number of drills. First, how many minutes are left after warm-ups? What is ${totalMin} - ${warmupMin}?`,
+            instruction: `Let x = number of drills. Coach Tran spends ${warmupMin} min on warm-ups and ${perDrill}x min on drills. Equation: ${warmupMin} + ${perDrill}x = ___. Look at the problem: what is her total practice time?`,
+            expectedAnswer: totalMin,
+            feedbackCorrect: `Correct! Practice is ${totalMin} min total, so ${warmupMin} + ${perDrill}x = ${totalMin}.`,
+            feedbackIncorrect: `Practice is ${totalMin} minutes total, so ${warmupMin} + ${perDrill}x = ${totalMin}.`,
+            highlights: [`${totalMin} minutes`],
+          },
+          {
+            instruction: `To solve for x, first subtract the warm-up time from both sides: ${totalMin} − ${warmupMin}. What do you get?`,
             expectedAnswer: remaining,
-            feedbackCorrect: `Correct! ${totalMin} - ${warmupMin} = ${remaining} minutes left.`,
-            feedbackIncorrect: `${totalMin} - ${warmupMin} = ${remaining} minutes remaining.`,
+            feedbackCorrect: `Correct! ${totalMin} − ${warmupMin} = ${remaining}, so ${perDrill}x = ${remaining}.`,
+            feedbackIncorrect: `${totalMin} − ${warmupMin} = ${remaining}. So ${perDrill}x = ${remaining}.`,
             highlights: [`${totalMin} minutes`, `${warmupMin} minutes`],
           },
           {
-            instruction: `Now divide the remaining time by minutes per drill. What is ${remaining} ÷ ${perDrill}?`,
+            instruction: `Now divide both sides by ${perDrill} to find x. What is ${remaining} ÷ ${perDrill}?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Excellent! The team can complete ${answer} drills!`,
-            feedbackIncorrect: `${remaining} ÷ ${perDrill} = ${answer} drills.`,
+            feedbackCorrect: `Excellent! x = ${answer}. The team can complete ${answer} drills.`,
+            feedbackIncorrect: `${remaining} ÷ ${perDrill} = ${answer}. So x = ${answer} drills.`,
             highlights: [`${perDrill} minutes`],
+          },
+          {
+            instruction: `Check by plugging x = ${answer} back in. What is ${warmupMin} + ${perDrill} × ${answer}? (Should equal ${totalMin}.)`,
+            expectedAnswer: totalMin,
+            feedbackCorrect: `Verified! ${warmupMin} + ${perDrill} × ${answer} = ${totalMin}. x = ${answer} is correct.`,
+            feedbackIncorrect: `${warmupMin} + ${perDrill} × ${answer} = ${totalMin}. That matches the practice time, so x = ${answer} is correct.`,
           },
         ];
       }
@@ -709,18 +949,30 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = articles on Thursday. First, convert ${m.w} ${m.f} to an improper fraction. What is the numerator? (Hint: ${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen})`,
+            instruction: `Let x = articles on Thursday. Thursday she wrote ${m.w} ${m.f} times as many as Wednesday. The equation is x = ${m.w} ${m.f} × ___. Look at the problem: how many did she write Wednesday?`,
+            expectedAnswer: c,
+            feedbackCorrect: `Correct! Wednesday she wrote ${c} articles, so x = ${m.w} ${m.f} × ${c}.`,
+            feedbackIncorrect: `Wednesday she wrote ${c} articles, so x = ${m.w} ${m.f} × ${c}.`,
+            highlights: [`${c} articles`],
+          },
+          {
+            instruction: `To solve x = ${m.w} ${m.f} × ${c}, first rewrite ${m.w} ${m.f} as an improper fraction. What is the numerator? (Hint: ${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen})`,
             expectedAnswer: m.impNum,
-            feedbackCorrect: `Correct! ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.`,
-            feedbackIncorrect: `${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen} = ${m.impNum}. So ${m.w} ${m.f} = ${m.impNum}/${m.impDen}.`,
+            feedbackCorrect: `Correct! ${m.w} ${m.f} = ${m.impNum}/${m.impDen}, so x = ${m.impNum}/${m.impDen} × ${c}.`,
+            feedbackIncorrect: `${m.w} × ${m.impDen} + ${m.impNum - m.w * m.impDen} = ${m.impNum}. So x = ${m.impNum}/${m.impDen} × ${c}.`,
             highlights: [`${m.w} ${m.f} times as many`],
           },
           {
-            instruction: `Now multiply: ${m.impNum}/${m.impDen} × ${c} = ${product}/${m.impDen}. What does that simplify to?`,
+            instruction: `Now multiply to find x: ${m.impNum}/${m.impDen} × ${c} = ${product}/${m.impDen}. What does x equal?`,
             expectedAnswer: ans,
-            feedbackCorrect: `Excellent! She wrote ${ans} articles on Thursday!`,
-            feedbackIncorrect: `${product} ÷ ${m.impDen} = ${ans} articles.`,
-            highlights: [`${c} articles`],
+            feedbackCorrect: `Excellent! x = ${ans}. She wrote ${ans} articles on Thursday.`,
+            feedbackIncorrect: `${product} ÷ ${m.impDen} = ${ans}. So x = ${ans} articles.`,
+          },
+          {
+            instruction: `Check by reversing the division. You divided ${product} by ${m.impDen} to get x. What is x × ${m.impDen}? (Should get back ${product}.)`,
+            expectedAnswer: product,
+            feedbackCorrect: `Verified! ${ans} × ${m.impDen} = ${product}. x = ${ans} is correct.`,
+            feedbackIncorrect: `${ans} × ${m.impDen} = ${product}. That matches, so x = ${ans} is correct.`,
           },
         ];
       }
@@ -745,18 +997,31 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = Jada's shells. "${multiplier} times as many" means multiply. What is ${multiplier} × ${samShells}?`,
-            expectedAnswer: multiplied,
-            feedbackCorrect: `Correct! ${multiplier} × ${samShells} = ${multiplied}.`,
-            feedbackIncorrect: `${multiplier} × ${samShells} = ${multiplied}.`,
-            highlights: [`${samShells} shells`, `${multiplier} times as many`],
+            instruction: `Let x = Jada's shells. "${lessAmount} less than ${multiplier} times as many as Sam." Equation: x = ${multiplier} × ___ − ${lessAmount}. Look at the problem: how many shells did Sam collect?`,
+            expectedAnswer: samShells,
+            feedbackCorrect: `Correct! Sam collected ${samShells} shells, so x = ${multiplier} × ${samShells} − ${lessAmount}.`,
+            feedbackIncorrect: `Sam collected ${samShells} shells, so x = ${multiplier} × ${samShells} − ${lessAmount}.`,
+            highlights: [`${samShells} shells`],
           },
           {
-            instruction: `Now subtract ${lessAmount} because the problem says "${lessAmount} less than." What is ${multiplied} - ${lessAmount}?`,
+            instruction: `To solve x = ${multiplier} × ${samShells} − ${lessAmount}, first compute ${multiplier} × ${samShells}. What is ${multiplier} × ${samShells}?`,
+            expectedAnswer: multiplied,
+            feedbackCorrect: `Correct! ${multiplier} × ${samShells} = ${multiplied}, so x = ${multiplied} − ${lessAmount}.`,
+            feedbackIncorrect: `${multiplier} × ${samShells} = ${multiplied}. So x = ${multiplied} − ${lessAmount}.`,
+            highlights: [`${multiplier} times as many`],
+          },
+          {
+            instruction: `Now subtract ${lessAmount} to find x. What is ${multiplied} − ${lessAmount}?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Excellent! Jada collected ${answer} shells!`,
-            feedbackIncorrect: `${multiplied} - ${lessAmount} = ${answer}. Jada collected ${answer} shells.`,
+            feedbackCorrect: `Excellent! x = ${answer}. Jada collected ${answer} shells.`,
+            feedbackIncorrect: `${multiplied} − ${lessAmount} = ${answer}. So x = ${answer} shells.`,
             highlights: [`${lessAmount} less than`],
+          },
+          {
+            instruction: `Check by plugging x = ${answer} back in. Add ${lessAmount}, then divide by ${multiplier}. You should get Sam's count. What is (${answer} + ${lessAmount}) ÷ ${multiplier}?`,
+            expectedAnswer: samShells,
+            feedbackCorrect: `Verified! (${answer} + ${lessAmount}) ÷ ${multiplier} = ${samShells}, matching Sam's count. x = ${answer} is correct.`,
+            feedbackIncorrect: `(${answer} + ${lessAmount}) ÷ ${multiplier} = ${samShells}, which matches Sam's count. x = ${answer} checks out.`,
           },
         ];
       }
@@ -782,18 +1047,31 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = the cost of one bunch. First, subtract the honey cost from the total. What is $${total} - $${honeyCost}?`,
+            instruction: `Let x = cost of one bunch. Caleb spent $${honeyCost} on honey and ${bunchCount}x on bunches of flowers. Equation: $${honeyCost} + ${bunchCount}x = ___. Look at the problem: what number fills the blank?`,
+            expectedAnswer: total,
+            feedbackCorrect: `Correct! Caleb spent $${total} total, so $${honeyCost} + ${bunchCount}x = $${total}.`,
+            feedbackIncorrect: `Caleb spent $${total} total, so the equation is $${honeyCost} + ${bunchCount}x = $${total}.`,
+            highlights: [`$${total}`],
+          },
+          {
+            instruction: `To solve for x, first subtract the honey cost from both sides: $${total} - $${honeyCost}. What do you get?`,
             expectedAnswer: bunchTotal,
-            feedbackCorrect: `Correct! $${total} - $${honeyCost} = $${bunchTotal} was spent on flowers.`,
-            feedbackIncorrect: `Subtract the honey from the total: $${total} - $${honeyCost} = $${bunchTotal}.`,
+            feedbackCorrect: `Correct! $${total} - $${honeyCost} = $${bunchTotal}, so ${bunchCount}x = $${bunchTotal}.`,
+            feedbackIncorrect: `$${total} - $${honeyCost} = $${bunchTotal}. So ${bunchCount}x = $${bunchTotal}.`,
             highlights: [`$${total}`, `$${honeyCost}`],
           },
           {
-            instruction: `Now divide by the number of bunches to find x. What is $${bunchTotal} ÷ ${bunchCount}?`,
+            instruction: `Now divide both sides by ${bunchCount} to find x. What is $${bunchTotal} ÷ ${bunchCount}?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Excellent! Each bunch costs $${answer}!`,
-            feedbackIncorrect: `$${bunchTotal} ÷ ${bunchCount} = $${answer} per bunch.`,
+            feedbackCorrect: `Excellent! x = $${answer}. Each bunch of flowers cost $${answer}.`,
+            feedbackIncorrect: `$${bunchTotal} ÷ ${bunchCount} = $${answer}. So x = $${answer} per bunch.`,
             highlights: [`${bunchCount} bunches`],
+          },
+          {
+            instruction: `Check by plugging x = $${answer} back in. What is $${honeyCost} + ${bunchCount} × $${answer}? (Should equal $${total}.)`,
+            expectedAnswer: total,
+            feedbackCorrect: `Verified! $${honeyCost} + ${bunchCount} × $${answer} = $${total}. x = $${answer} is correct.`,
+            feedbackIncorrect: `$${honeyCost} + ${bunchCount} × $${answer} = $${total}. That matches the total, so x = $${answer} is correct.`,
           },
         ];
       }
@@ -819,18 +1097,31 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = passenger speed. First, find ${fractionWord} of ${freightSpeed}. What is ${freightSpeed} ÷ ${divisor}?`,
-            expectedAnswer: fractionResult,
-            feedbackCorrect: `Correct! ${fractionWord} of ${freightSpeed} = ${fractionResult} mph.`,
-            feedbackIncorrect: `${freightSpeed} ÷ ${divisor} = ${fractionResult} mph.`,
-            highlights: [`${freightSpeed} miles per hour`, `${fractionWord} the speed`],
+            instruction: `Let x = passenger speed. The passenger train goes ${lessAmount} mph less than ${fractionWord} the freight speed. Equation: x = (___ ÷ ${divisor}) − ${lessAmount}. Look at the problem: how fast is the freight train?`,
+            expectedAnswer: freightSpeed,
+            feedbackCorrect: `Correct! The freight goes ${freightSpeed} mph, so x = (${freightSpeed} ÷ ${divisor}) − ${lessAmount}.`,
+            feedbackIncorrect: `The freight goes ${freightSpeed} mph, so x = (${freightSpeed} ÷ ${divisor}) − ${lessAmount}.`,
+            highlights: [`${freightSpeed} miles per hour`],
           },
           {
-            instruction: `Now subtract ${lessAmount} because the problem says "${lessAmount} miles per hour less." What is ${fractionResult} - ${lessAmount}?`,
+            instruction: `To solve x = (${freightSpeed} ÷ ${divisor}) − ${lessAmount}, first find ${fractionWord} of ${freightSpeed}. What is ${freightSpeed} ÷ ${divisor}?`,
+            expectedAnswer: fractionResult,
+            feedbackCorrect: `Correct! ${fractionWord} of ${freightSpeed} = ${fractionResult} mph, so x = ${fractionResult} − ${lessAmount}.`,
+            feedbackIncorrect: `${freightSpeed} ÷ ${divisor} = ${fractionResult} mph. So x = ${fractionResult} − ${lessAmount}.`,
+            highlights: [`${fractionWord} the speed`],
+          },
+          {
+            instruction: `Now subtract ${lessAmount} to find x. What is ${fractionResult} − ${lessAmount}?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Excellent! The passenger train is going ${answer} mph!`,
-            feedbackIncorrect: `${fractionResult} - ${lessAmount} = ${answer} mph.`,
+            feedbackCorrect: `Excellent! x = ${answer}. The passenger train is going ${answer} mph.`,
+            feedbackIncorrect: `${fractionResult} − ${lessAmount} = ${answer}. So x = ${answer} mph.`,
             highlights: [`${lessAmount} miles per hour less`],
+          },
+          {
+            instruction: `Check by plugging x = ${answer} back in. Add ${lessAmount}, then multiply by ${divisor}. You should get the freight speed. What is (${answer} + ${lessAmount}) × ${divisor}?`,
+            expectedAnswer: freightSpeed,
+            feedbackCorrect: `Verified! (${answer} + ${lessAmount}) × ${divisor} = ${freightSpeed}, matching the freight train. x = ${answer} is correct.`,
+            feedbackIncorrect: `(${answer} + ${lessAmount}) × ${divisor} = ${freightSpeed}, which matches the freight speed. x = ${answer} checks out.`,
           },
         ];
       }
@@ -856,18 +1147,31 @@ const templates: Template[] = [
       if (guided) {
         q.steps = [
           {
-            instruction: `Let x = number of runs. First, how many minutes are left after reviewing? What is ${totalMin} - ${reviewMin}?`,
+            instruction: `Let x = number of practice runs. Maya spends ${reviewMin} min reviewing music and ${perRun}x min on runs. Equation: ${reviewMin} + ${perRun}x = ___. Look at the problem: what is her total time?`,
+            expectedAnswer: totalMin,
+            feedbackCorrect: `Correct! Maya has ${totalMin} min total, so ${reviewMin} + ${perRun}x = ${totalMin}.`,
+            feedbackIncorrect: `Maya has ${totalMin} minutes total, so ${reviewMin} + ${perRun}x = ${totalMin}.`,
+            highlights: [`${totalMin} minutes`],
+          },
+          {
+            instruction: `To solve for x, first subtract the review time from both sides: ${totalMin} − ${reviewMin}. What do you get?`,
             expectedAnswer: remaining,
-            feedbackCorrect: `Correct! ${totalMin} - ${reviewMin} = ${remaining} minutes left.`,
-            feedbackIncorrect: `${totalMin} - ${reviewMin} = ${remaining} minutes remaining.`,
+            feedbackCorrect: `Correct! ${totalMin} − ${reviewMin} = ${remaining}, so ${perRun}x = ${remaining}.`,
+            feedbackIncorrect: `${totalMin} − ${reviewMin} = ${remaining}. So ${perRun}x = ${remaining}.`,
             highlights: [`${totalMin} minutes`, `${reviewMin} minutes`],
           },
           {
-            instruction: `Now divide the remaining time by minutes per run. What is ${remaining} ÷ ${perRun}?`,
+            instruction: `Now divide both sides by ${perRun} to find x. What is ${remaining} ÷ ${perRun}?`,
             expectedAnswer: answer,
-            feedbackCorrect: `Excellent! Maya can complete ${answer} practice runs!`,
-            feedbackIncorrect: `${remaining} ÷ ${perRun} = ${answer} runs.`,
+            feedbackCorrect: `Excellent! x = ${answer}. Maya can complete ${answer} practice runs.`,
+            feedbackIncorrect: `${remaining} ÷ ${perRun} = ${answer}. So x = ${answer} runs.`,
             highlights: [`${perRun} minutes`],
+          },
+          {
+            instruction: `Check by plugging x = ${answer} back in. What is ${reviewMin} + ${perRun} × ${answer}? (Should equal ${totalMin}.)`,
+            expectedAnswer: totalMin,
+            feedbackCorrect: `Verified! ${reviewMin} + ${perRun} × ${answer} = ${totalMin}. x = ${answer} is correct.`,
+            feedbackIncorrect: `${reviewMin} + ${perRun} × ${answer} = ${totalMin}. That matches Maya's total time, so x = ${answer} is correct.`,
           },
         ];
       }

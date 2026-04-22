@@ -51,7 +51,7 @@ export default function Navbar() {
               WebkitTextFillColor: 'transparent',
             }}
           >
-            Case File: Null Set
+            Math International Inc.
           </span>
         </button>
 

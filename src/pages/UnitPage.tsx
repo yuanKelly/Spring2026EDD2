@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { units } from '../data/units';
@@ -40,6 +40,7 @@ export default function UnitPage() {
   });
 
   const [currentQuestion, setCurrentQuestion] = useState<GeneratedQuestion | null>(null);
+  const currentQuestionFirstTryCorrect = useRef(false);
 
   const generateNewQuestion = useCallback(
     (guided: boolean) => {
@@ -98,13 +99,20 @@ export default function UnitPage() {
 
   const handleIndependentAnswer = (userAnswer: number) => {
     if (!currentQuestion) return { correct: false, isFirstAttempt: true, pointsChange: 0 };
-    return checkAnswer(userAnswer, currentQuestion.answer);
+    const result = checkAnswer(userAnswer, currentQuestion.answer);
+    if (result.correct && result.isFirstAttempt) {
+      currentQuestionFirstTryCorrect.current = true;
+    }
+    return result;
   };
 
   const handleNextQuestion = () => {
+    const wasFirstTry = currentQuestionFirstTryCorrect.current;
+    currentQuestionFirstTryCorrect.current = false;
     setSession((s) => ({
       ...s,
       questionsAttempted: s.questionsAttempted + 1,
+      questionsCorrectFirstTry: s.questionsCorrectFirstTry + (wasFirstTry ? 1 : 0),
     }));
 
     if (isComplete) {

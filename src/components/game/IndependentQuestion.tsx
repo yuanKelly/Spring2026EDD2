@@ -60,7 +60,7 @@ export default function IndependentQuestion({
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
     >
-      <div className="dossier rounded-2xl" style={{ padding: '2rem 2.5rem' }}>
+      <div className="dossier rounded-2xl overflow-hidden" style={{ padding: '2rem 2.5rem' }}>
         {/* Header badges */}
         <div className="flex items-center" style={{ gap: '0.75rem', marginBottom: '1.5rem' }}>
           <span

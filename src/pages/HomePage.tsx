@@ -329,7 +329,7 @@ export default function HomePage() {
                 transition={{ duration: 0.15 }}
               >
                 <div
-                  className="dossier rounded-xl shadow-2xl w-64"
+                  className="dossier rounded-xl shadow-2xl w-64 overflow-hidden"
                   style={{
                     padding: '1.25rem 1.5rem',
                     boxShadow: `0 8px 32px rgba(0,0,0,0.5), 0 0 1px ${pinColor}40`,
@@ -403,7 +403,7 @@ export default function HomePage() {
             fontSize: '0.65rem',
           }}
         >
-          CLASSIFIED // CASE FILE: NULL SET
+          CLASSIFIED // MATH INTERNATIONAL INC.
         </div>
       </motion.div>
     </div>
