@@ -130,7 +130,7 @@ export default function MissionIntro({ unit, onContinue }: MissionIntroProps) {
         </AnimatePresence>
 
         {/* Slide indicators */}
-        <div className="flex justify-center gap-2 mb-5">
+        <div className="flex justify-center gap-2" style={{ marginBottom: '0.25in' }}>
           <div
             className="rounded-full transition"
             style={{

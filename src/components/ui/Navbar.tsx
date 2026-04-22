@@ -51,7 +51,7 @@ export default function Navbar() {
               WebkitTextFillColor: 'transparent',
             }}
           >
-            Math Agent HQ
+            Case File: Null Set
           </span>
         </button>
 

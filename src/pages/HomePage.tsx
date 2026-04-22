@@ -45,7 +45,9 @@ export default function HomePage() {
   const { progress, loading } = useProgress();
   const navigate = useNavigate();
   const [hoveredUnit, setHoveredUnit] = useState<string | null>(null);
-  const [pinPositions, setPinPositions] = useState<Record<string, { x: number; y: number }>>({});
+  const [pinPositions, setPinPositions] = useState<
+    Record<string, { x: number; y: number; containerWidth: number; containerHeight: number }>
+  >({});
   const showTutorial = profile && !profile.hasCompletedTutorial;
 
   const completedCount = progress
@@ -123,7 +125,7 @@ export default function HomePage() {
 
       {/* Map container */}
       <motion.div
-        className="flex-1 relative rounded-2xl overflow-hidden select-none"
+        className="flex-1 relative rounded-2xl select-none"
         style={{
           background: 'linear-gradient(145deg, #0b0f24 0%, #121833 40%, #0b0f24 100%)',
           border: '1px solid rgba(37, 48, 82, 0.6)',
@@ -134,7 +136,7 @@ export default function HomePage() {
         transition={{ duration: 0.6, delay: 0.15 }}
       >
         {/* Real world map via react-simple-maps */}
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 rounded-2xl overflow-hidden">
           <ComposableMap
             projection="geoMercator"
             projectionConfig={{
@@ -172,14 +174,14 @@ export default function HomePage() {
               ['unit-4', 'unit-3'],  // Cairo → Tokyo
               ['unit-3', 'unit-5'],  // Tokyo → Sydney
               ['unit-5', 'unit-6'],  // Sydney → HQ
-            ].map(([from, to], i) => (
+            ].map(([from], i) => (
               <Marker key={`route-${i}`} coordinates={cityCoords[from]}>
                 {/* We draw lines via a separate SVG layer below */}
               </Marker>
             ))}
 
             {/* City pin markers — positioned by real lat/lon */}
-            {units.map((unit, index) => {
+            {units.map((unit) => {
               const coords = cityCoords[unit.id];
               const unitProgress = progress?.units[unit.id];
               const status = unitProgress?.status || 'not-started';
@@ -222,6 +224,8 @@ export default function HomePage() {
                             [unit.id]: {
                               x: ctm.e - containerRect.left,
                               y: ctm.f - containerRect.top,
+                              containerWidth: containerRect.width,
+                              containerHeight: containerRect.height,
                             },
                           }));
                         }
@@ -291,18 +295,37 @@ export default function HomePage() {
 
           if (!isHovered || !pinPos) return null;
 
+          const TOOLTIP_WIDTH = 256;
+          const TOOLTIP_HEIGHT = 340;
+          const MARGIN = 12;
+          const PIN_GAP = 16;
+          const PIN_RADIUS = 12;
+          const halfW = TOOLTIP_WIDTH / 2;
+          const clampedX = Math.max(
+            MARGIN + halfW,
+            Math.min(pinPos.containerWidth - MARGIN - halfW, pinPos.x),
+          );
+          const spaceAbove = pinPos.y - MARGIN;
+          const spaceBelow = pinPos.containerHeight - pinPos.y - MARGIN;
+          const placeAbove =
+            spaceAbove >= TOOLTIP_HEIGHT + PIN_GAP || spaceAbove >= spaceBelow;
+          const topPos = placeAbove
+            ? pinPos.y - PIN_GAP
+            : pinPos.y + PIN_GAP + PIN_RADIUS;
+          const translateY = placeAbove ? '-100%' : '0%';
+
           return (
             <AnimatePresence key={unit.id}>
               <motion.div
                 className="absolute z-50 pointer-events-none"
                 style={{
-                  left: pinPos.x,
-                  top: pinPos.y,
-                  transform: 'translate(-50%, -110%)',
+                  left: clampedX,
+                  top: topPos,
+                  transform: `translate(-50%, ${translateY})`,
                 }}
-                initial={{ opacity: 0, y: 6 }}
+                initial={{ opacity: 0, y: placeAbove ? 6 : -6 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 6 }}
+                exit={{ opacity: 0, y: placeAbove ? 6 : -6 }}
                 transition={{ duration: 0.15 }}
               >
                 <div
@@ -380,7 +403,7 @@ export default function HomePage() {
             fontSize: '0.65rem',
           }}
         >
-          CLASSIFIED // MATH AGENT HQ
+          CLASSIFIED // CASE FILE: NULL SET
         </div>
       </motion.div>
     </div>
