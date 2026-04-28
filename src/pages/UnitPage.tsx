@@ -11,6 +11,7 @@ import MissionIntro from '../components/game/MissionIntro';
 import TourGuide from '../components/game/TourGuide';
 import GuidedQuestion from '../components/game/GuidedQuestion';
 import IndependentQuestion from '../components/game/IndependentQuestion';
+import RiddleChallenge from '../components/game/RiddleChallenge';
 import CodePieceReveal from '../components/game/CodePieceReveal';
 import SessionSummary from '../components/session/SessionSummary';
 import ScoreDisplay from '../components/ui/ScoreDisplay';
@@ -116,12 +117,16 @@ export default function UnitPage() {
     }));
 
     if (isComplete) {
-      completeUnit(unit.id);
-      setSession((s) => ({ ...s, currentPhase: 'code-reveal' }));
+      setSession((s) => ({ ...s, currentPhase: 'riddle' }));
     } else {
       resetForNextQuestion();
       generateNewQuestion(false);
     }
+  };
+
+  const handleRiddleComplete = () => {
+    completeUnit(unit.id);
+    setSession((s) => ({ ...s, currentPhase: 'code-reveal' }));
   };
 
   const handleCodeRevealContinue = () => {
@@ -134,10 +139,9 @@ export default function UnitPage() {
 
   useEffect(() => {
     if (isComplete && session.currentPhase === 'independent') {
-      completeUnit(unit.id);
-      setSession((s) => ({ ...s, currentPhase: 'code-reveal' }));
+      setSession((s) => ({ ...s, currentPhase: 'riddle' }));
     }
-  }, [isComplete, session.currentPhase, completeUnit, unit.id]);
+  }, [isComplete, session.currentPhase, unit.id]);
 
   return (
     <div className="h-screen flex flex-col overflow-hidden" style={{ backgroundColor: '#060818' }}>
@@ -203,6 +207,7 @@ export default function UnitPage() {
                 />
               </div>
               <GuidedQuestion
+                key={session.guidedQuestionsCompleted}
                 question={currentQuestion}
                 contactName={unit.contactName}
                 contactImage={unit.contactImage}
@@ -223,6 +228,12 @@ export default function UnitPage() {
                 onNext={handleNextQuestion}
                 isFirstAttempt={isFirstAttempt}
               />
+            </div>
+          )}
+
+          {session.currentPhase === 'riddle' && (
+            <div key="riddle" className="flex-1 flex flex-col items-center overflow-auto" style={{ padding: '0.5in' }}>
+              <RiddleChallenge unit={unit} onComplete={handleRiddleComplete} />
             </div>
           )}
 

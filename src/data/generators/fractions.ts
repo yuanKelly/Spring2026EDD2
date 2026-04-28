@@ -52,12 +52,6 @@ const templates: Template[] = [
             feedbackIncorrect: `$${sconeTotal} ÷ ${sconeCount} = $${answer}. So x = $${answer} per scone.`,
             highlights: [`${sconeCount} mini scones`],
           },
-          {
-            instruction: `Check by plugging x = $${answer} back in. What is $${latteCost} + ${sconeCount} × $${answer}? (Should equal $${total}.)`,
-            expectedAnswer: total,
-            feedbackCorrect: `Verified! $${latteCost} + ${sconeCount} × $${answer} = $${total}. x = $${answer} is correct.`,
-            feedbackIncorrect: `$${latteCost} + ${sconeCount} × $${answer} = $${total}. That matches the total, so x = $${answer} is correct.`,
-          },
         ];
       }
       return q;
@@ -98,12 +92,6 @@ const templates: Template[] = [
             expectedAnswer: ans,
             feedbackCorrect: `Excellent! x = ${ans}. The horses are fed ${ans} bales of hay.`,
             feedbackIncorrect: `${product} ÷ ${m.impDen} = ${ans}. So x = ${ans} bales.`,
-          },
-          {
-            instruction: `Check by plugging x back in. The equation x × ${m.impDen} = ${m.impNum} × ${c} should hold. What is ${ans} × ${m.impDen}?`,
-            expectedAnswer: product,
-            feedbackCorrect: `Verified! ${ans} × ${m.impDen} = ${product} = ${m.impNum} × ${c}. x = ${ans} is correct.`,
-            feedbackIncorrect: `${ans} × ${m.impDen} = ${product}, which equals ${m.impNum} × ${c} = ${product}. x = ${ans} checks out.`,
           },
         ];
       }
@@ -151,12 +139,6 @@ const templates: Template[] = [
               feedbackCorrect: `Excellent! x = 7. The team cleaned 7 city blocks on Tuesday.`,
               feedbackIncorrect: `21 ÷ 3 = 7. So x = 7 city blocks.`,
             },
-            {
-              instruction: `Check by reversing the division. You divided 21 by 3 to get x. What is x × 3? (Should get back 21.)`,
-              expectedAnswer: 21,
-              feedbackCorrect: `Verified! 7 × 3 = 21. x = 7 is correct.`,
-              feedbackIncorrect: `7 × 3 = 21. That matches, so x = 7 is correct.`,
-            },
           ];
         }
         return q;
@@ -189,12 +171,6 @@ const templates: Template[] = [
             expectedAnswer: aW,
             feedbackCorrect: `Excellent! x = ${aW}. The team cleaned ${aW} city blocks on Tuesday.`,
             feedbackIncorrect: `${product} ÷ 3 = ${aW}. So x = ${aW} city blocks.`,
-          },
-          {
-            instruction: `Check by reversing the division. You divided ${product} by 3 to get x. What is x × 3? (Should get back ${product}.)`,
-            expectedAnswer: product,
-            feedbackCorrect: `Verified! ${aW} × 3 = ${product}. x = ${aW} is correct.`,
-            feedbackIncorrect: `${aW} × 3 = ${product}. That matches, so x = ${aW} is correct.`,
           },
         ];
       }
@@ -241,12 +217,6 @@ const templates: Template[] = [
               feedbackCorrect: `Excellent! x = 13. Ben used 13 cups of lemonade.`,
               feedbackIncorrect: `39 ÷ 3 = 13. So x = 13 cups.`,
             },
-            {
-              instruction: `Check by reversing the division. You divided 39 by 3 to get x. What is x × 3? (Should get back 39.)`,
-              expectedAnswer: 39,
-              feedbackCorrect: `Verified! 13 × 3 = 39. x = 13 is correct.`,
-              feedbackIncorrect: `13 × 3 = 39. That matches, so x = 13 is correct.`,
-            },
           ];
         }
         return q;
@@ -279,12 +249,6 @@ const templates: Template[] = [
             expectedAnswer: aW,
             feedbackCorrect: `Excellent! x = ${aW}. Ben used ${aW} cups of lemonade.`,
             feedbackIncorrect: `${product} ÷ 3 = ${aW}. So x = ${aW} cups.`,
-          },
-          {
-            instruction: `Check by reversing the division. You divided ${product} by 3 to get x. What is x × 3? (Should get back ${product}.)`,
-            expectedAnswer: product,
-            feedbackCorrect: `Verified! ${aW} × 3 = ${product}. x = ${aW} is correct.`,
-            feedbackIncorrect: `${aW} × 3 = ${product}. That matches, so x = ${aW} is correct.`,
           },
         ];
       }
@@ -329,12 +293,6 @@ const templates: Template[] = [
             feedbackIncorrect: `${answer} cards take ${answer * minutesPerCard} min, and ${answer + 1} would take ${(answer + 1) * minutesPerCard} min (too much). So x = ${answer}.`,
             highlights: [`${minutesPerCard} minutes`],
           },
-          {
-            instruction: `Check by plugging x = ${answer} back in. How many minutes do ${answer} cards take? What is ${answer} × ${minutesPerCard}? (Should fit in ${remaining} min.)`,
-            expectedAnswer: answer * minutesPerCard,
-            feedbackCorrect: `Verified! ${answer} × ${minutesPerCard} = ${answer * minutesPerCard} min, which fits in the ${remaining} min available. x = ${answer} is correct.`,
-            feedbackIncorrect: `${answer} × ${minutesPerCard} = ${answer * minutesPerCard} min, which fits in ${remaining} min. x = ${answer} checks out.`,
-          },
         ];
       }
       return q;
@@ -376,12 +334,6 @@ const templates: Template[] = [
             feedbackCorrect: `Excellent! x = ${answer}. Sophia has ${answer} water guns.`,
             feedbackIncorrect: `${doubled} − ${lessAmount} = ${answer}. So x = ${answer} water guns.`,
             highlights: [`${lessAmount} less than twice`],
-          },
-          {
-            instruction: `Check by plugging x = ${answer} back in. Add ${lessAmount}, then divide by 2. You should get Lincoln's count. What is (${answer} + ${lessAmount}) ÷ 2?`,
-            expectedAnswer: lincolnGuns,
-            feedbackCorrect: `Verified! (${answer} + ${lessAmount}) ÷ 2 = ${lincolnGuns}, matching Lincoln's count. x = ${answer} is correct.`,
-            feedbackIncorrect: `(${answer} + ${lessAmount}) ÷ 2 = ${lincolnGuns}, which matches Lincoln's count. x = ${answer} checks out.`,
           },
         ];
       }
@@ -427,12 +379,6 @@ const templates: Template[] = [
             feedbackIncorrect: `${fractionResult} − ${lessAmount} = ${answer}. So x = ${answer} lbs.`,
             highlights: [`${lessAmount} pounds less`],
           },
-          {
-            instruction: `Check by plugging x = ${answer} back in. Add ${lessAmount}, then multiply by ${divisor}. You should get Mickey's weight. What is (${answer} + ${lessAmount}) × ${divisor}?`,
-            expectedAnswer: mickeyWeight,
-            feedbackCorrect: `Verified! (${answer} + ${lessAmount}) × ${divisor} = ${mickeyWeight}, matching Mickey's lift. x = ${answer} is correct.`,
-            feedbackIncorrect: `(${answer} + ${lessAmount}) × ${divisor} = ${mickeyWeight}, which matches Mickey's lift. x = ${answer} checks out.`,
-          },
         ];
       }
       return q;
@@ -476,12 +422,6 @@ const templates: Template[] = [
             feedbackCorrect: `Excellent! x = $${answer}. Each energy bite cost $${answer}.`,
             feedbackIncorrect: `$${biteTotal} ÷ ${biteCount} = $${answer}. So x = $${answer} per bite.`,
             highlights: [`${biteCount} energy bites`],
-          },
-          {
-            instruction: `Check by plugging x = $${answer} back in. What is $${smoothieCost} + ${biteCount} × $${answer}? (Should equal $${total}.)`,
-            expectedAnswer: total,
-            feedbackCorrect: `Verified! $${smoothieCost} + ${biteCount} × $${answer} = $${total}. x = $${answer} is correct.`,
-            feedbackIncorrect: `$${smoothieCost} + ${biteCount} × $${answer} = $${total}. That matches the total, so x = $${answer} is correct.`,
           },
         ];
       }
@@ -528,12 +468,6 @@ const templates: Template[] = [
             feedbackCorrect: `Excellent! x = ${ans}. She uses ${ans} cups of flour for the bread.`,
             feedbackIncorrect: `${product} ÷ ${m.impDen} = ${ans}. So x = ${ans} cups.`,
           },
-          {
-            instruction: `Check by reversing the division. You divided ${product} by ${m.impDen} to get x. What is x × ${m.impDen}? (Should get back ${product}.)`,
-            expectedAnswer: product,
-            feedbackCorrect: `Verified! ${ans} × ${m.impDen} = ${product}. x = ${ans} is correct.`,
-            feedbackIncorrect: `${ans} × ${m.impDen} = ${product}. That matches, so x = ${ans} is correct.`,
-          },
         ];
       }
       return q;
@@ -567,12 +501,6 @@ const templates: Template[] = [
             feedbackCorrect: `Excellent! x = ${answer}. She made ${answer} stops on Saturday.`,
             feedbackIncorrect: `${multiplier} × ${friday} = ${answer}. So x = ${answer} stops.`,
             highlights: [`${multiplier} times as many`],
-          },
-          {
-            instruction: `Check by reversing the multiplication. Divide x by ${multiplier}. You should get Friday's count. What is ${answer} ÷ ${multiplier}?`,
-            expectedAnswer: friday,
-            feedbackCorrect: `Verified! ${answer} ÷ ${multiplier} = ${friday}, matching Friday's stops. x = ${answer} is correct.`,
-            feedbackIncorrect: `${answer} ÷ ${multiplier} = ${friday}, which matches Friday. x = ${answer} checks out.`,
           },
         ];
       }
@@ -618,12 +546,6 @@ const templates: Template[] = [
             feedbackIncorrect: `${remaining} ÷ ${perProblem} = ${answer}. So x = ${answer} problems.`,
             highlights: [`${perProblem} minutes`],
           },
-          {
-            instruction: `Check by plugging x = ${answer} back in. What is ${snackMin} + ${perProblem} × ${answer}? (Should equal ${totalMin}.)`,
-            expectedAnswer: totalMin,
-            feedbackCorrect: `Verified! ${snackMin} + ${perProblem} × ${answer} = ${totalMin}. x = ${answer} is correct.`,
-            feedbackIncorrect: `${snackMin} + ${perProblem} × ${answer} = ${totalMin}. That matches the total time, so x = ${answer} is correct.`,
-          },
         ];
       }
       return q;
@@ -667,12 +589,6 @@ const templates: Template[] = [
             feedbackCorrect: `Excellent! x = ${answer}. The green sea turtle weighs ${answer} lbs.`,
             feedbackIncorrect: `${fractionResult} − ${lessAmount} = ${answer}. So x = ${answer} lbs.`,
             highlights: [`${lessAmount} pounds less`],
-          },
-          {
-            instruction: `Check by plugging x = ${answer} back in. Add ${lessAmount}, then multiply by ${divisor}. You should get the leatherback's weight. What is (${answer} + ${lessAmount}) × ${divisor}?`,
-            expectedAnswer: totalWeight,
-            feedbackCorrect: `Verified! (${answer} + ${lessAmount}) × ${divisor} = ${totalWeight}, matching the leatherback. x = ${answer} is correct.`,
-            feedbackIncorrect: `(${answer} + ${lessAmount}) × ${divisor} = ${totalWeight}, which matches the leatherback's weight. x = ${answer} checks out.`,
           },
         ];
       }
@@ -719,12 +635,6 @@ const templates: Template[] = [
             feedbackCorrect: `Excellent! x = ${ans}. Marcus's sunflower grew ${ans} inches tall.`,
             feedbackIncorrect: `${product} ÷ ${m.impDen} = ${ans}. So x = ${ans} inches.`,
           },
-          {
-            instruction: `Check by reversing the division. You divided ${product} by ${m.impDen} to get x. What is x × ${m.impDen}? (Should get back ${product}.)`,
-            expectedAnswer: product,
-            feedbackCorrect: `Verified! ${ans} × ${m.impDen} = ${product}. x = ${ans} is correct.`,
-            feedbackIncorrect: `${ans} × ${m.impDen} = ${product}. That matches, so x = ${ans} is correct.`,
-          },
         ];
       }
       return q;
@@ -769,12 +679,6 @@ const templates: Template[] = [
             feedbackIncorrect: `$${packTotal} ÷ ${packCount} = $${answer}. So x = $${answer} per pack.`,
             highlights: [`${packCount} packs`],
           },
-          {
-            instruction: `Check by plugging x = $${answer} back in. What is $${sketchbookCost} + ${packCount} × $${answer}? (Should equal $${total}.)`,
-            expectedAnswer: total,
-            feedbackCorrect: `Verified! $${sketchbookCost} + ${packCount} × $${answer} = $${total}. x = $${answer} is correct.`,
-            feedbackIncorrect: `$${sketchbookCost} + ${packCount} × $${answer} = $${total}. That matches the total, so x = $${answer} is correct.`,
-          },
         ];
       }
       return q;
@@ -816,12 +720,6 @@ const templates: Template[] = [
             feedbackCorrect: `Excellent! x = ${answer}. The neighbor has ${answer} plants.`,
             feedbackIncorrect: `${doubled} + ${moreAmount} = ${answer}. So x = ${answer} plants.`,
             highlights: [`${moreAmount} more than twice`],
-          },
-          {
-            instruction: `Check by plugging x = ${answer} back in. Subtract ${moreAmount}, then divide by 2. You should get Olivia's count. What is (${answer} − ${moreAmount}) ÷ 2?`,
-            expectedAnswer: oliviaPlants,
-            feedbackCorrect: `Verified! (${answer} − ${moreAmount}) ÷ 2 = ${oliviaPlants}, matching Olivia's count. x = ${answer} is correct.`,
-            feedbackIncorrect: `(${answer} − ${moreAmount}) ÷ 2 = ${oliviaPlants}, which matches Olivia's count. x = ${answer} checks out.`,
           },
         ];
       }
@@ -867,12 +765,6 @@ const templates: Template[] = [
             feedbackIncorrect: `${fractionResult} − ${lessAmount} = ${answer}. So x = ${answer} feet.`,
             highlights: [`${lessAmount} feet less`],
           },
-          {
-            instruction: `Check by plugging x = ${answer} back in. Add ${lessAmount}, then multiply by ${divisor}. You should get the whale's length. What is (${answer} + ${lessAmount}) × ${divisor}?`,
-            expectedAnswer: whaleLength,
-            feedbackCorrect: `Verified! (${answer} + ${lessAmount}) × ${divisor} = ${whaleLength}, matching the blue whale. x = ${answer} is correct.`,
-            feedbackIncorrect: `(${answer} + ${lessAmount}) × ${divisor} = ${whaleLength}, which matches the whale's length. x = ${answer} checks out.`,
-          },
         ];
       }
       return q;
@@ -916,12 +808,6 @@ const templates: Template[] = [
             feedbackCorrect: `Excellent! x = ${answer}. The team can complete ${answer} drills.`,
             feedbackIncorrect: `${remaining} ÷ ${perDrill} = ${answer}. So x = ${answer} drills.`,
             highlights: [`${perDrill} minutes`],
-          },
-          {
-            instruction: `Check by plugging x = ${answer} back in. What is ${warmupMin} + ${perDrill} × ${answer}? (Should equal ${totalMin}.)`,
-            expectedAnswer: totalMin,
-            feedbackCorrect: `Verified! ${warmupMin} + ${perDrill} × ${answer} = ${totalMin}. x = ${answer} is correct.`,
-            feedbackIncorrect: `${warmupMin} + ${perDrill} × ${answer} = ${totalMin}. That matches the practice time, so x = ${answer} is correct.`,
           },
         ];
       }
@@ -968,12 +854,6 @@ const templates: Template[] = [
             feedbackCorrect: `Excellent! x = ${ans}. She wrote ${ans} articles on Thursday.`,
             feedbackIncorrect: `${product} ÷ ${m.impDen} = ${ans}. So x = ${ans} articles.`,
           },
-          {
-            instruction: `Check by reversing the division. You divided ${product} by ${m.impDen} to get x. What is x × ${m.impDen}? (Should get back ${product}.)`,
-            expectedAnswer: product,
-            feedbackCorrect: `Verified! ${ans} × ${m.impDen} = ${product}. x = ${ans} is correct.`,
-            feedbackIncorrect: `${ans} × ${m.impDen} = ${product}. That matches, so x = ${ans} is correct.`,
-          },
         ];
       }
       return q;
@@ -1016,12 +896,6 @@ const templates: Template[] = [
             feedbackCorrect: `Excellent! x = ${answer}. Jada collected ${answer} shells.`,
             feedbackIncorrect: `${multiplied} − ${lessAmount} = ${answer}. So x = ${answer} shells.`,
             highlights: [`${lessAmount} less than`],
-          },
-          {
-            instruction: `Check by plugging x = ${answer} back in. Add ${lessAmount}, then divide by ${multiplier}. You should get Sam's count. What is (${answer} + ${lessAmount}) ÷ ${multiplier}?`,
-            expectedAnswer: samShells,
-            feedbackCorrect: `Verified! (${answer} + ${lessAmount}) ÷ ${multiplier} = ${samShells}, matching Sam's count. x = ${answer} is correct.`,
-            feedbackIncorrect: `(${answer} + ${lessAmount}) ÷ ${multiplier} = ${samShells}, which matches Sam's count. x = ${answer} checks out.`,
           },
         ];
       }
@@ -1067,12 +941,6 @@ const templates: Template[] = [
             feedbackIncorrect: `$${bunchTotal} ÷ ${bunchCount} = $${answer}. So x = $${answer} per bunch.`,
             highlights: [`${bunchCount} bunches`],
           },
-          {
-            instruction: `Check by plugging x = $${answer} back in. What is $${honeyCost} + ${bunchCount} × $${answer}? (Should equal $${total}.)`,
-            expectedAnswer: total,
-            feedbackCorrect: `Verified! $${honeyCost} + ${bunchCount} × $${answer} = $${total}. x = $${answer} is correct.`,
-            feedbackIncorrect: `$${honeyCost} + ${bunchCount} × $${answer} = $${total}. That matches the total, so x = $${answer} is correct.`,
-          },
         ];
       }
       return q;
@@ -1117,12 +985,6 @@ const templates: Template[] = [
             feedbackIncorrect: `${fractionResult} − ${lessAmount} = ${answer}. So x = ${answer} mph.`,
             highlights: [`${lessAmount} miles per hour less`],
           },
-          {
-            instruction: `Check by plugging x = ${answer} back in. Add ${lessAmount}, then multiply by ${divisor}. You should get the freight speed. What is (${answer} + ${lessAmount}) × ${divisor}?`,
-            expectedAnswer: freightSpeed,
-            feedbackCorrect: `Verified! (${answer} + ${lessAmount}) × ${divisor} = ${freightSpeed}, matching the freight train. x = ${answer} is correct.`,
-            feedbackIncorrect: `(${answer} + ${lessAmount}) × ${divisor} = ${freightSpeed}, which matches the freight speed. x = ${answer} checks out.`,
-          },
         ];
       }
       return q;
@@ -1166,12 +1028,6 @@ const templates: Template[] = [
             feedbackCorrect: `Excellent! x = ${answer}. Maya can complete ${answer} practice runs.`,
             feedbackIncorrect: `${remaining} ÷ ${perRun} = ${answer}. So x = ${answer} runs.`,
             highlights: [`${perRun} minutes`],
-          },
-          {
-            instruction: `Check by plugging x = ${answer} back in. What is ${reviewMin} + ${perRun} × ${answer}? (Should equal ${totalMin}.)`,
-            expectedAnswer: totalMin,
-            feedbackCorrect: `Verified! ${reviewMin} + ${perRun} × ${answer} = ${totalMin}. x = ${answer} is correct.`,
-            feedbackIncorrect: `${reviewMin} + ${perRun} × ${answer} = ${totalMin}. That matches Maya's total time, so x = ${answer} is correct.`,
           },
         ];
       }

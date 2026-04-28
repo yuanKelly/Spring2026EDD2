@@ -313,7 +313,7 @@ const templates: Template[] = [
       const bookTotal = bookCount * bookPrice;
       const bookmarkTotal = bookmarkCount * bookmarkPrice;
       const spent = bookTotal + bookmarkTotal;
-      const payment = 20;
+      const payment = spent < 20 ? 20 : 50;
       const answer = payment - spent;
       const q: GeneratedQuestion = {
         problemText: `At the school book fair, Marcus bought ${bookCount} books that cost $${bookPrice} each. He also bought ${bookmarkCount} bookmarks for $${bookmarkPrice.toFixed(2)} each. He paid with a $${payment} bill. How much change did Marcus receive?`,
@@ -763,10 +763,10 @@ const templates: Template[] = [
       const paintCost = canvasEach + randInt(1, 3);
       const answer = paintCost - canvasEach;
       const q: GeneratedQuestion = {
-        problemText: `Nadia and her brother went to the craft store. Nadia spent $${paintCost.toFixed(2)} on paint. Her brother spent $${canvasTotal} total on ${canvasCount} canvases. How much more did one canvas cost than the paint?`,
+        problemText: `Nadia and her brother went to the craft store. Nadia spent $${paintCost.toFixed(2)} on paint. Her brother spent $${canvasTotal} total on ${canvasCount} canvases. How much more did the paint cost than one canvas?`,
         answer,
         hint: `Draw the paint and the canvases. First find the cost of one canvas, then compare.`,
-        solution: `Step 1: Find cost of one canvas: $${canvasTotal} ÷ ${canvasCount} = $${canvasEach.toFixed(2)}.\nStep 2: Find the difference: $${canvasEach.toFixed(2)} - $${paintCost.toFixed(2)}... Wait, we need to check which is more.\nActually: $${paintCost.toFixed(2)} - $${canvasEach.toFixed(2)} = $${answer.toFixed(2)}.\nAnswer: The paint cost $${answer.toFixed(2)} more than one canvas.`,
+        solution: `Step 1: Find cost of one canvas: $${canvasTotal} ÷ ${canvasCount} = $${canvasEach.toFixed(2)}.\nStep 2: Find the difference: $${paintCost.toFixed(2)} - $${canvasEach.toFixed(2)} = $${answer.toFixed(2)}.\nAnswer: The paint cost $${answer.toFixed(2)} more than one canvas.`,
         njslsStandard: '4.OA.A.3',
       };
       if (guided) {

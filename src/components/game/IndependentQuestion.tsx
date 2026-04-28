@@ -100,6 +100,8 @@ export default function IndependentQuestion({
           <form onSubmit={handleSubmit} className="flex" style={{ gap: '0.75rem', marginBottom: '1.25rem' }}>
             <input
               type="number"
+              step="any"
+              inputMode="decimal"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               className="flex-1 bg-midnight-950 border border-midnight-500 rounded-xl text-white text-xl focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition"

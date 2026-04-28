@@ -49,12 +49,82 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
               boxShadow: '0 0 40px rgba(251, 191, 36, 0.2), 0 0 80px rgba(251, 191, 36, 0.05)',
             }}
           >
-            <PlaceholderImage
-              width={150}
-              height={150}
-              label={`Code Piece ${pieceNumber}`}
-              bgColor="#0b0f24"
-            />
+            {unit.id === 'unit-2' ? (
+              <div
+                style={{
+                  width: 220,
+                  height: 150,
+                  background: '#0b0f24',
+                  borderRadius: '12px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '0 1rem',
+                }}
+              >
+                <p
+                  className="text-teal-400/80"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '0.65rem',
+                    letterSpacing: '0.18em',
+                    marginBottom: '0.5rem',
+                  }}
+                >
+                  HQ COORDINATES
+                </p>
+                <p
+                  className="text-amber-300"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '1.25rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.05em',
+                    marginBottom: '0.4rem',
+                  }}
+                >
+                  14.5°E, 35.9°N
+                </p>
+                <p
+                  className="text-gray-400"
+                  style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.7rem' }}
+                >
+                  Mediterranean — Malta
+                </p>
+              </div>
+            ) : unit.id === 'unit-5' ? (
+              <img
+                src="/images/code-pieces/sydney-zebra.png"
+                alt="Zebra mask — Sydney code piece"
+                style={{
+                  width: 150,
+                  height: 150,
+                  objectFit: 'cover',
+                  borderRadius: '12px',
+                  background: '#0b0f24',
+                }}
+              />
+            ) : unit.id === 'unit-4' ? (
+              <img
+                src="/images/code-pieces/cairo-earth.png"
+                alt="Earth hieroglyph — Cairo code piece"
+                style={{
+                  width: 150,
+                  height: 150,
+                  objectFit: 'cover',
+                  borderRadius: '12px',
+                  background: '#0b0f24',
+                }}
+              />
+            ) : (
+              <PlaceholderImage
+                width={150}
+                height={150}
+                label={`Code Piece ${pieceNumber}`}
+                bgColor="#0b0f24"
+              />
+            )}
           </div>
         </motion.div>
 

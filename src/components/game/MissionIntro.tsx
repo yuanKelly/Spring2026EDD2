@@ -18,13 +18,43 @@ export default function MissionIntro({ unit, onContinue }: MissionIntroProps) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
-      {/* Atmospheric background */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: 'radial-gradient(ellipse at 50% 40%, rgba(26, 34, 66, 0.8) 0%, #060818 70%)',
-        }}
-      />
+      {/* Atmospheric background — city photo on location slide, mission-specific image on mission slide */}
+      {(() => {
+        const slideImage =
+          slide === 'city'
+            ? unit.backgroundImage
+            : unit.missionBackgroundImage ?? '';
+        if (slideImage) {
+          return (
+            <>
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: `url(${slideImage})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    'radial-gradient(ellipse at 50% 40%, rgba(6,8,24,0.55) 0%, rgba(6,8,24,0.9) 75%)',
+                }}
+              />
+            </>
+          );
+        }
+        return (
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'radial-gradient(ellipse at 50% 40%, rgba(26, 34, 66, 0.8) 0%, #060818 70%)',
+            }}
+          />
+        );
+      })()}
 
       {/* Floating particles */}
       {[...Array(6)].map((_, i) => (

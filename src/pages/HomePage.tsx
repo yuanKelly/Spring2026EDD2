@@ -12,7 +12,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { useProgress } from '../hooks/useProgress';
 import { units } from '../data/units';
 import AgentBriefing from '../components/tutorial/AgentBriefing';
-import PlaceholderImage from '../components/ui/PlaceholderImage';
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 
@@ -23,7 +22,7 @@ const cityCoords: Record<string, [number, number]> = {
   'unit-3': [139.69, 35.69],    // Tokyo
   'unit-4': [31.24, 30.04],     // Cairo
   'unit-5': [151.21, -33.87],   // Sydney
-  'unit-6': [20, -5],           // Secret HQ (central Africa / mystery)
+  'unit-6': [14.5, 35.9],       // Secret HQ (Malta, Mediterranean)
 };
 
 const statusPinColors: Record<string, string> = {
@@ -335,13 +334,30 @@ export default function HomePage() {
                     boxShadow: `0 8px 32px rgba(0,0,0,0.5), 0 0 1px ${pinColor}40`,
                   }}
                 >
-                  <div className="mb-3 rounded-lg overflow-hidden">
-                    <PlaceholderImage
-                      width={208}
-                      height={90}
-                      label={`${unit.city}, ${unit.country}`}
-                      bgColor="#0b0f24"
-                    />
+                  <div className="mb-3 rounded-lg overflow-hidden" style={{ width: 208, height: 90 }}>
+                    {unit.backgroundImage ? (
+                      <img
+                        src={unit.backgroundImage}
+                        alt={`${unit.city}, ${unit.country}`}
+                        className="w-full h-full"
+                        style={{ objectFit: 'cover', objectPosition: 'center', display: 'block' }}
+                      />
+                    ) : (
+                      <div
+                        className="w-full h-full flex items-center justify-center relative"
+                        style={{
+                          background: 'repeating-linear-gradient(135deg, #1a0808 0 8px, #0b0204 8px 16px)',
+                          border: '1px solid #7f1d1d',
+                        }}
+                      >
+                        <p
+                          className="text-xs font-bold tracking-[0.2em]"
+                          style={{ color: '#fbbf24', fontFamily: "'JetBrains Mono', monospace" }}
+                        >
+                          ⚠ CLASSIFIED ⚠
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   <p className="text-amber-400 font-bold text-sm mb-0.5" style={{ fontFamily: "'Fredoka', sans-serif" }}>

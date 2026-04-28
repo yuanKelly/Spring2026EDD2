@@ -8,6 +8,7 @@ export interface Unit {
   contactName: string;
   contactImage: string;
   backgroundImage: string;
+  missionBackgroundImage?: string;
   codePieceImage: string;
   tipId: string;
   cityDescription: string;
@@ -95,7 +96,7 @@ export interface SessionState {
   points: number;
   questionsAttempted: number;
   questionsCorrectFirstTry: number;
-  currentPhase: 'mission-intro' | 'meet-contact' | 'guided' | 'independent' | 'code-reveal' | 'summary';
+  currentPhase: 'mission-intro' | 'meet-contact' | 'guided' | 'independent' | 'riddle' | 'code-reveal' | 'summary';
   guidedQuestionsCompleted: number;
   startedAt: Date;
 }
