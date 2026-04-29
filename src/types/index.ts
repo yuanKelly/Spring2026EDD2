@@ -73,7 +73,7 @@ export interface ProblemSolvingTip {
 export interface UserProfile {
   uid: string;
   displayName: string;
-  email: string;
+  username: string;
   createdAt: Date;
   hasCompletedTutorial: boolean;
 }

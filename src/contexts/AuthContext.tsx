@@ -6,7 +6,6 @@ import {
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
-  sendPasswordResetEmail,
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
@@ -16,14 +15,30 @@ interface AuthContextType {
   user: User | null;
   profile: UserProfile | null;
   loading: boolean;
-  signUp: (email: string, password: string, displayName: string) => Promise<void>;
-  signIn: (email: string, password: string) => Promise<void>;
-  resetPassword: (email: string) => Promise<void>;
+  signUp: (username: string, password: string, displayName: string) => Promise<void>;
+  signIn: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   setTutorialCompleted: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
+
+const USERNAME_DOMAIN = 'students.spy.local';
+const USERNAME_PATTERN = /^[a-z0-9_.]{3,20}$/;
+
+function usernameToEmail(username: string) {
+  return `${username.trim().toLowerCase()}@${USERNAME_DOMAIN}`;
+}
+
+function validateUsername(username: string) {
+  const normalized = username.trim().toLowerCase();
+  if (!USERNAME_PATTERN.test(normalized)) {
+    throw new Error(
+      'Username must be 3-20 characters and use only letters, numbers, underscores, or periods.'
+    );
+  }
+  return normalized;
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -46,13 +61,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return unsubscribe;
   }, []);
 
-  const signUp = async (email: string, password: string, displayName: string) => {
-    const cred = await createUserWithEmailAndPassword(auth, email, password);
+  const signUp = async (username: string, password: string, displayName: string) => {
+    const normalized = validateUsername(username);
+    const cred = await createUserWithEmailAndPassword(
+      auth,
+      usernameToEmail(normalized),
+      password
+    );
     await updateProfile(cred.user, { displayName });
     const newProfile: UserProfile = {
       uid: cred.user.uid,
       displayName,
-      email,
+      username: normalized,
       createdAt: new Date(),
       hasCompletedTutorial: false,
     };
@@ -60,12 +80,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setProfile(newProfile);
   };
 
-  const signIn = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
-  };
-
-  const resetPassword = async (email: string) => {
-    await sendPasswordResetEmail(auth, email);
+  const signIn = async (username: string, password: string) => {
+    const normalized = validateUsername(username);
+    await signInWithEmailAndPassword(auth, usernameToEmail(normalized), password);
   };
 
   const logout = async () => {
@@ -81,7 +98,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signUp, signIn, resetPassword, logout, setTutorialCompleted }}>
+    <AuthContext.Provider value={{ user, profile, loading, signUp, signIn, logout, setTutorialCompleted }}>
       {children}
     </AuthContext.Provider>
   );

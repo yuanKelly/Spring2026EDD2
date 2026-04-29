@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 export default function SignUpPage() {
   const [displayName, setDisplayName] = useState('');
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -28,10 +28,14 @@ export default function SignUpPage() {
 
     setLoading(true);
     try {
-      await signUp(email, password, displayName);
+      await signUp(username, password, displayName);
       navigate('/home');
-    } catch {
-      setError('Could not create account. This email may already be in use.');
+    } catch (err) {
+      if (err instanceof Error && err.message.startsWith('Username must')) {
+        setError(err.message);
+      } else {
+        setError('Could not create account. This username may already be taken.');
+      }
     } finally {
       setLoading(false);
     }
@@ -105,17 +109,20 @@ export default function SignUpPage() {
           </div>
 
           <div>
-            <label htmlFor="email" className={labelClass} style={{ fontSize: '0.75rem' }}>
-              Email
+            <label htmlFor="username" className={labelClass} style={{ fontSize: '0.75rem' }}>
+              Username
             </label>
             <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="username"
+              type="text"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
               className={inputClass} style={inputStyle}
-              placeholder="agent@example.com"
+              placeholder="agent007"
             />
           </div>
 
