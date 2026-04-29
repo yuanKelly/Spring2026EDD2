@@ -58,7 +58,7 @@ export const units: Unit[] = [
     cityDescription:
       'Welcome to Tokyo, the most populated city in the world with a population of 41 million. This vibrant Japanese city boasts over 5 million vending machines. You\'ll need to head to a more formal locale for your mission though. Head to the Chiyoda Ward to begin.',
     missionIntroText:
-      'Agent, konnichiwa! At the Imperial Palace, the emperor\'s nunchucks hold a secret — a scroll tucked inside reveals the 6-digit code to unlock the case in the HQ vault. Evade the royal guards and retrieve them, but first you must interpret the remainders to chart your path through the palace undetected.',
+      'Agent, konnichiwa! At the Imperial Palace, the emperor\'s nunchucks hold a secret — a scroll tucked inside reveals the code to unlock the case in the HQ vault. Evade the royal guards and retrieve them, but first you must interpret the remainders to chart your path through the palace undetected.',
     maxPoints: 5,
   },
   {
