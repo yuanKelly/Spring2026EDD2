@@ -41,13 +41,32 @@ export default function SessionSummary({
 
   return (
     <motion.div
-      className="flex-1 flex items-center justify-center overflow-auto"
+      className="flex-1 flex items-center justify-center overflow-auto relative"
       style={{ padding: '0.75in' }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
+      {unit.id === 'unit-6' && (
+        <>
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'url(/images/backgrounds/secrethqending.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'radial-gradient(ellipse at 50% 40%, rgba(6,8,24,0.55) 0%, rgba(6,8,24,0.92) 75%)',
+            }}
+          />
+        </>
+      )}
       <div
-        className="max-w-lg w-full dossier rounded-2xl shadow-2xl overflow-hidden"
+        className="max-w-lg w-full dossier rounded-2xl shadow-2xl overflow-hidden relative z-10"
         style={{
           padding: '2.5rem 3rem',
           boxShadow: '0 8px 48px rgba(0,0,0,0.4)',
@@ -108,7 +127,7 @@ export default function SessionSummary({
         </div>
 
         {/* Tip practiced */}
-        {tip && (
+        {tip && unit.id !== 'unit-6' && (
           <motion.div
             className="rounded-xl"
             style={{

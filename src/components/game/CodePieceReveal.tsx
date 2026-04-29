@@ -19,6 +19,27 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
+      {/* Atmospheric backdrop for the Mission Complete page (unit-6) */}
+      {unit.id === 'unit-6' && (
+        <>
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'url(/images/backgrounds/secrethqending.jpg)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'radial-gradient(ellipse at 50% 40%, rgba(6,8,24,0.55) 0%, rgba(6,8,24,0.92) 75%)',
+            }}
+          />
+        </>
+      )}
+
       {/* Radial glow */}
       <div
         className="absolute pointer-events-none"
@@ -141,6 +162,18 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
                   background: '#0b0f24',
                 }}
               />
+            ) : unit.id === 'unit-6' ? (
+              <img
+                src="/images/code-pieces/hq-scroll.png"
+                alt="Vault scroll — Mission Complete"
+                style={{
+                  width: 150,
+                  height: 150,
+                  objectFit: 'cover',
+                  borderRadius: '12px',
+                  background: '#0b0f24',
+                }}
+              />
             ) : (
               <PlaceholderImage
                 width={150}
@@ -181,7 +214,7 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
         </motion.p>
 
         <motion.p
-          className="text-midnight-500"
+          className={unit.id === 'unit-6' ? 'text-white' : 'text-midnight-500'}
           style={{ marginBottom: '2.5rem', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.85rem' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

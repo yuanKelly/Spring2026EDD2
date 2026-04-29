@@ -110,13 +110,14 @@ export const units: Unit[] = [
     njslsStandards: ['4.OA.A.1', '4.OA.A.2', '4.OA.A.3', '5.OA.A.1', '5.OA.A.2', '5.NBT.B.6', '4.NF.B.3', '4.NF.B.4', '5.NF.A.2', '4.MD.A.1', '4.MD.A.2', '5.MD.A.1'],
     contactName: 'Commander',
     contactImage: '/images/characters/contact-hq.svg',
-    backgroundImage: '',
+    backgroundImage: '/images/backgrounds/secrethq.jpg',
+    missionBackgroundImage: '/images/backgrounds/secrethqending.jpg',
     codePieceImage: '/images/code-pieces/complete.svg',
     tipId: 'cubes',
     cityDescription:
       'Welcome to the Secret HQ. This is the final destination — a hidden facility known only to top agents. Everything you have learned across the globe has led you here.',
     missionIntroText:
       'Welcome back, Agent. You have the map, the keycard, the mask, the key, and the vault code. Everything you gathered from Paris to Sydney has led to this moment. Infiltrate the secret HQ, bypass its defenses, and crack open the vault. This is the final challenge — use every skill you have learned to complete the mission.',
-    maxPoints: 5,
+    maxPoints: 10,
   },
 ];

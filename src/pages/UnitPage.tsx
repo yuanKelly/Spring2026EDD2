@@ -72,6 +72,11 @@ export default function UnitPage() {
   }
 
   const handleMissionIntroContinue = () => {
+    if (unit?.id === 'unit-6') {
+      generateNewQuestion(false);
+      setSession((s) => ({ ...s, currentPhase: 'independent' }));
+      return;
+    }
     setSession((s) => ({ ...s, currentPhase: 'meet-contact' }));
   };
 
