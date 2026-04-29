@@ -116,10 +116,10 @@ const templates: Template[] = [
   // Q4: Berry pie — add containers then subtract recipe
   {
     generate: (guided) => {
-      const berry1 = randInt(4, 8);
-      const berry2 = randInt(6, 10);
-      const berry3 = randInt(7, 12);
-      const containerSize = randInt(10, 16);
+      const containerSize = randInt(12, 16);
+      const berry1 = randInt(3, containerSize - 4);
+      const berry2 = randInt(4, containerSize - 3);
+      const berry3 = randInt(5, containerSize - 2);
       const totalBought = containerSize * 3;
       const totalUsed = berry1 + berry2 + berry3;
       const answer = totalBought - totalUsed;
@@ -506,7 +506,7 @@ const templates: Template[] = [
       const notebookTotal = notebooks * notebookPrice;
       const penTotal = pens * penPrice;
       const spent = notebookTotal + penTotal;
-      const payment = 20;
+      const payment = spent < 20 ? 20 : 50;
       const answer = payment - spent;
       const q: GeneratedQuestion = {
         problemText: `At the school store, notebooks cost $${notebookPrice} each and pens cost $${penPrice} each. Ryan bought ${notebooks} notebooks and ${pens} pens. He paid with a $${payment} bill. How much change did Ryan receive?`,
@@ -661,7 +661,7 @@ const templates: Template[] = [
       const pencilCost = randInt(4, 7);
       const notebookTotal = qty * notebookPrice;
       const spent = notebookTotal + pencilCost;
-      const payment = 20;
+      const payment = spent < 20 ? 20 : 50;
       const answer = payment - spent;
       const q: GeneratedQuestion = {
         problemText: `Emma bought ${qty} notebooks for $${notebookPrice.toFixed(2)} each at the school store. She also bought a pack of colored pencils for $${pencilCost.toFixed(2)}. She paid with a $${payment} bill. How much change did Emma receive?`,
