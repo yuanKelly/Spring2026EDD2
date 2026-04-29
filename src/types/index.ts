@@ -20,6 +20,7 @@ export interface Unit {
 export interface GeneratedQuestion {
   problemText: string;
   answer: number;
+  displayAnswer?: string;
   hint: string;
   solution: string;
   steps?: GuidedStep[];

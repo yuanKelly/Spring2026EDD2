@@ -4,6 +4,7 @@ import type { GeneratedQuestion } from '../../types';
 import ReadAloud from '../ui/ReadAloud';
 import FractionText from '../ui/FractionText';
 import StepDiagram from './StepDiagram';
+import { parseAnswer, compareAnswers } from '../../utils/answer';
 
 /**
  * Splits text into segments, wrapping any substrings found in `highlights`
@@ -61,9 +62,9 @@ export default function GuidedQuestion({ question, contactName, contactImage, on
     if (!input.trim() || feedback !== null) return;
 
     const step = steps[currentStep];
-    const userAnswer = parseFloat(input);
+    const userAnswer = parseAnswer(input);
     const expected = typeof step.expectedAnswer === 'string' ? parseFloat(step.expectedAnswer) : step.expectedAnswer;
-    const correct = userAnswer === expected;
+    const correct = compareAnswers(userAnswer, expected);
 
     setFeedback({
       text: correct ? step.feedbackCorrect : step.feedbackIncorrect,
@@ -156,14 +157,13 @@ export default function GuidedQuestion({ question, contactName, contactImage, on
         {/* Answer input */}
         <form onSubmit={handleSubmit} className="flex" style={{ gap: '0.75rem' }}>
           <input
-            type="number"
-            step="any"
+            type="text"
             inputMode="decimal"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             className="flex-1 bg-midnight-950 border border-midnight-500 rounded-xl text-white text-xl focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition"
             style={{ padding: '0.85rem 1.25rem' }}
-            placeholder="Your answer..."
+            placeholder="Your answer (e.g. 0.7 or 7/10)"
             disabled={feedback !== null}
             autoFocus
           />

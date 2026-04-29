@@ -117,6 +117,30 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
                   background: '#0b0f24',
                 }}
               />
+            ) : unit.id === 'unit-1' ? (
+              <img
+                src="/images/code-pieces/paris-eye.png"
+                alt="Eye keycard — Paris code piece"
+                style={{
+                  width: 150,
+                  height: 150,
+                  objectFit: 'cover',
+                  borderRadius: '12px',
+                  background: '#0b0f24',
+                }}
+              />
+            ) : unit.id === 'unit-3' ? (
+              <img
+                src="/images/code-pieces/tokyo-learn.png"
+                alt="LEARN scroll — Tokyo code piece"
+                style={{
+                  width: 150,
+                  height: 150,
+                  objectFit: 'cover',
+                  borderRadius: '12px',
+                  background: '#0b0f24',
+                }}
+              />
             ) : (
               <PlaceholderImage
                 width={150}

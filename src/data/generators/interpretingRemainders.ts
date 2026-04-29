@@ -204,9 +204,10 @@ const templates: Template[] = [
       const p = pick(pairs);
       const q: GeneratedQuestion = {
         problemText: `Clare watched a ladybug in the yard. It crawled ${p.a} of an inch, then rested for a bit, and then crawled ${p.b} of an inch more. How far did the ladybug crawl in all?`,
-        answer: p.numAnswer,
+        answer: p.numAnswer / p.denom,
+        displayAnswer: p.answer,
         hint: `The keyword "in all" tells you to add. Find a common denominator for ${p.a} and ${p.b}, then add the numerators.`,
-        solution: `Step 1: The keyword "in all" means addition: ${p.a} + ${p.b}.\nStep 2: Find a common denominator: ${p.a} = ${p.aNum}/${p.denom} and ${p.b} = ${p.bNum}/${p.denom}.\nStep 3: Add the numerators: ${p.aNum} + ${p.bNum} = ${p.numAnswer}.\nAnswer: The ladybug crawled ${p.answer} of an inch (numerator = ${p.numAnswer}).`,
+        solution: `Step 1: The keyword "in all" means addition: ${p.a} + ${p.b}.\nStep 2: Find a common denominator: ${p.a} = ${p.aNum}/${p.denom} and ${p.b} = ${p.bNum}/${p.denom}.\nStep 3: Add the numerators: ${p.aNum} + ${p.bNum} = ${p.numAnswer}.\nAnswer: The ladybug crawled ${p.answer} of an inch.`,
         njslsStandard: '4.NF.B.3',
       };
       if (guided) {
@@ -243,9 +244,10 @@ const templates: Template[] = [
       const p = pick(pairs);
       const q: GeneratedQuestion = {
         problemText: `Adam is knitting a scarf with his grandmother. Yesterday, his grandmother used ${p.a} of a skein of wool and Adam used ${p.b} of a skein. How much more wool did Adam's grandmother use than Adam?`,
-        answer: p.numAnswer,
+        answer: p.numAnswer / p.denom,
+        displayAnswer: p.answer,
         hint: `The keyword "how much more" tells you to subtract. Find a common denominator for ${p.a} and ${p.b}, then subtract.`,
-        solution: `Step 1: The keyword "how much more" means subtraction: ${p.a} - ${p.b}.\nStep 2: Find a common denominator: ${p.a} = ${p.aNum}/${p.denom} and ${p.b} = ${p.bNum}/${p.denom}.\nStep 3: Subtract the numerators: ${p.aNum} - ${p.bNum} = ${p.numAnswer}.\nAnswer: Grandmother used ${p.answer} more of a skein (numerator = ${p.numAnswer}).`,
+        solution: `Step 1: The keyword "how much more" means subtraction: ${p.a} - ${p.b}.\nStep 2: Find a common denominator: ${p.a} = ${p.aNum}/${p.denom} and ${p.b} = ${p.bNum}/${p.denom}.\nStep 3: Subtract the numerators: ${p.aNum} - ${p.bNum} = ${p.numAnswer}.\nAnswer: Grandmother used ${p.answer} more of a skein.`,
         njslsStandard: '4.NF.B.3',
       };
       if (guided) {
@@ -481,9 +483,10 @@ const templates: Template[] = [
       const p = pick(pairs);
       const q: GeneratedQuestion = {
         problemText: `Marcus ran ${p.a} of a mile before school and ${p.b} of a mile after school. How far did Marcus run in all?`,
-        answer: p.numAnswer,
+        answer: p.numAnswer / p.denom,
+        displayAnswer: p.answer,
         hint: `The keyword "in all" tells you to add. Find a common denominator for ${p.a} and ${p.b}, then add the numerators.`,
-        solution: `Step 1: The keyword "in all" means addition: ${p.a} + ${p.b}.\nStep 2: Find a common denominator: ${p.a} = ${p.aNum}/${p.denom} and ${p.b} = ${p.bNum}/${p.denom}.\nStep 3: Add the numerators: ${p.aNum} + ${p.bNum} = ${p.numAnswer}.\nAnswer: Marcus ran ${p.answer} of a mile (numerator = ${p.numAnswer}).`,
+        solution: `Step 1: The keyword "in all" means addition: ${p.a} + ${p.b}.\nStep 2: Find a common denominator: ${p.a} = ${p.aNum}/${p.denom} and ${p.b} = ${p.bNum}/${p.denom}.\nStep 3: Add the numerators: ${p.aNum} + ${p.bNum} = ${p.numAnswer}.\nAnswer: Marcus ran ${p.answer} of a mile.`,
         njslsStandard: '4.NF.B.3',
       };
       if (guided) {
@@ -629,9 +632,10 @@ const templates: Template[] = [
       const p = pick(pairs);
       const q: GeneratedQuestion = {
         problemText: `Isabel spent ${p.a} of an hour working on her art project on Monday. On Tuesday she spent ${p.b} of an hour. How much more time did Isabel spend on her project on Monday than on Tuesday?`,
-        answer: p.numAnswer,
+        answer: p.numAnswer / p.denom,
+        displayAnswer: p.answer,
         hint: `The keyword "how much more" tells you to subtract. Find a common denominator for ${p.a} and ${p.b}, then subtract.`,
-        solution: `Step 1: The keyword "how much more" means subtraction: ${p.a} - ${p.b}.\nStep 2: Find a common denominator: ${p.a} = ${p.aNum}/${p.denom} and ${p.b} = ${p.bNum}/${p.denom}.\nStep 3: Subtract the numerators: ${p.aNum} - ${p.bNum} = ${p.numAnswer}.\nAnswer: Isabel spent ${p.answer} of an hour more on Monday (numerator = ${p.numAnswer}).`,
+        solution: `Step 1: The keyword "how much more" means subtraction: ${p.a} - ${p.b}.\nStep 2: Find a common denominator: ${p.a} = ${p.aNum}/${p.denom} and ${p.b} = ${p.bNum}/${p.denom}.\nStep 3: Subtract the numerators: ${p.aNum} - ${p.bNum} = ${p.numAnswer}.\nAnswer: Isabel spent ${p.answer} of an hour more on Monday.`,
         njslsStandard: '4.NF.B.3',
       };
       if (guided) {
@@ -766,9 +770,10 @@ const templates: Template[] = [
       const p = pick(pairs);
       const q: GeneratedQuestion = {
         problemText: `Carter used ${p.a} of a bottle of wood glue for his birdhouse project. His partner Finn used ${p.b} of a bottle. How much more glue did Carter use than Finn?`,
-        answer: p.numAnswer,
+        answer: p.numAnswer / p.denom,
+        displayAnswer: p.answer,
         hint: `The keyword "how much more" tells you to subtract. Find a common denominator for ${p.a} and ${p.b}, then subtract.`,
-        solution: `Step 1: The keyword "how much more" means subtraction: ${p.a} - ${p.b}.\nStep 2: Find a common denominator: ${p.a} = ${p.aNum}/${p.denom} and ${p.b} = ${p.bNum}/${p.denom}.\nStep 3: Subtract the numerators: ${p.aNum} - ${p.bNum} = ${p.numAnswer}.\nAnswer: Carter used ${p.answer} more of a bottle (numerator = ${p.numAnswer}).`,
+        solution: `Step 1: The keyword "how much more" means subtraction: ${p.a} - ${p.b}.\nStep 2: Find a common denominator: ${p.a} = ${p.aNum}/${p.denom} and ${p.b} = ${p.bNum}/${p.denom}.\nStep 3: Subtract the numerators: ${p.aNum} - ${p.bNum} = ${p.numAnswer}.\nAnswer: Carter used ${p.answer} more of a bottle.`,
         njslsStandard: '4.NF.B.3',
       };
       if (guided) {

@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import type { AttemptResult } from '../types';
+import { compareAnswers } from '../utils/answer';
 
 export function useScoring(maxPoints: number) {
   const [points, setPoints] = useState(0);
@@ -8,7 +9,7 @@ export function useScoring(maxPoints: number) {
 
   const checkAnswer = useCallback(
     (userAnswer: number, correctAnswer: number): AttemptResult => {
-      const correct = userAnswer === correctAnswer;
+      const correct = compareAnswers(userAnswer, correctAnswer);
 
       if (isFirstAttempt) {
         if (correct) {

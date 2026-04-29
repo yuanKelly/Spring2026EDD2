@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { GeneratedQuestion, AttemptResult } from '../../types';
 import ReadAloud from '../ui/ReadAloud';
 import FractionText from '../ui/FractionText';
+import { parseAnswer } from '../../utils/answer';
 
 interface IndependentQuestionProps {
   question: GeneratedQuestion;
@@ -25,7 +26,7 @@ export default function IndependentQuestion({
     e.preventDefault();
     if (!input.trim()) return;
 
-    const userAnswer = parseFloat(input);
+    const userAnswer = parseAnswer(input);
     const attemptResult = onAnswer(userAnswer);
     setResult(attemptResult);
 
@@ -99,14 +100,13 @@ export default function IndependentQuestion({
         {!showSolution ? (
           <form onSubmit={handleSubmit} className="flex" style={{ gap: '0.75rem', marginBottom: '1.25rem' }}>
             <input
-              type="number"
-              step="any"
+              type="text"
               inputMode="decimal"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               className="flex-1 bg-midnight-950 border border-midnight-500 rounded-xl text-white text-xl focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition"
               style={{ padding: '0.85rem 1.25rem' }}
-              placeholder="Your answer..."
+              placeholder="Your answer (e.g. 0.7 or 7/10)"
               disabled={result !== null}
               autoFocus
             />
@@ -215,7 +215,7 @@ export default function IndependentQuestion({
                 <p className="text-amber-400 font-bold" style={{ marginBottom: '0.5rem', fontFamily: "'Fredoka', sans-serif" }}>Solution:</p>
                 <p className="text-gray-200" style={{ lineHeight: '1.7' }}><FractionText text={question.solution} /></p>
                 <p className="text-gray-400" style={{ marginTop: '0.75rem' }}>
-                  The answer was: <strong className="text-white font-mono">{question.answer}</strong>
+                  The answer was: <strong className="text-white font-mono"><FractionText text={String(question.displayAnswer ?? question.answer)} /></strong>
                 </p>
               </div>
               <motion.button
