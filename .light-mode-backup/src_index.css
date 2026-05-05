@@ -1,8 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* Midnight Spy Palette — deep indigo base with electric accents.
-     Values here are dark-mode defaults; light-mode overrides below in :root[data-theme="light"]. */
+  /* Midnight Spy Palette — deep indigo base with electric accents */
   --color-midnight-950: #060818;
   --color-midnight-900: #0b0f24;
   --color-midnight-800: #121833;
@@ -45,106 +44,6 @@
   --font-size-body: 1.1rem;
 }
 
-/* ── Theme tokens ──
-   Semantic variables consumed by inline styles across the app.
-   The dark set lives under :root (default + explicit [data-theme="dark"]).
-   The light set overrides under [data-theme="light"]. */
-:root,
-:root[data-theme="dark"] {
-  --bg-base: #060818;
-  --bg-base-deep: #040610;
-  --bg-surface: #0b0f24;
-  --bg-elevated: #121833;
-  --bg-hover: #1a2242;
-  --border-subtle: #253052;
-  --border-strong: #374569;
-  --text-primary: #e8e4f0;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --accent-amber: #fbbf24;
-  --accent-amber-deep: #f59e0b;
-  --accent-teal: #2dd4bf;
-  --accent-teal-deep: #14b8a6;
-  --accent-amber-text: #fbbf24;
-  --accent-teal-text: #2dd4bf;
-  --overlay-base: rgba(6, 8, 24, 0.55);
-  --overlay-edge: rgba(6, 8, 24, 0.92);
-  --atmosphere-near: rgba(26, 34, 66, 0.6);
-  --atmosphere-far: #060818;
-  --title-gradient: linear-gradient(135deg, #fbbf24, #fcd34d);
-  --panel-bg: rgba(6, 8, 24, 0.6);
-  --panel-border: rgba(37, 48, 82, 0.5);
-  --step-idle-bg: rgba(15, 20, 40, 0.5);
-  --step-idle-border: rgba(37, 48, 82, 0.4);
-  --feedback-success-text: #86efac;
-  --feedback-error-text: #fca5a5;
-  --hint-text: #fbbf24;
-  --badge-purple-text: #d8b4fe;
-  --badge-blue-text: #60a5fa;
-  --grid-line: rgba(37, 48, 82, 0.3);
-  --scanline-tint: rgba(6, 8, 24, 0.15);
-  --scrollbar-track: #0b0f24;
-  --scrollbar-thumb: #374569;
-  --scrollbar-thumb-hover: #253052;
-}
-
-:root[data-theme="light"] {
-  /* Override Tailwind's @theme variables so bg-midnight-*, text-amber-*, etc. flip too */
-  --color-midnight-950: #f7f8fc;
-  --color-midnight-900: #ffffff;
-  --color-midnight-800: #eef1f8;
-  --color-midnight-700: #dde2ee;
-  --color-midnight-600: #c8d0e0;
-  --color-midnight-500: #a8b2c7;
-  --color-navy-900: #f7f8fc;
-  --color-navy-800: #ffffff;
-  --color-navy-700: #eef1f8;
-  --color-navy-600: #dde2ee;
-  --color-navy-500: #c8d0e0;
-  /* Darker amber/teal for text contrast on white */
-  --color-amber-400: #92400e;
-  --color-amber-300: #b45309;
-  --color-teal-400: #0d9488;
-  --color-gold-400: #92400e;
-
-  /* Semantic tokens */
-  --bg-base: #f7f8fc;
-  --bg-base-deep: #eef1f8;
-  --bg-surface: #ffffff;
-  --bg-elevated: #eef1f8;
-  --bg-hover: #dde2ee;
-  --border-subtle: #d3d9e6;
-  --border-strong: #a8b2c7;
-  --text-primary: #0b0f24;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
-  --accent-amber: #fbbf24;
-  --accent-amber-deep: #f59e0b;
-  --accent-teal: #2dd4bf;
-  --accent-teal-deep: #0d9488;
-  --accent-amber-text: #d97706;
-  --accent-teal-text: #0d9488;
-  --overlay-base: rgba(247, 248, 252, 0.35);
-  --overlay-edge: rgba(247, 248, 252, 0.65);
-  --atmosphere-near: #dbeafe;
-  --atmosphere-far: #eff6ff;
-  --title-gradient: linear-gradient(135deg, #d97706, #f59e0b);
-  --panel-bg: rgba(255, 255, 255, 0.75);
-  --panel-border: rgba(168, 178, 199, 0.5);
-  --step-idle-bg: rgba(203, 213, 225, 0.45);
-  --step-idle-border: rgba(148, 163, 184, 0.45);
-  --feedback-success-text: #166534;
-  --feedback-error-text: #7f1d1d;
-  --hint-text: #d97706;
-  --badge-purple-text: #6b21a8;
-  --badge-blue-text: #1d4ed8;
-  --grid-line: rgba(168, 178, 199, 0.35);
-  --scanline-tint: rgba(11, 15, 36, 0.04);
-  --scrollbar-track: #eef1f8;
-  --scrollbar-thumb: #c8d0e0;
-  --scrollbar-thumb-hover: #a8b2c7;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -154,8 +53,8 @@
 body {
   font-family: 'Space Grotesk', system-ui, sans-serif;
   font-size: var(--font-size-body);
-  background-color: var(--bg-base);
-  color: var(--text-primary);
+  background-color: var(--color-midnight-950);
+  color: #e8e4f0;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
@@ -199,8 +98,8 @@ button, a, input, select {
     0deg,
     transparent,
     transparent 2px,
-    var(--scanline-tint) 2px,
-    var(--scanline-tint) 4px
+    rgba(6, 8, 24, 0.15) 2px,
+    rgba(6, 8, 24, 0.15) 4px
   );
   z-index: 1;
 }
@@ -253,16 +152,16 @@ button, a, input, select {
 /* Grid pattern background */
 .grid-bg {
   background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    linear-gradient(rgba(37, 48, 82, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 48, 82, 0.3) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
 /* Dossier paper texture */
 .dossier {
   background:
-    linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-hover) 50%, var(--bg-elevated) 100%);
-  border: 1px solid var(--border-strong);
+    linear-gradient(135deg, var(--color-midnight-800) 0%, var(--color-midnight-700) 50%, var(--color-midnight-800) 100%);
+  border: 1px solid var(--color-midnight-500);
   position: relative;
 }
 
@@ -283,16 +182,16 @@ button, a, input, select {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
+  background: var(--color-midnight-900);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
+  background: var(--color-midnight-500);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-thumb-hover);
+  background: var(--color-midnight-600);
 }
 
 /* Stagger animation helper */
@@ -376,26 +275,3 @@ button, a, input, select {
     transform: scale(1);
   }
 }
-
-/* ── Light-theme overrides for Tailwind's built-in gray/white text classes ──
-   These classes are used widely on dark backgrounds. In light mode, the
-   surfaces flip white but these built-in colors don't, so we redirect them
-   to readable dark-on-light values. */
-:root[data-theme="light"] .text-gray-100 { color: #0b0f24; }
-:root[data-theme="light"] .text-gray-200 { color: #1f2937; }
-:root[data-theme="light"] .text-gray-300 { color: #1f2937; }
-:root[data-theme="light"] .text-gray-400 { color: #475569; }
-:root[data-theme="light"] .text-gray-500 { color: #64748b; }
-:root[data-theme="light"] .text-white { color: #0b0f24; }
-/* Pale amber/purple variants that don't go through @theme but still appear on light surfaces */
-:root[data-theme="light"] .text-amber-200 { color: #d97706; }
-:root[data-theme="light"] .text-amber-300 { color: #d97706; }
-:root[data-theme="light"] .text-purple-300 { color: #6b21a8; }
-:root[data-theme="light"] .text-blue-400 { color: #1d4ed8; }
-:root[data-theme="light"] .text-red-300 { color: #b91c1c; }
-:root[data-theme="light"] .text-green-300 { color: #15803d; }
-/* Hover variants seen in our buttons */
-:root[data-theme="light"] .hover\:text-white:hover { color: #060818; }
-:root[data-theme="light"] .hover\:text-amber-300:hover { color: #b45309; }
-/* text-midnight-950 is only ever used as dark text on amber CTAs (buttons) — keep it dark in both themes */
-:root[data-theme="light"] .text-midnight-950 { color: #060818; }

@@ -10,8 +10,6 @@ interface NYCBridgeRiddleProps {
 export default function NYCBridgeRiddle({ unit: _unit, onComplete }: NYCBridgeRiddleProps) {
   const [flipped, setFlipped] = useState(false);
   const [hint, setHint] = useState<string | null>(null);
-  const [paintingClicks, setPaintingClicks] = useState(0);
-  const [strongHintShown, setStrongHintShown] = useState(false);
 
   const handleBridgeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -22,10 +20,7 @@ export default function NYCBridgeRiddle({ unit: _unit, onComplete }: NYCBridgeRi
   const handlePaintingClick = () => {
     if (flipped) return;
     setHint('Look closer at the symbol of unity…');
-    setPaintingClicks((c) => c + 1);
   };
-
-  const showHelp = paintingClicks >= 3;
 
   return (
     <motion.div
@@ -48,7 +43,7 @@ export default function NYCBridgeRiddle({ unit: _unit, onComplete }: NYCBridgeRi
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 40%, var(--overlay-base) 0%, var(--overlay-edge) 75%)',
+            'radial-gradient(ellipse at 50% 40%, rgba(6,8,24,0.55) 0%, rgba(6,8,24,0.92) 75%)',
         }}
       />
 
@@ -66,7 +61,7 @@ export default function NYCBridgeRiddle({ unit: _unit, onComplete }: NYCBridgeRi
             style={{
               padding: '0.35rem 1rem',
               background: 'rgba(168, 85, 247, 0.12)',
-              color: 'var(--badge-purple-text)',
+              color: '#d8b4fe',
               border: '1px solid rgba(168, 85, 247, 0.3)',
             }}
           >
@@ -80,8 +75,8 @@ export default function NYCBridgeRiddle({ unit: _unit, onComplete }: NYCBridgeRi
           style={{
             padding: '1.25rem 1.5rem',
             marginBottom: '1.5rem',
-            background: 'var(--panel-bg)',
-            border: '1px solid var(--panel-border)',
+            background: 'rgba(6, 8, 24, 0.5)',
+            border: '1px solid rgba(37, 48, 82, 0.5)',
             fontFamily: "'Fredoka', sans-serif",
           }}
         >
@@ -179,7 +174,7 @@ export default function NYCBridgeRiddle({ unit: _unit, onComplete }: NYCBridgeRi
                   background: 'rgba(6, 8, 24, 0.85)',
                   border: '1px solid rgba(251, 191, 36, 0.35)',
                   borderRadius: '8px',
-                  color: 'var(--hint-text)',
+                  color: '#fde68a',
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: '0.85rem',
                   textAlign: 'center',
@@ -205,48 +200,11 @@ export default function NYCBridgeRiddle({ unit: _unit, onComplete }: NYCBridgeRi
                 lineHeight: '1.6',
                 background: 'rgba(234, 179, 8, 0.08)',
                 border: '1px solid rgba(234, 179, 8, 0.25)',
-                color: 'var(--hint-text)',
+                color: '#fde68a',
               }}
             >
               {hint}
-              {strongHintShown && (
-                <p style={{ marginTop: '0.5rem', color: 'var(--accent-amber-text)' }}>
-                  <strong>Hint:</strong> Click directly on the curved bridge in the middle of the painting.
-                </p>
-              )}
             </motion.div>
-          )}
-          {!flipped && showHelp && (
-            <div className="flex" style={{ gap: '0.75rem', marginTop: '1rem' }}>
-              {!strongHintShown && (
-                <button
-                  onClick={() => setStrongHintShown(true)}
-                  className="rounded-xl text-sm font-medium transition"
-                  style={{
-                    flex: 1,
-                    padding: '0.75rem 1rem',
-                    background: 'rgba(251, 191, 36, 0.12)',
-                    border: '1px solid rgba(251, 191, 36, 0.35)',
-                    color: 'var(--accent-amber-text)',
-                  }}
-                >
-                  Show a hint
-                </button>
-              )}
-              <button
-                onClick={onComplete}
-                className="rounded-xl text-sm font-medium transition"
-                style={{
-                  flex: 1,
-                  padding: '0.75rem 1rem',
-                  background: 'rgba(45, 212, 191, 0.1)',
-                  border: '1px solid rgba(45, 212, 191, 0.3)',
-                  color: 'var(--badge-teal-text, #2dd4bf)',
-                }}
-              >
-                Skip riddle
-              </button>
-            </div>
           )}
           {flipped && (
             <motion.button

@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import ThemeToggle from './ThemeToggle';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -16,7 +15,7 @@ export default function Navbar() {
       className="relative border-b border-midnight-600/60"
       style={{
         padding: '0 0.5in',
-        background: 'linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-base) 100%)',
+        background: 'linear-gradient(180deg, #0b0f24 0%, #060818 100%)',
       }}
     >
       {/* Accent line at top */}
@@ -35,11 +34,10 @@ export default function Navbar() {
         >
           {/* Shield icon */}
           <div
-            className="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-sm shrink-0"
+            className="w-9 h-9 rounded-lg flex items-center justify-center text-midnight-950 font-bold text-sm shrink-0"
             style={{
               background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
               boxShadow: '0 0 12px rgba(251, 191, 36, 0.3)',
-              color: '#060818',
             }}
           >
             M
@@ -48,7 +46,7 @@ export default function Navbar() {
             className="text-xl font-bold tracking-tight"
             style={{
               fontFamily: "'Fredoka', sans-serif",
-              background: 'var(--title-gradient)',
+              background: 'linear-gradient(135deg, #fbbf24, #fcd34d)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}
@@ -58,26 +56,18 @@ export default function Navbar() {
         </button>
 
         <div className="flex items-center gap-3">
-          <ThemeToggle />
           {user ? (
             <>
               <span
-                className="text-sm hidden sm:inline"
-                style={{
-                  fontFamily: "'JetBrains Mono', monospace",
-                  fontSize: '0.8rem',
-                  color: 'var(--accent-teal-text)',
-                }}
+                className="text-sm hidden sm:inline text-teal-400"
+                style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.8rem' }}
               >
                 AGENT {user.displayName?.toUpperCase()}
               </span>
               <button
                 onClick={handleLogout}
-                className="bg-midnight-700 hover:bg-midnight-600 rounded-lg transition text-sm min-h-0 border border-midnight-500"
-                style={{
-                  padding: '0.4rem 1rem',
-                  color: 'var(--text-secondary)',
-                }}
+                className="bg-midnight-700 hover:bg-midnight-600 text-gray-300 hover:text-white rounded-lg transition text-sm min-h-0 border border-midnight-500"
+                style={{ padding: '0.4rem 1rem' }}
               >
                 Sign Out
               </button>
@@ -86,22 +76,18 @@ export default function Navbar() {
             <>
               <button
                 onClick={() => navigate('/signup')}
-                className="transition text-sm min-h-0"
-                style={{
-                  padding: '0.4rem 1rem',
-                  color: 'var(--text-secondary)',
-                }}
+                className="text-gray-400 hover:text-white transition text-sm min-h-0"
+                style={{ padding: '0.4rem 1rem' }}
               >
                 Create Account
               </button>
               <button
                 onClick={() => navigate('/login')}
-                className="font-bold rounded-lg transition text-sm min-h-0"
+                className="text-midnight-950 font-bold rounded-lg transition text-sm min-h-0"
                 style={{
                   padding: '0.4rem 1.2rem',
                   background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
                   boxShadow: '0 2px 12px rgba(251, 191, 36, 0.25)',
-                  color: '#060818',
                 }}
               >
                 Sign In

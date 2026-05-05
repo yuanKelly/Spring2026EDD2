@@ -39,7 +39,7 @@ export default function MissionIntro({ unit, onContinue }: MissionIntroProps) {
                 className="absolute inset-0"
                 style={{
                   background:
-                    'radial-gradient(ellipse at 50% 40%, var(--overlay-base) 0%, var(--overlay-edge) 75%)',
+                    'radial-gradient(ellipse at 50% 40%, rgba(6,8,24,0.55) 0%, rgba(6,8,24,0.9) 75%)',
                 }}
               />
             </>
@@ -50,7 +50,7 @@ export default function MissionIntro({ unit, onContinue }: MissionIntroProps) {
             className="absolute inset-0"
             style={{
               background:
-                'radial-gradient(ellipse at 50% 40%, var(--bg-elevated) 0%, var(--bg-base) 70%)',
+                'radial-gradient(ellipse at 50% 40%, rgba(26, 34, 66, 0.8) 0%, #060818 70%)',
             }}
           />
         );
@@ -118,7 +118,7 @@ export default function MissionIntro({ unit, onContinue }: MissionIntroProps) {
             className="text-4xl font-bold mb-3"
             style={{
               fontFamily: "'Fredoka', sans-serif",
-              background: 'var(--title-gradient)',
+              background: 'linear-gradient(135deg, #fbbf24, #fcd34d)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}
@@ -166,7 +166,7 @@ export default function MissionIntro({ unit, onContinue }: MissionIntroProps) {
             style={{
               width: slide === 'city' ? '24px' : '10px',
               height: '10px',
-              backgroundColor: slide === 'city' ? '#fbbf24' : 'var(--bg-hover)',
+              backgroundColor: slide === 'city' ? '#fbbf24' : '#1a2242',
               boxShadow: slide === 'city' ? '0 0 8px rgba(251, 191, 36, 0.4)' : 'none',
             }}
           />
@@ -175,7 +175,7 @@ export default function MissionIntro({ unit, onContinue }: MissionIntroProps) {
             style={{
               width: slide === 'mission' ? '24px' : '10px',
               height: '10px',
-              backgroundColor: slide === 'mission' ? '#fbbf24' : 'var(--bg-hover)',
+              backgroundColor: slide === 'mission' ? '#fbbf24' : '#1a2242',
               boxShadow: slide === 'mission' ? '0 0 8px rgba(251, 191, 36, 0.4)' : 'none',
             }}
           />
@@ -184,11 +184,10 @@ export default function MissionIntro({ unit, onContinue }: MissionIntroProps) {
         {slide === 'city' ? (
           <motion.button
             onClick={() => setSlide('mission')}
-            className="w-full py-4 font-bold rounded-xl text-xl transition"
+            className="w-full py-4 text-white font-bold rounded-xl text-xl transition"
             style={{
               background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
               boxShadow: '0 4px 24px rgba(59, 130, 246, 0.3)',
-              color: '#ffffff',
             }}
             whileHover={{ scale: 1.02, boxShadow: '0 6px 32px rgba(59, 130, 246, 0.4)' }}
             whileTap={{ scale: 0.98 }}
@@ -198,11 +197,10 @@ export default function MissionIntro({ unit, onContinue }: MissionIntroProps) {
         ) : (
           <motion.button
             onClick={onContinue}
-            className="w-full py-4 font-bold rounded-xl text-xl transition"
+            className="w-full py-4 text-midnight-950 font-bold rounded-xl text-xl transition"
             style={{
               background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
               boxShadow: '0 4px 24px rgba(251, 191, 36, 0.3)',
-              color: '#060818',
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

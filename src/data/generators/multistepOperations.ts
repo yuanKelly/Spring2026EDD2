@@ -68,7 +68,7 @@ const templates: Template[] = [
       const crayons = per + randInt(1, 4);
       const answer = crayons - per;
       const q: GeneratedQuestion = {
-        problemText: `At Color City Crafts, Charlotte paid $${crayons.toFixed(2)} for a box of crayons. He also paid $${total} total for ${n} coloring books. How much more does a box of crayons cost than a coloring book?`,
+        problemText: `At Color City Crafts, Charlotte paid $${crayons.toFixed(2)} for a box of crayons. She also paid $${total} total for ${n} coloring books. How much more does a box of crayons cost than a coloring book?`,
         answer,
         hint: `Draw a picture showing the crayons and the coloring books. First find the cost of one coloring book, then compare.`,
         solution: `Step 1: Find the cost of one coloring book: $${total} ÷ ${n} = $${per.toFixed(2)} per book.\nStep 2: Find the difference: $${crayons.toFixed(2)} - $${per.toFixed(2)} = $${answer.toFixed(2)}.\nAnswer: The crayons cost $${answer.toFixed(2)} more than a coloring book.`,

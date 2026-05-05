@@ -20,8 +20,6 @@ const CORRECT: CardId = 'eye';
 export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddleProps) {
   const [wrongId, setWrongId] = useState<CardId | null>(null);
   const [solved, setSolved] = useState(false);
-  const [wrongCount, setWrongCount] = useState(0);
-  const [hintShown, setHintShown] = useState(false);
 
   const handleClick = (id: CardId) => {
     if (solved) return;
@@ -31,11 +29,8 @@ export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddlePro
       setTimeout(() => onComplete(), 1800);
     } else {
       setWrongId(id);
-      setWrongCount((c) => c + 1);
     }
   };
-
-  const showHelp = wrongCount >= 3;
 
   return (
     <motion.div
@@ -58,7 +53,7 @@ export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddlePro
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 40%, var(--overlay-base) 0%, var(--overlay-edge) 75%)',
+            'radial-gradient(ellipse at 50% 40%, rgba(6,8,24,0.55) 0%, rgba(6,8,24,0.92) 75%)',
         }}
       />
 
@@ -76,7 +71,7 @@ export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddlePro
               style={{
                 padding: '0.35rem 1rem',
                 background: 'rgba(168, 85, 247, 0.12)',
-                color: 'var(--badge-purple-text)',
+                color: '#d8b4fe',
                 border: '1px solid rgba(168, 85, 247, 0.3)',
               }}
             >
@@ -187,7 +182,7 @@ export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddlePro
                   lineHeight: '1.6',
                   background: 'rgba(34, 197, 94, 0.1)',
                   border: '1px solid rgba(34, 197, 94, 0.3)',
-                  color: 'var(--feedback-success-text)',
+                  color: '#86efac',
                 }}
               >
                 The keycard is yours, Agent. Onward.
@@ -204,52 +199,13 @@ export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddlePro
                   lineHeight: '1.6',
                   background: 'rgba(234, 179, 8, 0.08)',
                   border: '1px solid rgba(234, 179, 8, 0.25)',
-                  color: 'var(--hint-text)',
+                  color: '#fde68a',
                 }}
               >
-                Not quite — try again, Agent. You've got this!
-                {hintShown && (
-                  <p style={{ marginTop: '0.5rem', color: 'var(--accent-amber-text)' }}>
-                    <strong>Hint:</strong> The clue says "the world opens for those who observe." Choose the symbol of seeing.
-                  </p>
-                )}
+                Not quite — try again.
               </motion.div>
             )}
           </AnimatePresence>
-
-          {/* Help row: appears after several wrong attempts */}
-          {!solved && showHelp && (
-            <div className="flex" style={{ gap: '0.75rem', marginTop: '1rem' }}>
-              {!hintShown && (
-                <button
-                  onClick={() => setHintShown(true)}
-                  className="rounded-xl text-sm font-medium transition"
-                  style={{
-                    flex: 1,
-                    padding: '0.75rem 1rem',
-                    background: 'rgba(251, 191, 36, 0.12)',
-                    border: '1px solid rgba(251, 191, 36, 0.35)',
-                    color: 'var(--accent-amber-text)',
-                  }}
-                >
-                  Show a hint
-                </button>
-              )}
-              <button
-                onClick={onComplete}
-                className="rounded-xl text-sm font-medium transition"
-                style={{
-                  flex: 1,
-                  padding: '0.75rem 1rem',
-                  background: 'rgba(45, 212, 191, 0.1)',
-                  border: '1px solid rgba(45, 212, 191, 0.3)',
-                  color: 'var(--badge-teal-text, #2dd4bf)',
-                }}
-              >
-                Skip riddle
-              </button>
-            </div>
-          )}
         </div>
       </motion.div>
     </motion.div>

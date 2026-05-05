@@ -22,7 +22,7 @@ export default function LoginPage() {
       if (err instanceof Error && err.message.startsWith('Username must')) {
         setError(err.message);
       } else {
-        setError('Invalid username or secret code. Please try again.');
+        setError("Hmm, that username or secret code didn't match. Try again, Agent!");
       }
     } finally {
       setLoading(false);
@@ -54,7 +54,7 @@ export default function LoginPage() {
           <h1
             className="text-3xl font-bold mb-2"
             style={{
-              background: 'linear-gradient(135deg, #fbbf24, #fcd34d)',
+              background: 'var(--title-gradient)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}
@@ -62,7 +62,7 @@ export default function LoginPage() {
             Agent Login
           </h1>
           <p className="text-gray-400" style={{ fontSize: '0.95rem' }}>
-            Enter your credentials to access HQ
+            Enter your username and secret code to begin
           </p>
         </div>
 

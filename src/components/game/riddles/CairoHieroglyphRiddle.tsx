@@ -27,6 +27,8 @@ const CORRECT: SymbolId = 'earth';
 export default function CairoHieroglyphRiddle({ unit, onComplete }: CairoHieroglyphRiddleProps) {
   const [wrongId, setWrongId] = useState<SymbolId | null>(null);
   const [solved, setSolved] = useState(false);
+  const [wrongCount, setWrongCount] = useState(0);
+  const [hintShown, setHintShown] = useState(false);
 
   const handleClick = (id: SymbolId) => {
     if (solved) return;
@@ -36,8 +38,11 @@ export default function CairoHieroglyphRiddle({ unit, onComplete }: CairoHierogl
       setTimeout(() => onComplete(), 1800);
     } else {
       setWrongId(id);
+      setWrongCount((c) => c + 1);
     }
   };
+
+  const showHelp = wrongCount >= 3;
 
   return (
     <motion.div
@@ -60,7 +65,7 @@ export default function CairoHieroglyphRiddle({ unit, onComplete }: CairoHierogl
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 40%, rgba(6,8,24,0.55) 0%, rgba(6,8,24,0.92) 75%)',
+            'radial-gradient(ellipse at 50% 40%, var(--overlay-base) 0%, var(--overlay-edge) 75%)',
         }}
       />
 
@@ -78,7 +83,7 @@ export default function CairoHieroglyphRiddle({ unit, onComplete }: CairoHierogl
               style={{
                 padding: '0.35rem 1rem',
                 background: 'rgba(168, 85, 247, 0.12)',
-                color: '#d8b4fe',
+                color: 'var(--badge-purple-text)',
                 border: '1px solid rgba(168, 85, 247, 0.3)',
               }}
             >
@@ -189,7 +194,7 @@ export default function CairoHieroglyphRiddle({ unit, onComplete }: CairoHierogl
                   lineHeight: '1.6',
                   background: 'rgba(34, 197, 94, 0.1)',
                   border: '1px solid rgba(34, 197, 94, 0.3)',
-                  color: '#86efac',
+                  color: 'var(--feedback-success-text)',
                 }}
               >
                 The earth — fire, water, land, and air woven together. The tomb opens. The key is yours.
@@ -206,13 +211,51 @@ export default function CairoHieroglyphRiddle({ unit, onComplete }: CairoHierogl
                   lineHeight: '1.6',
                   background: 'rgba(234, 179, 8, 0.08)',
                   border: '1px solid rgba(234, 179, 8, 0.25)',
-                  color: '#fde68a',
+                  color: 'var(--hint-text)',
                 }}
               >
-                Not quite — try again.
+                Not quite — keep searching, Agent. You'll find it!
+                {hintShown && (
+                  <p style={{ marginTop: '0.5rem', color: 'var(--accent-amber-text)' }}>
+                    <strong>Hint:</strong> Look in the bottom row — the symbol shaped like the ground that holds all life. It's on the far left.
+                  </p>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
+
+          {!solved && showHelp && (
+            <div className="flex" style={{ gap: '0.75rem', marginTop: '1rem' }}>
+              {!hintShown && (
+                <button
+                  onClick={() => setHintShown(true)}
+                  className="rounded-xl text-sm font-medium transition"
+                  style={{
+                    flex: 1,
+                    padding: '0.75rem 1rem',
+                    background: 'rgba(251, 191, 36, 0.12)',
+                    border: '1px solid rgba(251, 191, 36, 0.35)',
+                    color: 'var(--accent-amber-text)',
+                  }}
+                >
+                  Show a hint
+                </button>
+              )}
+              <button
+                onClick={onComplete}
+                className="rounded-xl text-sm font-medium transition"
+                style={{
+                  flex: 1,
+                  padding: '0.75rem 1rem',
+                  background: 'rgba(45, 212, 191, 0.1)',
+                  border: '1px solid rgba(45, 212, 191, 0.3)',
+                  color: 'var(--badge-teal-text, #2dd4bf)',
+                }}
+              >
+                Skip riddle
+              </button>
+            </div>
+          )}
         </div>
       </motion.div>
     </motion.div>

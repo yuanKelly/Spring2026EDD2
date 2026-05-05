@@ -36,7 +36,7 @@ export const units: Unit[] = [
     tipId: 'draw-a-picture',
     guidedCount: 2,
     cityDescription:
-      'Welcome to New York, the city that never sleeps. With a population of 8.6 million, it is the largest city in the United States. The city is split into 5 boroughs, your mission will be in Manhattan, the largest and most famous.',
+      'Welcome to New York, the city that never sleeps. With a population of 8.6 million, it is the largest city in the United States. The city is split into 5 boroughs. Your mission will be in Manhattan, the largest and most famous.',
     missionIntroText:
       'Agent, your next stop is New York City. Buried deep inside the Metropolitan Museum is Claude Monet\'s painting, The Water Lily Pond. Use the torch of knowledge to illuminate a secret inscription hidden on one of the lilies. Solve the multistep riddle it reveals to uncover the map to the secret HQ.',
     maxPoints: 5,
@@ -76,7 +76,7 @@ export const units: Unit[] = [
     tipId: 'replacing-unknowns',
     guidedCount: 2,
     cityDescription:
-      'Welcome to Cairo, the bustling hub of Egypt. Nested on the Nile River, Cairo is home to the Great Pyramids of Egypt. Get out into the desert near the pyramids so you can begin your mission.',
+      'Welcome to Cairo, the bustling hub of Egypt. Nestled on the Nile River, Cairo is home to the Great Pyramids of Egypt. Get out into the desert near the pyramids so you can begin your mission.',
     missionIntroText:
       'Agent, welcome to Cairo. Cleopatra, an ancient agent of the Math Order, possessed one of the keys to the HQ vault. To continue her legacy, she sealed the key inside the tomb of her greatest mentor, Khufu. Break into the tomb and decipher her hieroglyphs — only a master of fractions can read them.',
     maxPoints: 5,

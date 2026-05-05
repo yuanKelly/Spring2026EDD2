@@ -54,11 +54,11 @@ export default function TourGuide({ contactName, contactImage, tip, onContinue }
         );
       case 3:
         return (
-          <>E – Evaluate and eliminate: <strong style={{ color: '#e2e8f0' }}>what steps do I take, and what information don't I need?</strong></>
+          <>E – Evaluate and eliminate: <strong style={{ color: 'var(--text-primary)' }}>what steps do I take, and what information don't I need?</strong></>
         );
       case 4:
         return (
-          <>S – Show your work and check: <strong style={{ color: '#e2e8f0' }}>did I answer the underlined question?</strong></>
+          <>S – Show your work and check: <strong style={{ color: 'var(--text-primary)' }}>did I answer the underlined question?</strong></>
         );
       default:
         return null;
@@ -75,7 +75,7 @@ export default function TourGuide({ contactName, contactImage, tip, onContinue }
       <div
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse at 30% 80%, rgba(26, 34, 66, 0.6) 0%, #060818 70%)',
+          background: 'radial-gradient(ellipse at 30% 80%, var(--atmosphere-near) 0%, var(--atmosphere-far) 70%)',
         }}
       />
       <div className="absolute inset-0 grid-bg opacity-40" />
@@ -114,7 +114,7 @@ export default function TourGuide({ contactName, contactImage, tip, onContinue }
             className="text-2xl font-bold mb-3"
             style={{
               fontFamily: "'Fredoka', sans-serif",
-              background: 'linear-gradient(135deg, #fbbf24, #fcd34d)',
+              background: 'var(--title-gradient)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}
@@ -134,7 +134,7 @@ export default function TourGuide({ contactName, contactImage, tip, onContinue }
                 height: 0,
                 borderTop: '16px solid transparent',
                 borderBottom: '16px solid transparent',
-                borderRight: '24px solid rgba(18, 24, 51, 0.9)',
+                borderRight: '24px solid var(--bg-elevated)',
                 filter: 'drop-shadow(-2px 0 4px rgba(0,0,0,0.2))',
               }}
             />
@@ -171,11 +171,11 @@ export default function TourGuide({ contactName, contactImage, tip, onContinue }
                       className="font-bold text-xl"
                       style={{
                         fontFamily: "'Fredoka', sans-serif",
-                        color: '#fbbf24',
+                        color: 'var(--accent-amber-text)',
                         marginBottom: '1rem',
                       }}
                     >
-                      Let's try CUBES on a problem!
+                      Let's try the CUBES Method on a problem!
                     </h3>
                     <CubesDemo onComplete={onContinue} />
                   </motion.div>
@@ -189,7 +189,7 @@ export default function TourGuide({ contactName, contactImage, tip, onContinue }
                       className="font-bold text-xl mb-3"
                       style={{
                         fontFamily: "'Fredoka', sans-serif",
-                        color: '#fbbf24',
+                        color: 'var(--accent-amber-text)',
                       }}
                     >
                       {tip.title}
@@ -230,12 +230,13 @@ export default function TourGuide({ contactName, contactImage, tip, onContinue }
           {!showTip ? (
             <motion.button
               onClick={() => setShowTip(true)}
-              className="w-full text-white font-bold transition text-lg"
+              className="w-full font-bold transition text-lg"
               style={{
                 padding: '1rem',
                 borderRadius: '0.75rem',
                 background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
                 boxShadow: '0 4px 16px rgba(59, 130, 246, 0.3)',
+                color: '#ffffff',
               }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

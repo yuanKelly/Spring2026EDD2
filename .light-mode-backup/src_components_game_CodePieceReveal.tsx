@@ -34,7 +34,7 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
             className="absolute inset-0"
             style={{
               background:
-                'radial-gradient(ellipse at 50% 40%, var(--overlay-base) 0%, var(--overlay-edge) 75%)',
+                'radial-gradient(ellipse at 50% 40%, rgba(6,8,24,0.55) 0%, rgba(6,8,24,0.92) 75%)',
             }}
           />
         </>
@@ -65,7 +65,7 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
             className="inline-block rounded-2xl"
             style={{
               padding: '2rem',
-              background: 'linear-gradient(135deg, var(--bg-elevated), var(--bg-hover))',
+              background: 'linear-gradient(135deg, #121833, #1a2242)',
               border: '2px solid #fbbf24',
               boxShadow: '0 0 40px rgba(251, 191, 36, 0.2), 0 0 80px rgba(251, 191, 36, 0.05)',
             }}
@@ -75,7 +75,7 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
                 style={{
                   width: 220,
                   height: 150,
-                  background: 'var(--bg-surface)',
+                  background: '#0b0f24',
                   borderRadius: '12px',
                   display: 'flex',
                   flexDirection: 'column',
@@ -123,7 +123,7 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
                   height: 150,
                   objectFit: 'cover',
                   borderRadius: '12px',
-                  background: 'var(--bg-surface)',
+                  background: '#0b0f24',
                 }}
               />
             ) : unit.id === 'unit-4' ? (
@@ -135,7 +135,7 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
                   height: 150,
                   objectFit: 'cover',
                   borderRadius: '12px',
-                  background: 'var(--bg-surface)',
+                  background: '#0b0f24',
                 }}
               />
             ) : unit.id === 'unit-1' ? (
@@ -147,7 +147,7 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
                   height: 150,
                   objectFit: 'cover',
                   borderRadius: '12px',
-                  background: 'var(--bg-surface)',
+                  background: '#0b0f24',
                 }}
               />
             ) : unit.id === 'unit-3' ? (
@@ -159,7 +159,7 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
                   height: 150,
                   objectFit: 'cover',
                   borderRadius: '12px',
-                  background: 'var(--bg-surface)',
+                  background: '#0b0f24',
                 }}
               />
             ) : unit.id === 'unit-6' ? (
@@ -171,7 +171,7 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
                   height: 150,
                   objectFit: 'cover',
                   borderRadius: '12px',
-                  background: 'var(--bg-surface)',
+                  background: '#0b0f24',
                 }}
               />
             ) : (
@@ -190,7 +190,7 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
           style={{
             marginBottom: '1.25rem',
             fontFamily: "'Fredoka', sans-serif",
-            background: 'var(--title-gradient)',
+            background: 'linear-gradient(135deg, #fbbf24, #fcd34d)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}
@@ -251,12 +251,11 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
 
         <motion.button
           onClick={onContinue}
-          className="font-bold rounded-xl text-xl transition"
+          className="text-midnight-950 font-bold rounded-xl text-xl transition"
           style={{
             padding: '1.1rem 3rem',
             background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
             boxShadow: '0 4px 24px rgba(251, 191, 36, 0.3)',
-            color: '#060818',
           }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

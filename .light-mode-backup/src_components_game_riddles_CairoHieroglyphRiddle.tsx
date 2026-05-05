@@ -2,28 +2,33 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Unit } from '../../../types';
 
-interface ParisCardRiddleProps {
+interface CairoHieroglyphRiddleProps {
   unit: Unit;
   onComplete: () => void;
 }
 
-type CardId = 'fish' | 'eye' | 'flower';
+type SymbolId = 'ankh' | 'water' | 'wind' | 'crown' | 'earth' | 'eye' | 'tree' | 'star';
 
-const HOTSPOTS: { id: CardId; left: string; top: string; size: string }[] = [
-  { id: 'fish', left: '9%', top: '32%', size: '22%' },
-  { id: 'eye', left: '39%', top: '51%', size: '22%' },
-  { id: 'flower', left: '70%', top: '20%', size: '22%' },
+const HOTSPOTS: { id: SymbolId; left: string; top: string; size: string }[] = [
+  // Top row
+  { id: 'ankh', left: '3.5%', top: '19%', size: '17%' },
+  { id: 'water', left: '30.5%', top: '19%', size: '17%' },
+  { id: 'wind', left: '53.5%', top: '19%', size: '17%' },
+  { id: 'crown', left: '79.5%', top: '19%', size: '17%' },
+  // Bottom row
+  { id: 'earth', left: '7%', top: '61%', size: '18%' },
+  { id: 'eye', left: '33%', top: '61%', size: '18%' },
+  { id: 'tree', left: '56%', top: '61%', size: '18%' },
+  { id: 'star', left: '74%', top: '61%', size: '18%' },
 ];
 
-const CORRECT: CardId = 'eye';
+const CORRECT: SymbolId = 'earth';
 
-export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddleProps) {
-  const [wrongId, setWrongId] = useState<CardId | null>(null);
+export default function CairoHieroglyphRiddle({ unit, onComplete }: CairoHieroglyphRiddleProps) {
+  const [wrongId, setWrongId] = useState<SymbolId | null>(null);
   const [solved, setSolved] = useState(false);
-  const [wrongCount, setWrongCount] = useState(0);
-  const [hintShown, setHintShown] = useState(false);
 
-  const handleClick = (id: CardId) => {
+  const handleClick = (id: SymbolId) => {
     if (solved) return;
     if (id === CORRECT) {
       setSolved(true);
@@ -31,11 +36,8 @@ export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddlePro
       setTimeout(() => onComplete(), 1800);
     } else {
       setWrongId(id);
-      setWrongCount((c) => c + 1);
     }
   };
-
-  const showHelp = wrongCount >= 3;
 
   return (
     <motion.div
@@ -49,7 +51,7 @@ export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddlePro
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: 'url(/images/backgrounds/paris.jpg)',
+          backgroundImage: 'url(/images/backgrounds/cairo.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -58,7 +60,7 @@ export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddlePro
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 40%, var(--overlay-base) 0%, var(--overlay-edge) 75%)',
+            'radial-gradient(ellipse at 50% 40%, rgba(6,8,24,0.55) 0%, rgba(6,8,24,0.92) 75%)',
         }}
       />
 
@@ -76,11 +78,11 @@ export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddlePro
               style={{
                 padding: '0.35rem 1rem',
                 background: 'rgba(168, 85, 247, 0.12)',
-                color: 'var(--badge-purple-text)',
+                color: '#d8b4fe',
                 border: '1px solid rgba(168, 85, 247, 0.3)',
               }}
             >
-              Eiffel Tower — Three Cards
+              Tomb of Khufu — Hieroglyph Wall
             </span>
           </div>
 
@@ -108,8 +110,8 @@ export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddlePro
                 {unit.contactName}
               </p>
               <p className="text-gray-100 text-lg" style={{ lineHeight: '1.7' }}>
-                I didn't know there was more than one keycard up here! All my inside man told me was
-                that "the world opens for those who observe."
+                The glyph we need represents all things — fire, water, land, and air woven together.
+                Touch the right symbol and the tomb will open.
               </p>
             </div>
           </div>
@@ -119,7 +121,7 @@ export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddlePro
             style={{
               position: 'relative',
               width: '100%',
-              aspectRatio: '2048 / 1536',
+              aspectRatio: '3146 / 2186',
               borderRadius: '12px',
               overflow: 'hidden',
               border: '1px solid rgba(37, 48, 82, 0.5)',
@@ -127,8 +129,8 @@ export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddlePro
             }}
           >
             <img
-              src="/images/riddles/paris/parisriddle.jpg"
-              alt="Three keycards on a table"
+              src="/images/riddles/cairo/cairoriddle.jpg"
+              alt="Wall of hieroglyphs"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
             {HOTSPOTS.map((spot) => {
@@ -187,10 +189,10 @@ export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddlePro
                   lineHeight: '1.6',
                   background: 'rgba(34, 197, 94, 0.1)',
                   border: '1px solid rgba(34, 197, 94, 0.3)',
-                  color: 'var(--feedback-success-text)',
+                  color: '#86efac',
                 }}
               >
-                The keycard is yours, Agent. Onward.
+                The earth — fire, water, land, and air woven together. The tomb opens. The key is yours.
               </motion.div>
             )}
             {!solved && wrongId && (
@@ -204,52 +206,13 @@ export default function ParisCardRiddle({ unit, onComplete }: ParisCardRiddlePro
                   lineHeight: '1.6',
                   background: 'rgba(234, 179, 8, 0.08)',
                   border: '1px solid rgba(234, 179, 8, 0.25)',
-                  color: 'var(--hint-text)',
+                  color: '#fde68a',
                 }}
               >
-                Not quite — try again, Agent. You've got this!
-                {hintShown && (
-                  <p style={{ marginTop: '0.5rem', color: 'var(--accent-amber-text)' }}>
-                    <strong>Hint:</strong> The clue says "the world opens for those who observe." Choose the symbol of seeing.
-                  </p>
-                )}
+                Not quite — try again.
               </motion.div>
             )}
           </AnimatePresence>
-
-          {/* Help row: appears after several wrong attempts */}
-          {!solved && showHelp && (
-            <div className="flex" style={{ gap: '0.75rem', marginTop: '1rem' }}>
-              {!hintShown && (
-                <button
-                  onClick={() => setHintShown(true)}
-                  className="rounded-xl text-sm font-medium transition"
-                  style={{
-                    flex: 1,
-                    padding: '0.75rem 1rem',
-                    background: 'rgba(251, 191, 36, 0.12)',
-                    border: '1px solid rgba(251, 191, 36, 0.35)',
-                    color: 'var(--accent-amber-text)',
-                  }}
-                >
-                  Show a hint
-                </button>
-              )}
-              <button
-                onClick={onComplete}
-                className="rounded-xl text-sm font-medium transition"
-                style={{
-                  flex: 1,
-                  padding: '0.75rem 1rem',
-                  background: 'rgba(45, 212, 191, 0.1)',
-                  border: '1px solid rgba(45, 212, 191, 0.3)',
-                  color: 'var(--badge-teal-text, #2dd4bf)',
-                }}
-              >
-                Skip riddle
-              </button>
-            </div>
-          )}
         </div>
       </motion.div>
     </motion.div>

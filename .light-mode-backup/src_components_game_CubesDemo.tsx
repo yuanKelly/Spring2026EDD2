@@ -51,11 +51,11 @@ export default function CubesDemo({ onComplete }: CubesDemoProps) {
           className="rounded-xl"
           style={{
             padding: '1rem 1.25rem 1.25rem',
-            background: 'var(--panel-bg)',
-            border: '1px solid var(--panel-border)',
+            background: 'rgba(6, 8, 24, 0.7)',
+            border: '1px solid rgba(37, 48, 82, 0.6)',
             lineHeight: '2.4',
             fontSize: '1.15rem',
-            color: 'var(--text-primary)',
+            color: '#e2e8f0',
             overflow: 'visible',
           }}
         >
@@ -94,8 +94,8 @@ export default function CubesDemo({ onComplete }: CubesDemoProps) {
                   background:
                     i === activeStep
                       ? `${step.color}18`
-                      : 'var(--step-idle-bg)',
-                  border: `1.5px solid ${i === activeStep ? `${step.color}60` : 'var(--step-idle-border)'}`,
+                      : 'rgba(15, 20, 40, 0.5)',
+                  border: `1.5px solid ${i === activeStep ? `${step.color}60` : 'rgba(37, 48, 82, 0.4)'}`,
                   transition: 'background 0.3s, border-color 0.3s',
                 }}
                 initial={{ opacity: 0, x: -30 }}
@@ -126,7 +126,7 @@ export default function CubesDemo({ onComplete }: CubesDemoProps) {
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.2 }}
                     >
-                      Convert 3 feet → 36 inches, then subtract 18. There is no extra information.
+                      Convert 3 feet → 36 inches, then subtract 18. No extra info to eliminate.
                     </motion.p>
                   )}
                   {i === 4 && visibleUpTo >= 4 && (

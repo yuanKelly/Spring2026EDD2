@@ -33,10 +33,10 @@ export default function SessionSummary({
         : 'Good effort, Agent! Every mission makes you stronger. Try again anytime!';
 
   const stats = [
-    { value: pointsEarned, label: 'Points Earned', color: 'var(--accent-amber-text)' },
-    { value: questionsAttempted, label: 'Questions Attempted', color: 'var(--text-primary)' },
+    { value: pointsEarned, label: 'Points Earned', color: '#fbbf24' },
+    { value: questionsAttempted, label: 'Questions Attempted', color: '#e8e4f0' },
     { value: `${accuracy}%`, label: 'First-Try Accuracy', color: '#22c55e' },
-    { value: `${minutes}:${seconds.toString().padStart(2, '0')}`, label: 'Time Spent', color: 'var(--accent-teal-text)' },
+    { value: `${minutes}:${seconds.toString().padStart(2, '0')}`, label: 'Time Spent', color: '#2dd4bf' },
   ];
 
   return (
@@ -60,7 +60,7 @@ export default function SessionSummary({
             className="absolute inset-0"
             style={{
               background:
-                'radial-gradient(ellipse at 50% 40%, var(--overlay-base) 0%, var(--overlay-edge) 75%)',
+                'radial-gradient(ellipse at 50% 40%, rgba(6,8,24,0.55) 0%, rgba(6,8,24,0.92) 75%)',
             }}
           />
         </>
@@ -90,7 +90,7 @@ export default function SessionSummary({
           </div>
           <h1
             className="text-2xl font-bold mb-1"
-            style={{ fontFamily: "'Fredoka', sans-serif", color: 'var(--text-primary)' }}
+            style={{ fontFamily: "'Fredoka', sans-serif", color: '#e8e4f0' }}
           >
             {unit.city}, {unit.country}
           </h1>
@@ -105,8 +105,8 @@ export default function SessionSummary({
               className="rounded-xl text-center"
               style={{
                 padding: '1.25rem',
-                background: 'var(--bg-elevated)',
-                border: '1px solid var(--border-subtle)',
+                background: 'rgba(6, 8, 24, 0.5)',
+                border: '1px solid rgba(37, 48, 82, 0.4)',
               }}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -159,12 +159,11 @@ export default function SessionSummary({
         {/* Return button */}
         <motion.button
           onClick={onGoHome}
-          className="w-full font-bold rounded-xl transition text-lg"
+          className="w-full text-midnight-950 font-bold rounded-xl transition text-lg"
           style={{
             padding: '1rem',
             background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
             boxShadow: '0 4px 20px rgba(251, 191, 36, 0.25)',
-            color: '#060818',
           }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}

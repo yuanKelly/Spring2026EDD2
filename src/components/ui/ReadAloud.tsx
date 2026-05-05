@@ -43,9 +43,9 @@ export default function ReadAloud({ text }: ReadAloudProps) {
       onClick={handleClick}
       className="flex items-center gap-2 px-3 py-2 rounded-lg transition text-sm shrink-0"
       style={{
-        background: speaking ? 'rgba(45, 212, 191, 0.12)' : 'rgba(18, 24, 51, 0.8)',
-        border: `1px solid ${speaking ? 'rgba(45, 212, 191, 0.3)' : 'rgba(37, 48, 82, 0.5)'}`,
-        color: speaking ? '#2dd4bf' : '#94a3b8',
+        background: speaking ? 'rgba(45, 212, 191, 0.12)' : 'var(--bg-elevated)',
+        border: `1px solid ${speaking ? 'rgba(45, 212, 191, 0.3)' : 'var(--border-subtle)'}`,
+        color: speaking ? 'var(--accent-teal-text)' : 'var(--text-secondary)',
       }}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}

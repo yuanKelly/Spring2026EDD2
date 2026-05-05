@@ -9,7 +9,6 @@ import {
   Marker,
 } from 'react-simple-maps';
 import { useAuth } from '../contexts/AuthContext';
-import { useTheme } from '../contexts/ThemeContext';
 import { useProgress } from '../hooks/useProgress';
 import { units } from '../data/units';
 import AgentBriefing from '../components/tutorial/AgentBriefing';
@@ -42,8 +41,6 @@ const statusLabel: Record<string, string> = {
 
 export default function HomePage() {
   const { user, profile, setTutorialCompleted } = useAuth();
-  const { theme } = useTheme();
-  const isLight = theme === 'light';
   const { progress, loading } = useProgress();
   const navigate = useNavigate();
   const [hoveredUnit, setHoveredUnit] = useState<string | null>(null);
@@ -51,37 +48,6 @@ export default function HomePage() {
     Record<string, { x: number; y: number; containerWidth: number; containerHeight: number }>
   >({});
   const showTutorial = profile && !profile.hasCompletedTutorial;
-
-  /* Theme-aware colors for the map's SVG layers */
-  const mapColors = isLight
-    ? {
-        containerBg: 'linear-gradient(145deg, #ffffff 0%, #eef1f8 40%, #ffffff 100%)',
-        containerBorder: 'rgba(168, 178, 199, 0.6)',
-        containerInsetShadow: 'inset 0 0 80px rgba(168, 178, 199, 0.18), 0 0 40px rgba(168, 178, 199, 0.18)',
-        graticule: '#dde2ee',
-        countryFill: '#dde2ee',
-        countryStroke: '#0d9488',
-        cityLabel: '#0b0f24',
-        cityLabelLocked: '#a8b2c7',
-        legendBg: 'rgba(255, 255, 255, 0.92)',
-        legendBorder: 'rgba(168, 178, 199, 0.5)',
-        legendText: '#475569',
-        watermark: 'rgba(180, 83, 9, 0.12)',
-      }
-    : {
-        containerBg: 'linear-gradient(145deg, #0b0f24 0%, #121833 40%, #0b0f24 100%)',
-        containerBorder: 'rgba(37, 48, 82, 0.6)',
-        containerInsetShadow: 'inset 0 0 80px rgba(6, 8, 24, 0.5), 0 0 40px rgba(6, 8, 24, 0.3)',
-        graticule: '#1a2242',
-        countryFill: '#141c35',
-        countryStroke: '#2dd4bf',
-        cityLabel: '#e8e4f0',
-        cityLabelLocked: '#374569',
-        legendBg: 'rgba(6, 8, 24, 0.85)',
-        legendBorder: 'rgba(37, 48, 82, 0.5)',
-        legendText: '#9ca3af',
-        watermark: 'rgba(251, 191, 36, 0.08)',
-      };
 
   const completedCount = progress
     ? Object.values(progress.units).filter((u) => u.status === 'completed').length
@@ -128,14 +94,14 @@ export default function HomePage() {
           <h2
             className="text-2xl font-bold"
             style={{
-              background: 'var(--title-gradient)',
+              background: 'linear-gradient(135deg, #fbbf24, #fcd34d)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}
           >
             World Mission Map
           </h2>
-          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Select a city to begin your mission</p>
+          <p className="text-gray-500 text-sm">Select a city to begin your mission</p>
         </div>
 
         {/* Mission counter badge */}
@@ -147,12 +113,12 @@ export default function HomePage() {
           }}
         >
           <span
-            className="font-bold"
-            style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.9rem', color: 'var(--accent-amber-text)' }}
+            className="font-bold text-amber-400"
+            style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '0.9rem' }}
           >
             {completedCount}/6
           </span>
-          <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>missions</span>
+          <span className="text-gray-400 text-sm">missions</span>
         </div>
       </motion.div>
 
@@ -160,9 +126,9 @@ export default function HomePage() {
       <motion.div
         className="flex-1 relative rounded-2xl select-none"
         style={{
-          background: mapColors.containerBg,
-          border: `1px solid ${mapColors.containerBorder}`,
-          boxShadow: mapColors.containerInsetShadow,
+          background: 'linear-gradient(145deg, #0b0f24 0%, #121833 40%, #0b0f24 100%)',
+          border: '1px solid rgba(37, 48, 82, 0.6)',
+          boxShadow: 'inset 0 0 80px rgba(6, 8, 24, 0.5), 0 0 40px rgba(6, 8, 24, 0.3)',
         }}
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -179,7 +145,7 @@ export default function HomePage() {
             style={{ width: '100%', height: '100%' }}
           >
             {/* Lat/lon grid lines */}
-            <Graticule stroke={mapColors.graticule} strokeWidth={0.4} />
+            <Graticule stroke="#1a2242" strokeWidth={0.4} />
 
             <Geographies geography={GEO_URL}>
               {({ geographies }) =>
@@ -187,8 +153,8 @@ export default function HomePage() {
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
-                    fill={mapColors.countryFill}
-                    stroke={mapColors.countryStroke}
+                    fill="#141c35"
+                    stroke="#2dd4bf"
                     strokeWidth={0.5}
                     style={{
                       default: { outline: 'none', opacity: 0.55 },
@@ -293,7 +259,7 @@ export default function HomePage() {
                       fontFamily: "'Space Grotesk', sans-serif",
                       fontSize: '8px',
                       fontWeight: 700,
-                      fill: isLocked ? mapColors.cityLabelLocked : mapColors.cityLabel,
+                      fill: isLocked ? '#374569' : '#e8e4f0',
                       pointerEvents: 'none',
                     }}
                   >
@@ -394,7 +360,7 @@ export default function HomePage() {
                     )}
                   </div>
 
-                  <p className="font-bold text-sm mb-0.5" style={{ fontFamily: "'Fredoka', sans-serif", color: 'var(--accent-amber-text)' }}>
+                  <p className="text-amber-400 font-bold text-sm mb-0.5" style={{ fontFamily: "'Fredoka', sans-serif" }}>
                     {unit.city}, {unit.country}
                   </p>
 
@@ -405,11 +371,11 @@ export default function HomePage() {
                     </p>
                   </div>
 
-                  <p className="text-sm font-medium mb-1" style={{ color: 'var(--text-primary)' }}>{unit.title}</p>
-                  <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{unit.description}</p>
+                  <p className="text-white text-sm font-medium mb-1">{unit.title}</p>
+                  <p className="text-gray-400 text-xs leading-relaxed">{unit.description}</p>
 
                   {unitProgress?.timesCompleted ? (
-                    <p className="text-xs font-bold mt-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: '#22c55e' }}>
+                    <p className="text-success text-xs font-bold mt-2" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                       Completed {unitProgress.timesCompleted}x
                     </p>
                   ) : null}
@@ -423,9 +389,9 @@ export default function HomePage() {
         <motion.div
           className="absolute bottom-4 left-4 flex flex-col gap-2 rounded-lg p-3"
           style={{
-            background: mapColors.legendBg,
+            background: 'rgba(6, 8, 24, 0.85)',
             backdropFilter: 'blur(8px)',
-            border: `1px solid ${mapColors.legendBorder}`,
+            border: '1px solid rgba(37, 48, 82, 0.5)',
           }}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -437,7 +403,7 @@ export default function HomePage() {
             { color: statusPinColors['completed'], label: 'Completed' },
             { color: statusPinColors['locked'], label: 'Locked' },
           ].map(({ color, label }) => (
-            <div key={label} className="flex items-center gap-2 text-xs" style={{ color: mapColors.legendText }}>
+            <div key={label} className="flex items-center gap-2 text-gray-400 text-xs">
               <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color, boxShadow: `0 0 6px ${color}40` }} />
               {label}
             </div>
@@ -449,7 +415,7 @@ export default function HomePage() {
           className="absolute top-4 right-4 text-xs font-bold tracking-[0.3em] pointer-events-none"
           style={{
             fontFamily: "'JetBrains Mono', monospace",
-            color: mapColors.watermark,
+            color: 'rgba(251, 191, 36, 0.08)',
             fontSize: '0.65rem',
           }}
         >

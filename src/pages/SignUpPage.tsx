@@ -18,11 +18,11 @@ export default function SignUpPage() {
     setError('');
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match!');
+      setError("Hmm, those secret codes don't match. Try again, Agent!");
       return;
     }
     if (password.length < 6) {
-      setError('Password must be at least 6 characters.');
+      setError('Your secret code needs at least 6 letters or numbers.');
       return;
     }
 
@@ -34,7 +34,7 @@ export default function SignUpPage() {
       if (err instanceof Error && err.message.startsWith('Username must')) {
         setError(err.message);
       } else {
-        setError('Could not create account. This username may already be taken.');
+        setError("Hmm, we couldn't create that profile. That username might already be taken — try a different one!");
       }
     } finally {
       setLoading(false);
@@ -137,7 +137,7 @@ export default function SignUpPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               className={inputClass} style={inputStyle}
-              placeholder="At least 6 characters"
+              placeholder="At least 6 letters or numbers"
             />
           </div>
 

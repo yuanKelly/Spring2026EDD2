@@ -13,13 +13,13 @@ export default function ProgressBar({ current, max, label }: ProgressBarProps) {
     <div className="w-full">
       {label && (
         <div className="flex justify-between text-sm mb-1.5">
-          <span style={{ color: 'var(--text-secondary)' }}>{label}</span>
+          <span className="text-gray-400">{label}</span>
           <span
             className="font-bold"
             style={{
               fontFamily: "'JetBrains Mono', monospace",
               fontSize: '0.85rem',
-              color: 'var(--accent-amber-text)',
+              color: '#fbbf24',
             }}
           >
             {current}/{max}
@@ -29,8 +29,8 @@ export default function ProgressBar({ current, max, label }: ProgressBarProps) {
       <div
         className="w-full h-3 rounded-full overflow-hidden"
         style={{
-          background: 'var(--bg-hover)',
-          border: '1px solid var(--border-subtle)',
+          background: '#1a2242',
+          border: '1px solid rgba(37, 48, 82, 0.5)',
         }}
       >
         <motion.div

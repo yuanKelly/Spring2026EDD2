@@ -53,6 +53,12 @@ export function useScoring(maxPoints: number) {
     setLastChange(undefined);
   }, []);
 
+  const restoreScoring = useCallback((savedPoints: number, savedIsFirstAttempt: boolean) => {
+    setPoints(savedPoints);
+    setIsFirstAttempt(savedIsFirstAttempt);
+    setLastChange(undefined);
+  }, []);
+
   return {
     points,
     maxPoints,
@@ -62,5 +68,6 @@ export function useScoring(maxPoints: number) {
     checkAnswer,
     resetScoring,
     resetForNextQuestion,
+    restoreScoring,
   };
 }

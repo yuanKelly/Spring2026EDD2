@@ -52,7 +52,7 @@ export default function AgentBriefing({ agentName, onComplete }: AgentBriefingPr
       className="fixed inset-0 flex items-center justify-center z-50"
       style={{
         padding: '1in',
-        background: 'rgba(6, 8, 24, 0.9)',
+        background: 'var(--overlay-edge)',
         backdropFilter: 'blur(8px)',
       }}
       initial={{ opacity: 0 }}
@@ -93,7 +93,7 @@ export default function AgentBriefing({ agentName, onComplete }: AgentBriefingPr
               className="text-2xl font-bold mb-5"
               style={{
                 fontFamily: "'Fredoka', sans-serif",
-                background: 'linear-gradient(135deg, #fbbf24, #fcd34d)',
+                background: 'var(--title-gradient)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
               }}
@@ -113,7 +113,7 @@ export default function AgentBriefing({ agentName, onComplete }: AgentBriefingPr
               style={{
                 width: i === currentSlide ? '20px' : '8px',
                 height: '8px',
-                backgroundColor: i === currentSlide ? '#fbbf24' : '#1a2242',
+                backgroundColor: i === currentSlide ? '#fbbf24' : 'var(--bg-hover)',
                 boxShadow: i === currentSlide ? '0 0 8px rgba(251, 191, 36, 0.4)' : 'none',
               }}
               layout

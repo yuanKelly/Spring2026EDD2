@@ -99,6 +99,7 @@ const templates: Template[] = [
     },
   },
   // Q3: Street sweepers — multiply mixed number by whole number
+  // Note: m ∈ {3, 6} guarantees product is divisible by 3, so the answer is always a whole number.
   {
     generate: (guided) => {
       const w = randInt(1, 3);
@@ -106,43 +107,7 @@ const templates: Template[] = [
       const m = pick([3, 6]);
       const impNum = w * 3 + f;
       const product = impNum * m;
-      const aW = Math.floor(product / 3);
-      const aF = product % 3;
-      // Use fallback if not clean
-      if (aF !== 0) {
-        const q: GeneratedQuestion = {
-          problemText: `On Monday a team of street sweepers cleaned 2 1/3 city blocks. Tuesday, the team cleaned 3 times as many blocks as on Monday. How many city blocks did the street sweepers clean on Tuesday?`,
-          answer: 7,
-          hint: `Let x = blocks on Tuesday. x = 3 × 2 1/3. Convert 2 1/3 to an improper fraction (7/3), then multiply by 3.`,
-          solution: `Step 1: Let x = blocks cleaned on Tuesday.\nStep 2: Convert 2 1/3 to an improper fraction: 2 × 3 + 1 = 7, so 2 1/3 = 7/3.\nStep 3: Multiply: 3 × 7/3 = 21/3.\nStep 4: Simplify: 21/3 = 7 city blocks.`,
-          njslsStandard: '4.NF.B.4',
-        };
-        if (guided) {
-          q.steps = [
-            {
-              instruction: `Let x = blocks on Tuesday. Tuesday was 3 times as many as Monday's 2 1/3 blocks. The equation is x = ___ × 2 1/3. What number fills the blank?`,
-              expectedAnswer: 3,
-              feedbackCorrect: `Correct! x = 3 × 2 1/3.`,
-              feedbackIncorrect: `Tuesday = 3 × Monday, so x = 3 × 2 1/3.`,
-              highlights: ['3 times as many'],
-            },
-            {
-              instruction: `To solve x = 3 × 2 1/3, first rewrite 2 1/3 as an improper fraction. What is the numerator? (Hint: 2 × 3 + 1)`,
-              expectedAnswer: 7,
-              feedbackCorrect: `Correct! 2 1/3 = 7/3, so x = 3 × 7/3.`,
-              feedbackIncorrect: `2 × 3 + 1 = 7. So x = 3 × 7/3.`,
-              highlights: ['2 1/3 city blocks'],
-            },
-            {
-              instruction: `Now multiply to find x: 3 × 7/3 = 21/3. What does x equal?`,
-              expectedAnswer: 7,
-              feedbackCorrect: `Excellent! x = 7. The team cleaned 7 city blocks on Tuesday.`,
-              feedbackIncorrect: `21 ÷ 3 = 7. So x = 7 city blocks.`,
-            },
-          ];
-        }
-        return q;
-      }
+      const aW = product / 3;
       const q: GeneratedQuestion = {
         problemText: `On Monday a team of street sweepers cleaned ${w} ${f}/3 city blocks. Tuesday, the team cleaned ${m} times as many blocks as on Monday. How many city blocks did the street sweepers clean on Tuesday?`,
         answer: aW,

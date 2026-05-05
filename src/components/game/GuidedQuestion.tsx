@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { GeneratedQuestion } from '../../types';
 import ReadAloud from '../ui/ReadAloud';
@@ -28,7 +28,7 @@ function highlightText(text: string, highlights: string[]): React.ReactNode {
             key={i}
             style={{
               background: 'rgba(251, 191, 36, 0.25)',
-              color: '#fbbf24',
+              color: 'var(--accent-amber-text)',
               borderRadius: '4px',
               padding: '0 4px',
               border: '1px solid rgba(251, 191, 36, 0.4)',
@@ -48,13 +48,14 @@ interface GuidedQuestionProps {
   question: GeneratedQuestion;
   contactName: string;
   contactImage: string;
-  onComplete: () => void;
+  onComplete: (allStepsCorrect: boolean) => void;
 }
 
 export default function GuidedQuestion({ question, contactName, contactImage, onComplete }: GuidedQuestionProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [input, setInput] = useState('');
   const [feedback, setFeedback] = useState<{ text: string; correct: boolean } | null>(null);
+  const allStepsCorrectRef = useRef(true);
   const steps = question.steps || [];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -65,6 +66,10 @@ export default function GuidedQuestion({ question, contactName, contactImage, on
     const userAnswer = parseAnswer(input);
     const expected = typeof step.expectedAnswer === 'string' ? parseFloat(step.expectedAnswer) : step.expectedAnswer;
     const correct = compareAnswers(userAnswer, expected);
+
+    if (!correct) {
+      allStepsCorrectRef.current = false;
+    }
 
     setFeedback({
       text: correct ? step.feedbackCorrect : step.feedbackIncorrect,
@@ -85,7 +90,7 @@ export default function GuidedQuestion({ question, contactName, contactImage, on
     if (currentStep < steps.length - 1) {
       setCurrentStep((s) => s + 1);
     } else {
-      onComplete();
+      onComplete(allStepsCorrectRef.current);
     }
   };
 
@@ -104,7 +109,7 @@ export default function GuidedQuestion({ question, contactName, contactImage, on
             style={{
               padding: '0.35rem 1rem',
               background: 'rgba(59, 130, 246, 0.12)',
-              color: '#60a5fa',
+              color: 'var(--badge-blue-text)',
               border: '1px solid rgba(59, 130, 246, 0.2)',
             }}
           >
@@ -146,8 +151,8 @@ export default function GuidedQuestion({ question, contactName, contactImage, on
             className="flex-1 rounded-xl"
             style={{
               padding: '1rem 1.25rem',
-              background: 'rgba(6, 8, 24, 0.6)',
-              border: '1px solid rgba(37, 48, 82, 0.5)',
+              background: 'var(--panel-bg)',
+              border: '1px solid var(--panel-border)',
             }}
           >
             <p className="text-gray-200" style={{ lineHeight: '1.7' }}><FractionText text={steps[currentStep]?.instruction || ''} /></p>
@@ -198,7 +203,7 @@ export default function GuidedQuestion({ question, contactName, contactImage, on
                   lineHeight: '1.8',
                   background: feedback.correct ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
                   border: `1px solid ${feedback.correct ? 'rgba(34, 197, 94, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
-                  color: feedback.correct ? '#86efac' : '#fca5a5',
+                  color: feedback.correct ? 'var(--feedback-success-text)' : 'var(--feedback-error-text)',
                 }}
               >
                 {feedback.correct ? 'Correct! ' : 'Not quite. '}
@@ -235,7 +240,7 @@ export default function GuidedQuestion({ question, contactName, contactImage, on
             style={{
               width: i === currentStep ? '24px' : '10px',
               height: '10px',
-              backgroundColor: i < currentStep ? '#22c55e' : i === currentStep ? '#fbbf24' : '#1a2242',
+              backgroundColor: i < currentStep ? '#22c55e' : i === currentStep ? '#fbbf24' : 'var(--bg-hover)',
               boxShadow: i === currentStep ? '0 0 8px rgba(251, 191, 36, 0.4)' : 'none',
             }}
             layout

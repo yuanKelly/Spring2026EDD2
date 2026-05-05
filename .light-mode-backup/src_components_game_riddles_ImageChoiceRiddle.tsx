@@ -71,7 +71,7 @@ export default function ImageChoiceRiddle({
             className="absolute inset-0"
             style={{
               background:
-                'radial-gradient(ellipse at 50% 40%, var(--overlay-base) 0%, var(--overlay-edge) 75%)',
+                'radial-gradient(ellipse at 50% 40%, rgba(6,8,24,0.55) 0%, rgba(6,8,24,0.92) 75%)',
             }}
           />
         </>
@@ -84,7 +84,7 @@ export default function ImageChoiceRiddle({
             style={{
               padding: '0.35rem 1rem',
               background: 'rgba(168, 85, 247, 0.12)',
-              color: 'var(--badge-purple-text)',
+              color: '#d8b4fe',
               border: '1px solid rgba(168, 85, 247, 0.3)',
             }}
           >
@@ -151,14 +151,14 @@ export default function ImageChoiceRiddle({
                     ? 'rgba(34, 197, 94, 0.15)'
                     : isWrong
                     ? 'rgba(239, 68, 68, 0.1)'
-                    : 'var(--panel-bg)',
+                    : 'rgba(6, 8, 24, 0.6)',
                   border: isCorrect
                     ? '2px solid rgba(34, 197, 94, 0.6)'
                     : isWrong
                     ? '2px solid rgba(239, 68, 68, 0.5)'
                     : selectedId === opt.id
                     ? '2px solid rgba(251, 191, 36, 0.5)'
-                    : '1px solid var(--panel-border)',
+                    : '1px solid rgba(37, 48, 82, 0.5)',
                   cursor: solved ? 'default' : 'pointer',
                   transition: 'background 0.2s, border-color 0.2s',
                 }}
@@ -201,7 +201,7 @@ export default function ImageChoiceRiddle({
                 lineHeight: '1.6',
                 background: 'rgba(34, 197, 94, 0.1)',
                 border: '1px solid rgba(34, 197, 94, 0.3)',
-                color: 'var(--feedback-success-text)',
+                color: '#86efac',
               }}
             >
               {successText}
@@ -218,7 +218,7 @@ export default function ImageChoiceRiddle({
                 lineHeight: '1.6',
                 background: 'rgba(234, 179, 8, 0.08)',
                 border: '1px solid rgba(234, 179, 8, 0.25)',
-                color: 'var(--hint-text)',
+                color: '#fde68a',
               }}
             >
               Not quite — try again.

@@ -16,8 +16,6 @@ const LETTERS: { letter: string; number: number }[] = Array.from({ length: 26 },
 export default function TokyoCodeRiddle({ unit, onComplete }: TokyoCodeRiddleProps) {
   const [input, setInput] = useState('');
   const [feedback, setFeedback] = useState<'idle' | 'wrong' | 'correct'>('idle');
-  const [wrongCount, setWrongCount] = useState(0);
-  const [hintShown, setHintShown] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,11 +26,8 @@ export default function TokyoCodeRiddle({ unit, onComplete }: TokyoCodeRiddlePro
       setTimeout(() => onComplete(), 1800);
     } else {
       setFeedback('wrong');
-      setWrongCount((c) => c + 1);
     }
   };
-
-  const showHelp = wrongCount >= 3;
 
   const handleChange = (value: string) => {
     setInput(value);
@@ -59,7 +54,7 @@ export default function TokyoCodeRiddle({ unit, onComplete }: TokyoCodeRiddlePro
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 40%, var(--overlay-base) 0%, var(--overlay-edge) 75%)',
+            'radial-gradient(ellipse at 50% 40%, rgba(6,8,24,0.55) 0%, rgba(6,8,24,0.92) 75%)',
         }}
       />
 
@@ -77,7 +72,7 @@ export default function TokyoCodeRiddle({ unit, onComplete }: TokyoCodeRiddlePro
               style={{
                 padding: '0.35rem 1rem',
                 background: 'rgba(168, 85, 247, 0.12)',
-                color: 'var(--badge-purple-text)',
+                color: '#d8b4fe',
                 border: '1px solid rgba(168, 85, 247, 0.3)',
               }}
             >
@@ -110,7 +105,7 @@ export default function TokyoCodeRiddle({ unit, onComplete }: TokyoCodeRiddlePro
               </p>
               <p className="text-gray-100" style={{ lineHeight: '1.7' }}>
                 We've been turning words into symbols all day! Maybe now we need to translate letters
-                into numbers. (Type the code as one long number — no spaces, dashes, or punctuation.)
+                into numbers.
               </p>
             </div>
           </div>
@@ -143,9 +138,9 @@ export default function TokyoCodeRiddle({ unit, onComplete }: TokyoCodeRiddlePro
                 pattern="[0-9]*"
                 value={input}
                 onChange={(e) => handleChange(e.target.value)}
-                className="flex-1 min-w-0 bg-midnight-950 border border-midnight-500 rounded-xl text-white text-lg focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition"
-                style={{ padding: '0.85rem 1.25rem', letterSpacing: input ? '0.15em' : 'normal' }}
-                placeholder="Enter the numerical code… (no spaces or dashes)"
+                className="flex-1 bg-midnight-950 border border-midnight-500 rounded-xl text-white text-xl focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition"
+                style={{ padding: '0.85rem 1.25rem', letterSpacing: '0.15em' }}
+                placeholder="Enter the numerical code…"
                 autoFocus
               />
               <motion.button
@@ -178,19 +173,12 @@ export default function TokyoCodeRiddle({ unit, onComplete }: TokyoCodeRiddlePro
                   lineHeight: '1.6',
                   background: 'rgba(234, 179, 8, 0.08)',
                   border: '1px solid rgba(234, 179, 8, 0.25)',
-                  color: 'var(--hint-text)',
+                  color: '#fde68a',
                 }}
               >
                 <p style={{ marginBottom: '0.85rem' }}>
-                  Not quite — keep going, Agent. Translate each letter to its position in the alphabet.
+                  Not quite — try again. Translate each letter to its position in the alphabet.
                 </p>
-                {hintShown && (
-                  <p style={{ marginBottom: '0.85rem', color: 'var(--accent-amber-text)' }}>
-                    <strong>Hint:</strong> Spell out L-E-A-R-N. Each letter becomes its alphabet
-                    position number, then combine them all into one long number — no spaces, no
-                    dashes.
-                  </p>
-                )}
                 <p
                   className="text-teal-400/80 text-xs"
                   style={{
@@ -247,46 +235,13 @@ export default function TokyoCodeRiddle({ unit, onComplete }: TokyoCodeRiddlePro
                   lineHeight: '1.6',
                   background: 'rgba(34, 197, 94, 0.1)',
                   border: '1px solid rgba(34, 197, 94, 0.3)',
-                  color: 'var(--feedback-success-text)',
+                  color: '#86efac',
                 }}
               >
                 Code accepted. The vault case will open with this on the final mission.
               </motion.div>
             )}
           </AnimatePresence>
-
-          {feedback !== 'correct' && showHelp && (
-            <div className="flex" style={{ gap: '0.75rem', marginTop: '1rem' }}>
-              {!hintShown && (
-                <button
-                  onClick={() => setHintShown(true)}
-                  className="rounded-xl text-sm font-medium transition"
-                  style={{
-                    flex: 1,
-                    padding: '0.75rem 1rem',
-                    background: 'rgba(251, 191, 36, 0.12)',
-                    border: '1px solid rgba(251, 191, 36, 0.35)',
-                    color: 'var(--accent-amber-text)',
-                  }}
-                >
-                  Show a hint
-                </button>
-              )}
-              <button
-                onClick={onComplete}
-                className="rounded-xl text-sm font-medium transition"
-                style={{
-                  flex: 1,
-                  padding: '0.75rem 1rem',
-                  background: 'rgba(45, 212, 191, 0.1)',
-                  border: '1px solid rgba(45, 212, 191, 0.3)',
-                  color: 'var(--badge-teal-text, #2dd4bf)',
-                }}
-              >
-                Skip riddle
-              </button>
-            </div>
-          )}
         </div>
       </motion.div>
     </motion.div>

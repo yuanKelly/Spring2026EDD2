@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import type { DiagramData, DiagramShape } from '../../types';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const COLOR_MAP: Record<string, string> = {
   amber: '#fbbf24',
@@ -52,7 +53,11 @@ function renderShapeGroup(
   centerX: number,
   isHighlighted: boolean,
   stepIndex: number,
+  isLight: boolean,
 ) {
+  const shapeStrokeActive = isLight ? '#0b0f24' : '#fff';
+  const shapeStrokeIdle = isLight ? 'rgba(11,15,36,0.25)' : 'rgba(255,255,255,0.15)';
+  const valueLabelFill = isLight ? 'rgba(11,15,36,0.7)' : 'rgba(255,255,255,0.7)';
   const labelY = 20;
   const shapesStartY = 36;
   const { positions, showOverflow } = getShapePositions(group.count, centerX, shapesStartY);
@@ -98,7 +103,7 @@ function renderShapeGroup(
             r={SHAPE_SIZE}
             fill={shapeFill}
             fillOpacity={group.highlightCount !== undefined ? 1 : 0.85}
-            stroke={isHighlighted ? '#fff' : 'rgba(255,255,255,0.15)'}
+            stroke={isHighlighted ? shapeStrokeActive : shapeStrokeIdle}
             strokeWidth={isHighlighted ? 1.5 : 0.5}
             initial={{ scale: 0 }}
             animate={
@@ -118,7 +123,7 @@ function renderShapeGroup(
             rx={4}
             fill={shapeFill}
             fillOpacity={group.highlightCount !== undefined ? 1 : 0.85}
-            stroke={isHighlighted ? '#fff' : 'rgba(255,255,255,0.15)'}
+            stroke={isHighlighted ? shapeStrokeActive : shapeStrokeIdle}
             strokeWidth={isHighlighted ? 1.5 : 0.5}
             initial={{ scale: 0 }}
             animate={
@@ -152,7 +157,7 @@ function renderShapeGroup(
           x={centerX}
           y={shapesStartY + Math.ceil(Math.min(group.count, showOverflow ? 3 : MAX_DRAWN) / SHAPES_PER_ROW) * (SHAPE_SIZE * 2 + SHAPE_GAP) + 16}
           textAnchor="middle"
-          fill="rgba(255,255,255,0.7)"
+          fill={valueLabelFill}
           fontSize="12"
           fontFamily="'JetBrains Mono', monospace"
           initial={{ opacity: 0 }}
@@ -167,6 +172,9 @@ function renderShapeGroup(
 }
 
 export default function StepDiagram({ diagram, currentStep }: StepDiagramProps) {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+  const annotationColor = isLight ? '#78350f' : '#fcd34d';
   const stepState = diagram.stepStates[Math.min(currentStep, diagram.stepStates.length - 1)];
   if (!stepState) return null;
 
@@ -182,8 +190,8 @@ export default function StepDiagram({ diagram, currentStep }: StepDiagramProps) 
       style={{
         marginBottom: '1.5rem',
         padding: '1rem',
-        background: 'rgba(6, 8, 24, 0.6)',
-        border: '1px solid rgba(37, 48, 82, 0.5)',
+        background: 'var(--panel-bg)',
+        border: '1px solid var(--panel-border)',
       }}
     >
       <svg
@@ -199,7 +207,7 @@ export default function StepDiagram({ diagram, currentStep }: StepDiagramProps) 
             if (!group) return null;
             const centerX = sectionWidth * i + sectionWidth / 2;
             const isHighlighted = stepState.highlightGroup === gIdx;
-            return renderShapeGroup(group, gIdx, centerX, isHighlighted, currentStep);
+            return renderShapeGroup(group, gIdx, centerX, isHighlighted, currentStep, isLight);
           })}
         </AnimatePresence>
 
@@ -221,7 +229,7 @@ export default function StepDiagram({ diagram, currentStep }: StepDiagramProps) 
               x={x}
               y={y}
               textAnchor="middle"
-              fill="#fcd34d"
+              fill={annotationColor}
               fontSize="14"
               fontFamily="'JetBrains Mono', monospace"
               fontWeight="600"

@@ -6,7 +6,6 @@ import { tips } from '../data/tips';
 import { questionGenerators } from '../data/generators';
 import { useScoring } from '../hooks/useScoring';
 import { useProgress } from '../hooks/useProgress';
-import { useAuth } from '../contexts/AuthContext';
 import type { GeneratedQuestion, SessionState } from '../types';
 import MissionIntro from '../components/game/MissionIntro';
 import TourGuide from '../components/game/TourGuide';
@@ -17,90 +16,32 @@ import CodePieceReveal from '../components/game/CodePieceReveal';
 import SessionSummary from '../components/session/SessionSummary';
 import ScoreDisplay from '../components/ui/ScoreDisplay';
 import ProgressBar from '../components/ui/ProgressBar';
-import ThemeToggle from '../components/ui/ThemeToggle';
 
 const DEFAULT_GUIDED_COUNT = 3;
-
-const STORAGE_KEY_PREFIX = 'mission-session-';
-const getStorageKey = (uid: string, unitId: string) => `${STORAGE_KEY_PREFIX}${uid}-${unitId}`;
-
-interface PersistedSession {
-  session: SessionState;
-  points: number;
-  isFirstAttempt: boolean;
-  currentQuestion: GeneratedQuestion | null;
-}
-
-function loadSavedSession(uid: string, unitId: string): PersistedSession | null {
-  try {
-    const raw = localStorage.getItem(getStorageKey(uid, unitId));
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as PersistedSession;
-    if (!parsed.session || parsed.session.unitId !== unitId) return null;
-    // Revive Date
-    parsed.session.startedAt = new Date(parsed.session.startedAt);
-    return parsed;
-  } catch {
-    return null;
-  }
-}
 
 export default function UnitPage() {
   const { unitId } = useParams<{ unitId: string }>();
   const navigate = useNavigate();
-  const { user } = useAuth();
   const unit = units.find((u) => u.id === unitId);
   const tip = tips.find((t) => t.id === unit?.tipId);
   const GUIDED_COUNT = unit?.guidedCount ?? DEFAULT_GUIDED_COUNT;
   const { completeUnit, startUnit } = useProgress();
 
-  // Synchronously rehydrate from localStorage on first render so the
-  // saved-session effect below doesn't race with the default state.
-  const initial = user && unitId ? loadSavedSession(user.uid, unitId) : null;
-
-  const { points, maxPoints, lastChange, isFirstAttempt, isComplete, checkAnswer, resetForNextQuestion, restoreScoring } =
+  const { points, maxPoints, lastChange, isFirstAttempt, isComplete, checkAnswer, resetForNextQuestion } =
     useScoring(unit?.maxPoints || 5);
 
-  const [session, setSession] = useState<SessionState>(
-    initial?.session ?? {
-      unitId: unitId || '',
-      points: 0,
-      questionsAttempted: 0,
-      questionsCorrectFirstTry: 0,
-      currentPhase: 'mission-intro',
-      guidedQuestionsCompleted: 0,
-      startedAt: new Date(),
-    }
-  );
+  const [session, setSession] = useState<SessionState>({
+    unitId: unitId || '',
+    points: 0,
+    questionsAttempted: 0,
+    questionsCorrectFirstTry: 0,
+    currentPhase: 'mission-intro',
+    guidedQuestionsCompleted: 0,
+    startedAt: new Date(),
+  });
 
-  const [currentQuestion, setCurrentQuestion] = useState<GeneratedQuestion | null>(initial?.currentQuestion ?? null);
+  const [currentQuestion, setCurrentQuestion] = useState<GeneratedQuestion | null>(null);
   const currentQuestionFirstTryCorrect = useRef(false);
-
-  // Restore score on first render (useScoring's initial state is 0)
-  const didRestoreRef = useRef(false);
-  if (initial && !didRestoreRef.current) {
-    didRestoreRef.current = true;
-    // Defer to avoid setState-in-render warning
-    queueMicrotask(() => restoreScoring(initial.points, initial.isFirstAttempt));
-  }
-
-  // Save session to localStorage on every meaningful change. Skip during
-  // terminal phases (code-reveal/summary) since the unit is effectively done.
-  useEffect(() => {
-    if (!user || !unitId) return;
-    if (session.currentPhase === 'code-reveal' || session.currentPhase === 'summary') return;
-    const data: PersistedSession = { session, points, isFirstAttempt, currentQuestion };
-    try {
-      localStorage.setItem(getStorageKey(user.uid, unitId), JSON.stringify(data));
-    } catch {
-      // localStorage may be full or disabled; ignore.
-    }
-  }, [user, unitId, session, points, isFirstAttempt, currentQuestion]);
-
-  const clearSavedSession = useCallback(() => {
-    if (!user || !unitId) return;
-    localStorage.removeItem(getStorageKey(user.uid, unitId));
-  }, [user, unitId]);
 
   const generateNewQuestion = useCallback(
     (guided: boolean) => {
@@ -121,10 +62,10 @@ export default function UnitPage() {
 
   if (!unit || !tip) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--bg-base)' }}>
-        <p style={{ color: 'var(--text-secondary)' }}>Hmm, that mission isn't on file, Agent.</p>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#060818' }}>
+        <p className="text-gray-400">Unit not found.</p>
         <button onClick={() => navigate('/home')} className="text-amber-400 ml-2">
-          Back to the world map
+          Go home
         </button>
       </div>
     );
@@ -144,13 +85,13 @@ export default function UnitPage() {
     setSession((s) => ({ ...s, currentPhase: 'guided' }));
   };
 
-  const handleGuidedComplete = (allStepsCorrect: boolean) => {
+  const handleGuidedComplete = () => {
     const newCount = session.guidedQuestionsCompleted + 1;
     setSession((s) => ({
       ...s,
       guidedQuestionsCompleted: newCount,
       questionsAttempted: s.questionsAttempted + 1,
-      questionsCorrectFirstTry: s.questionsCorrectFirstTry + (allStepsCorrect ? 1 : 0),
+      questionsCorrectFirstTry: s.questionsCorrectFirstTry + 1,
     }));
 
     if (newCount >= GUIDED_COUNT) {
@@ -189,7 +130,6 @@ export default function UnitPage() {
   };
 
   const handleRiddleComplete = () => {
-    clearSavedSession();
     completeUnit(unit.id);
     setSession((s) => ({ ...s, currentPhase: 'code-reveal' }));
   };
@@ -209,14 +149,14 @@ export default function UnitPage() {
   }, [isComplete, session.currentPhase, unit.id]);
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden" style={{ backgroundColor: 'var(--bg-base)' }}>
+    <div className="h-screen flex flex-col overflow-hidden" style={{ backgroundColor: '#060818' }}>
       {/* Top bar */}
       <header
         className="flex items-center justify-between shrink-0 h-14 relative"
         style={{
           padding: '0 0.5in',
-          background: 'linear-gradient(180deg, var(--bg-surface), var(--bg-base))',
-          borderBottom: '1px solid var(--border-subtle)',
+          background: 'linear-gradient(180deg, #0b0f24, #060818)',
+          borderBottom: '1px solid rgba(37, 48, 82, 0.5)',
         }}
       >
         {/* Accent line */}
@@ -229,23 +169,20 @@ export default function UnitPage() {
           className="font-bold text-lg"
           style={{
             fontFamily: "'Fredoka', sans-serif",
-            background: 'var(--title-gradient)',
+            background: 'linear-gradient(135deg, #fbbf24, #fcd34d)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}
         >
           {unit.city} — {unit.title}
         </h1>
-        <div className="flex items-center gap-3">
-          <ThemeToggle />
-          <button
-            onClick={handleSaveAndExit}
-            className="bg-midnight-700 hover:bg-midnight-600 rounded-lg transition text-sm whitespace-nowrap min-h-0 border border-midnight-500"
-            style={{ padding: '0.35rem 1rem', color: 'var(--text-secondary)' }}
-          >
-            Save & Exit
-          </button>
-        </div>
+        <button
+          onClick={handleSaveAndExit}
+          className="bg-midnight-700 hover:bg-midnight-600 text-gray-300 hover:text-white rounded-lg transition text-sm whitespace-nowrap min-h-0 border border-midnight-500"
+          style={{ padding: '0.35rem 1rem' }}
+        >
+          Save & Exit
+        </button>
       </header>
 
       {/* Game content */}

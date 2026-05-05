@@ -69,7 +69,7 @@ export default function IndependentQuestion({
             style={{
               padding: '0.35rem 1rem',
               background: 'rgba(251, 191, 36, 0.1)',
-              color: '#fbbf24',
+              color: 'var(--accent-amber-text)',
               border: '1px solid rgba(251, 191, 36, 0.2)',
             }}
           >
@@ -81,7 +81,7 @@ export default function IndependentQuestion({
               style={{
                 padding: '0.35rem 1rem',
                 background: 'rgba(239, 68, 68, 0.1)',
-                color: '#fca5a5',
+                color: 'var(--feedback-error-text)',
                 border: '1px solid rgba(239, 68, 68, 0.2)',
               }}
             >
@@ -143,12 +143,12 @@ export default function IndependentQuestion({
                     lineHeight: '1.6',
                     background: 'rgba(34, 197, 94, 0.1)',
                     border: '1px solid rgba(34, 197, 94, 0.3)',
-                    color: '#86efac',
+                    color: 'var(--feedback-success-text)',
                   }}
                 >
                   {result.isFirstAttempt
                     ? 'Excellent work, Agent! +1 point!'
-                    : 'Correct! No points this time, but great job figuring it out.'}
+                    : 'Nice work, Agent! You got it!'}
                 </div>
               ) : result.isFirstAttempt ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -159,18 +159,19 @@ export default function IndependentQuestion({
                       lineHeight: '1.6',
                       background: 'rgba(234, 179, 8, 0.08)',
                       border: '1px solid rgba(234, 179, 8, 0.25)',
-                      color: '#fde68a',
+                      color: 'var(--hint-text)',
                     }}
                   >
                     <strong>Hint:</strong> <FractionText text={question.hint} />
                   </div>
                   <motion.button
                     onClick={handleTryAgain}
-                    className="w-full text-white font-bold rounded-xl transition text-lg"
+                    className="w-full font-bold rounded-xl transition text-lg"
                     style={{
                       padding: '1rem',
                       background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
                       boxShadow: '0 4px 16px rgba(59, 130, 246, 0.25)',
+                      color: '#ffffff',
                     }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -196,20 +197,20 @@ export default function IndependentQuestion({
                   lineHeight: '1.6',
                   background: 'rgba(239, 68, 68, 0.08)',
                   border: '1px solid rgba(239, 68, 68, 0.25)',
-                  color: '#fca5a5',
+                  color: 'var(--feedback-error-text)',
                 }}
               >
-                Not quite right.{' '}
+                Almost! Take a look at the solution below.{' '}
                 {result && result.pointsChange < 0
-                  ? 'You lost 1 point.'
-                  : 'No points lost.'}
+                  ? '(−1 point this round.)'
+                  : ''}
               </div>
               <div
                 className="rounded-xl"
                 style={{
                   padding: '1.25rem 1.5rem',
-                  background: 'rgba(6, 8, 24, 0.6)',
-                  border: '1px solid rgba(37, 48, 82, 0.5)',
+                  background: 'var(--panel-bg)',
+                  border: '1px solid var(--panel-border)',
                 }}
               >
                 <p className="text-amber-400 font-bold" style={{ marginBottom: '0.5rem', fontFamily: "'Fredoka', sans-serif" }}>Solution:</p>
