@@ -58,19 +58,29 @@ export default function UnitPage() {
   // saved-session effect below doesn't race with the default state.
   const initial = user && unitId ? loadSavedSession(user.uid, unitId) : null;
 
+  // On re-entry, replay the briefings (mission-intro + meet-contact) so
+  // students can relearn the lesson, then jump to where they left off.
+  const savedPhase = initial?.session.currentPhase;
+  const shouldReplayBriefings = !!savedPhase && savedPhase !== 'mission-intro';
+  const resumePhaseRef = useRef<SessionState['currentPhase'] | null>(
+    shouldReplayBriefings ? savedPhase! : null
+  );
+
   const { points, maxPoints, lastChange, isFirstAttempt, isComplete, checkAnswer, resetForNextQuestion, restoreScoring } =
     useScoring(unit?.maxPoints || 5);
 
   const [session, setSession] = useState<SessionState>(
-    initial?.session ?? {
-      unitId: unitId || '',
-      points: 0,
-      questionsAttempted: 0,
-      questionsCorrectFirstTry: 0,
-      currentPhase: 'mission-intro',
-      guidedQuestionsCompleted: 0,
-      startedAt: new Date(),
-    }
+    initial?.session
+      ? { ...initial.session, currentPhase: shouldReplayBriefings ? 'mission-intro' : initial.session.currentPhase }
+      : {
+          unitId: unitId || '',
+          points: 0,
+          questionsAttempted: 0,
+          questionsCorrectFirstTry: 0,
+          currentPhase: 'mission-intro',
+          guidedQuestionsCompleted: 0,
+          startedAt: new Date(),
+        }
   );
 
   const [currentQuestion, setCurrentQuestion] = useState<GeneratedQuestion | null>(initial?.currentQuestion ?? null);
@@ -132,6 +142,16 @@ export default function UnitPage() {
 
   const handleMissionIntroContinue = () => {
     if (unit?.id === 'unit-6') {
+      // Unit-6 skips meet-contact, so consume any resume target here.
+      const resume = resumePhaseRef.current;
+      resumePhaseRef.current = null;
+      if (resume && resume !== 'mission-intro') {
+        if ((resume === 'guided' || resume === 'independent') && !currentQuestion) {
+          generateNewQuestion(resume === 'guided');
+        }
+        setSession((s) => ({ ...s, currentPhase: resume }));
+        return;
+      }
       generateNewQuestion(false);
       setSession((s) => ({ ...s, currentPhase: 'independent' }));
       return;
@@ -140,6 +160,15 @@ export default function UnitPage() {
   };
 
   const handleTourGuideContinue = () => {
+    const resume = resumePhaseRef.current;
+    resumePhaseRef.current = null;
+    if (resume && resume !== 'mission-intro' && resume !== 'meet-contact') {
+      if ((resume === 'guided' || resume === 'independent') && !currentQuestion) {
+        generateNewQuestion(resume === 'guided');
+      }
+      setSession((s) => ({ ...s, currentPhase: resume }));
+      return;
+    }
     generateNewQuestion(true);
     setSession((s) => ({ ...s, currentPhase: 'guided' }));
   };

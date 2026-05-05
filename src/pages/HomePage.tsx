@@ -374,7 +374,12 @@ export default function HomePage() {
                         src={unit.backgroundImage}
                         alt={`${unit.city}, ${unit.country}`}
                         className="w-full h-full"
-                        style={{ objectFit: 'cover', objectPosition: 'center', display: 'block' }}
+                        style={{
+                          objectFit: 'cover',
+                          objectPosition: 'center',
+                          display: 'block',
+                          filter: status === 'locked' ? 'grayscale(100%)' : 'none',
+                        }}
                       />
                     ) : (
                       <div

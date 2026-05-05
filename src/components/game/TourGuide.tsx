@@ -156,7 +156,7 @@ export default function TourGuide({ contactName, contactImage, tip, onContinue }
                   >
                     <p className="text-gray-200 text-lg" style={{ lineHeight: '1.9' }}>
                       <TypewriterText
-                        text={`Welcome, Agent! Before we begin, let me teach you a powerful technique: the ${tip.title}. This will help you crack any word problem!`}
+                        text={`Welcome, Agent! Before we begin, let me teach you a powerful strategy — the "${tip.title}" technique. This will help you crack any word problem!`}
                       />
                     </p>
                   </motion.div>
@@ -244,7 +244,7 @@ export default function TourGuide({ contactName, contactImage, tip, onContinue }
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              Learn the {tip.title}
+              Learn the "{tip.title}" technique
             </motion.button>
           ) : showCubesDemo ? null /* CubesDemo has its own button */ : isCubes ? (
             <motion.button
