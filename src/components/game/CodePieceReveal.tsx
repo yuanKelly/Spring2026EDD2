@@ -4,12 +4,13 @@ import PlaceholderImage from '../ui/PlaceholderImage';
 
 interface CodePieceRevealProps {
   unit: Unit;
+  piecesCollected: number;
   onContinue: () => void;
 }
 
 const confettiColors = ['#fbbf24', '#ef4444', '#3b82f6', '#22c55e', '#2dd4bf', '#a78bfa'];
 
-export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealProps) {
+export default function CodePieceReveal({ unit, piecesCollected, onContinue }: CodePieceRevealProps) {
   const pieceNumber = parseInt(unit.id.split('-')[1]);
 
   return (
@@ -222,7 +223,7 @@ export default function CodePieceReveal({ unit, onContinue }: CodePieceRevealPro
         >
           {unit.id === 'unit-6'
             ? 'All 5 code pieces + final challenge complete!'
-            : `${pieceNumber}/5 code pieces collected`}
+            : `${piecesCollected}/5 code pieces collected`}
         </motion.p>
 
         {/* Confetti particles */}

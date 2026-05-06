@@ -52,7 +52,17 @@ export default function UnitPage() {
   const unit = units.find((u) => u.id === unitId);
   const tip = tips.find((t) => t.id === unit?.tipId);
   const GUIDED_COUNT = unit?.guidedCount ?? DEFAULT_GUIDED_COUNT;
-  const { completeUnit, startUnit } = useProgress();
+  const { progress, completeUnit, startUnit } = useProgress();
+
+  const piecesCollected = (() => {
+    if (!progress || !unit) return 0;
+    const unitsToCount = ['unit-1', 'unit-2', 'unit-3', 'unit-4', 'unit-5'];
+    const completed = unitsToCount.filter((id) => progress.units[id]?.status === 'completed');
+    if (unitsToCount.includes(unit.id) && !completed.includes(unit.id)) {
+      return completed.length + 1;
+    }
+    return completed.length;
+  })();
 
   // Synchronously rehydrate from localStorage on first render so the
   // saved-session effect below doesn't race with the default state.
@@ -335,7 +345,7 @@ export default function UnitPage() {
           )}
 
           {session.currentPhase === 'code-reveal' && (
-            <CodePieceReveal key="reveal" unit={unit} onContinue={handleCodeRevealContinue} />
+            <CodePieceReveal key="reveal" unit={unit} piecesCollected={piecesCollected} onContinue={handleCodeRevealContinue} />
           )}
 
           {session.currentPhase === 'summary' && (
